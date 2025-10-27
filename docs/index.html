@@ -1,95 +1,194 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Добро пожаловать!</title>
-    <style>
-        :root {
-            --bg: #0f172a;     /* темный фон */
-            --card: #111827;   /* карточка */
-            --text: #e5e7eb;   /* основной текст */
-            --accent: #60a5fa; /* акцент */
-        }
-        * { box-sizing: border-box; }
-        html, body { height: 100%; margin: 0; }
-        body {
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            color: var(--text);
-            background: radial-gradient(1200px 800px at 80% -10%, #1f2937, var(--bg));
-            display: grid;
-            place-items: center;
-            padding: 24px;
-        }
-        .card {
-            width: min(680px, 100%);
-            background: color-mix(in oklab, var(--card), black 10%);
-            border: 1px solid #1f2937;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 10px 35px rgba(0,0,0,.35);
-            backdrop-filter: saturate(120%) blur(6px);
-            animation: fadeIn .6s ease both;
-        }
-        h1 {
-            margin: 0 0 8px;
-            font-size: clamp(28px, 5vw, 40px);
-            letter-spacing: .3px;
-        }
-        p {
-            margin: 0 0 18px;
-            line-height: 1.6;
-            color: #cbd5e1;
-        }
-        .cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            color: white;
-            border: 0;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease;
-            box-shadow: 0 6px 18px rgba(59,130,246,.35);
-        }
-        .cta:hover { transform: translateY(-1px); }
-        .cta:active { transform: translateY(0); opacity: .9; }
-        .row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 4px;
-        }
-        .hint {
-            font-size: 14px;
-            color: #94a3b8;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-<main class="card" role="main" aria-labelledby="title">
-    <h1 id="title">Привет! 👋</h1>
-    <p>Это простая приветственная страница. Можете менять текст, цвета и кнопки под свои нужды.</p>
+	<meta name="generator" content="Hugo 0.150.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
 
-    <div class="row">
-        <a class="cta" href="#about" aria-label="Узнать больше">Узнать больше</a>
-        <a class="cta" href="mailto:you@example.com" aria-label="Связаться">Связаться</a>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="Я.Практикум">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="website">
+
+
+  <meta itemprop="name" content="Я.Практикум">
+  <meta itemprop="datePublished" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-12T00:00:00+00:00">
+
+<title>Я.Практикум | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.77ff956e9dedf6060e81805a6b1fad20a35d1826f439b6a959394d7a5043563c.js" integrity="sha256-d/&#43;Vbp3t9gYOgYBaax&#43;tIKNdGCb0ObapWTlNelBDVjw=" crossorigin="anonymous"></script>
+
+
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/index.xml" title="Я.Практикум" />
+
+  
+</head>
+<body dir="ltr" class="book-kind-home book-type-page">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Я.Практикум</h3>
+
+  <label for="toc-control">
+    
+  </label>
+</div>
+
+
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+ 
+        
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
     </div>
 
-    <p id="about" class="hint">Подсказка: отредактируйте файл index.html, чтобы изменить заголовок и ссылки.</p>
-</main>
+    
+  
+ 
+  </main>
 
-<script>
-    // Небольшая «изюминка»: сообщение в консоли
-    console.log("Добро пожаловать на страницу! ✨");
-</script>
+  
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

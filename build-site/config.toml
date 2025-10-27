@@ -1,0 +1,11 @@
+baseURL = "https://example.com/"
+languageCode = "ru"
+title = "Я.Практикум"
+theme = "hugo-book"
+
+ignoreFiles = [
+    "^content/_templates/course-template.md",
+    "course-template.md"
+]
+
+sectionPagesMenu = 'main'
