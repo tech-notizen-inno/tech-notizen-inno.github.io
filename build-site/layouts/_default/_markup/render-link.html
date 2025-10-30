@@ -1,16 +1,26 @@
-{{- $url := urls.Parse .Destination -}}
-{{- $scheme := $url.Scheme -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $href := $u.String -}}
+{{- $debug := .PageInner.GetPage $u.Path -}}
 
-<a href="
-{{- if eq $scheme "" -}}
-	{{- if strings.HasSuffix $url.Path ".md" -}}
-		{{- relref .Page .Destination | safeURL -}}
-	{{- else -}}
-		{{- .Destination | safeURL -}}
-	{{- end -}}
-{{- else -}}
-	{{- .Destination | safeURL -}}
-{{- end -}}"
-{{- with .Title }} title="{{ . | safeHTML }}"{{- end -}}>
-{{- .Text | safeHTML -}}
-</a>
+{{- if strings.HasPrefix $u.String "#" -}}
+  {{- $href = printf "%s#%s" .PageInner.RelPermalink $u.Fragment -}}
+{{- else if strings.HasSuffix $u.Path ".md" -}}
+  {{- $href = relref .Page .Destination -}}
+{{- else if and $href (not $u.IsAbs) -}}
+  {{- $path := strings.TrimPrefix "./" $u.Path -}}
+  {{- with or
+    ($.PageInner.GetPage $path)
+    ($.PageInner.Resources.Get $path)
+    (resources.Get $path)
+  -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.RawQuery -}}
+      {{- $href = printf "%s?%s" $href . -}}
+    {{- end -}}
+    {{- with $u.Fragment -}}
+      {{- $href = printf "%s#%s" $href . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+<a href="{{ $href | safeURL }}" {{- with .Title }} title="{{ . }}" {{- end }}>{{ .Text }}</a>
+{{- /**/ -}}
