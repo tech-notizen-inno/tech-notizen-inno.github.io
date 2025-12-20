@@ -10,6 +10,7 @@ hugo server --contentDir  ~/YandexDisk/Sync.\ Projects/Obsidian.Notes/Я.Пра�
 
 ### Render 
 1. render-image.html - создает абсолютную ссылку в виде /00-images/XXXXX
+2. render-link.html - создает абсолютные ссылки для (pdf) -> 00-resource, (txt, yml, conf) -> (00-sample) 
 
 ## Просмотр сайта
 Локальный просмотр сайта при запущенном hugo `hugo server` [открыть](http://localhost:1313)

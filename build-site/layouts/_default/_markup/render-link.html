@@ -6,6 +6,14 @@
   {{- $href = printf "%s#%s" .PageInner.RelPermalink $u.Fragment -}}
 {{- else if strings.HasSuffix $u.Path ".md" -}}
   {{- $href = relref .Page .Destination -}}
+{{- else if strings.HasSuffix $u.Path ".pdf" -}}
+  {{- $href = printf "/00-resources/%s" $u.String -}}
+{{- else if strings.HasSuffix $u.Path ".txt" -}}
+  {{- $href = printf "/00-samples/%s" $u.String -}}
+{{- else if strings.HasSuffix $u.Path ".conf" -}}
+  {{- $href = printf "/00-samples/%s" $u.String -}}
+{{- else if strings.HasSuffix $u.Path ".yml" -}}
+  {{- $href = printf "/00-samples/%s" $u.String -}}
 {{- else if and $href (not $u.IsAbs) -}}
   {{- $path := strings.TrimPrefix "./" $u.Path -}}
   {{- with or
