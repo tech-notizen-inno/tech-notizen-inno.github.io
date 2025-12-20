@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="Sequence &lt;T&gt;# Аналогичен другим итерируемым ﻿﻿Представляет “ленивую” последовательность public interface Sequence&lt;out T&gt; { /** - ﻿﻿Returns an (Iterator] that returns the values from the sequence.` - ﻿﻿Throws an exception if the sequence is constrained to be iterated once and iterator is invoked the second time. */ public operator fun iterator (): Iterator&lt;T&gt; }Способы создания Flow &lt;T&gt;# Представляет “ленивую” последовательность элементов, аналогично Sequence&lt;T&gt; Исполняется в корутинах public interface Flow&lt;out T&gt; { @InternalCoroutinesApi public suspend fun collect (collector: FlowCollector&lt;T&gt;) } public interface FlowCollector&lt;in T&gt; { /* ﻿﻿Collects the value emitted by the upstream. ﻿﻿This method is not thread-safe and should not be invoked concurrently. */ public suspend fun emit (value: T) }Способы создания Преобразования и побочные эффекты Терминальные операторы Смена контекста корутины ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://tech-notizen-inno.github.io/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
   <meta property="og:description" content="Sequence &lt;T&gt;# Аналогичен другим итерируемым ﻿﻿Представляет “ленивую” последовательность public interface Sequence&lt;out T&gt; { /** - ﻿﻿Returns an (Iterator] that returns the values from the sequence.` - ﻿﻿Throws an exception if the sequence is constrained to be iterated once and iterator is invoked the second time. */ public operator fun iterator (): Iterator&lt;T&gt; }Способы создания Flow &lt;T&gt;# Представляет “ленивую” последовательность элементов, аналогично Sequence&lt;T&gt; Исполняется в корутинах public interface Flow&lt;out T&gt; { @InternalCoroutinesApi public suspend fun collect (collector: FlowCollector&lt;T&gt;) } public interface FlowCollector&lt;in T&gt; { /* ﻿﻿Collects the value emitted by the upstream. ﻿﻿This method is not thread-safe and should not be invoked concurrently. */ public suspend fun emit (value: T) }Способы создания Преобразования и побочные эффекты Терминальные операторы Смена контекста корутины">
@@ -27,7 +27,7 @@ https://github.com/alex-shpak/hugo-book
 <title>Sequence &amp; Flow | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://example.com/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/">
+<link rel="canonical" href="https://tech-notizen-inno.github.io/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 
@@ -1433,8 +1433,6 @@ https://github.com/alex-shpak/hugo-book
   </ul>
 
         </li>
-      
-    
       
     
   </ul>

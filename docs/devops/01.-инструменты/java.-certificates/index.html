@@ -13,7 +13,7 @@ https://github.com/alex-shpak/hugo-book
 keytool -list -storetype JKS -keystore /etc/ssl/certs/java/cacerts -storepass changeit - вывести список сертификатов sudo keytool -importcert -file YandexInternalRootCA.crt -alias yandex -cacerts -storepass changeit -noprompt - импортировать сертификат YandexInternalRootCA.crt в cacert Keystore по умолчанию - /etc/ssl/certs/java/cacerts sudo keytool -importcert -alias yandex -file YandexInternalRootCA.crt -keystore YATrustStore -storepass superpass -noprompt - создать keystore YATrustStore и паролем superpass и поместить в него сертиификат YandexInternalRootCA.crt Для запуска с keystore нужно добавить параметры запуска ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://tech-notizen-inno.github.io/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
   <meta property="og:description" content="Keystore в Java
@@ -33,7 +33,7 @@ keytool -list -storetype JKS -keystore /etc/ssl/certs/java/cacerts -storepass ch
 <title>Java. Certificates | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://example.com/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/">
+<link rel="canonical" href="https://tech-notizen-inno.github.io/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 
@@ -1439,8 +1439,6 @@ keytool -list -storetype JKS -keystore /etc/ssl/certs/java/cacerts -storepass ch
   </ul>
 
         </li>
-      
-    
       
     
   </ul>
