@@ -1510,12 +1510,12 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown book-article"><h1 id="конспект-статьи-разбираемся-с-redis">Конспект статьи &ldquo;Разбираемся с Redis&rdquo;<a class="anchor" href="#%d0%ba%d0%be%d0%bd%d1%81%d0%bf%d0%b5%d0%ba%d1%82-%d1%81%d1%82%d0%b0%d1%82%d1%8c%d0%b8-%d1%80%d0%b0%d0%b7%d0%b1%d0%b8%d1%80%d0%b0%d0%b5%d0%bc%d1%81%d1%8f-%d1%81-redis">#</a></h1>
 <p><a href="https://habr.com/ru/companies/wunderfund/articles/685894/">Habr</a></p>
-<p><img src="/_images/S-2024-01-21_11.33.47.png" alt="">
+<p><img src="/00-images/S-2024-01-21_11.33.47.png" alt="">
 Как используется. Используется для хранения данных, которые редко меняются и не критически важные
-<img src="/_images/S-2024-01-21_11.34.18.png" alt="">
+<img src="/00-images/S-2024-01-21_11.34.18.png" alt="">
 Redis - однопоточная система
 Типы данных в Redis
-<img src="/_images/S-2024-01-21_11.32.52.png" alt="">
+<img src="/00-images/S-2024-01-21_11.32.52.png" alt="">
 Различные типы deploy</p>
 <ul>
 <li>Единственный экземпляр Redis.</li>
@@ -1529,7 +1529,7 @@ Redis - однопоточная система
 </ul>
 <h2 id="redis-sentinel">Redis Sentinel<a class="anchor" href="#redis-sentinel">#</a></h2>
 <p>Redis Sentinel - это сервис, обеспечивающий создание распределённых систем. В основе Sentinel лежит кластер Sentinel-процессов, работающих совместно. Они координируют состояние системы, реализуя конфигурацию высокой доступности Redis.
-<img src="/_images/S-2024-01-21_11.41.29.png" alt="">
+<img src="/00-images/S-2024-01-21_11.41.29.png" alt="">
 Функции Sentinel</p>
 <ol>
 <li>Мониторинг.</li>
@@ -1539,15 +1539,15 @@ Redis - однопоточная система
 Redis.</li>
 </ol>
 <h2 id="redis-cluster">Redis Cluster<a class="anchor" href="#redis-cluster">#</a></h2>
-<p><img src="/_images/S-2024-01-21_11.49.23.png" alt=""></p>
+<p><img src="/00-images/S-2024-01-21_11.49.23.png" alt=""></p>
 <ul>
 <li>Redis использует разреженные шарды, называемые хэш-слотами. Всего около 16К таких слотов. При падении/добавлении ноды переносятся только те записи, которые попали в новый слот</li>
 <li>Протокол Gossip используется для определения общего состояния кластера. Все эти узлы постоянно обмениваются информацией для того чтобы знать о том, какие шарды доступны и готовы обрабатывать запросы. Кворум позволяет промоутить Slave до Master</li>
 </ul>
 <h2 id="персистентное-хранение">Персистентное хранение<a class="anchor" href="#%d0%bf%d0%b5%d1%80%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bd%d1%82%d0%bd%d0%be%d0%b5-%d1%85%d1%80%d0%b0%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5">#</a></h2>
-<p><img src="/_images/S-2024-01-21_11.52.32.png" alt="">
-<img src="/_images/S-2024-01-21_11.50.07.png" alt="">
-<img src="/_images/S-2024-01-21_11.50.19.png" alt="">
+<p><img src="/00-images/S-2024-01-21_11.52.32.png" alt="">
+<img src="/00-images/S-2024-01-21_11.50.07.png" alt="">
+<img src="/00-images/S-2024-01-21_11.50.19.png" alt="">
 Для гарантированной записи на диск используется</p>
 <ul>
 <li>системный вызов fsync()</li>

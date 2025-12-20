@@ -1507,7 +1507,7 @@ https://github.com/alex-shpak/hugo-book
   <article class="markdown book-article"><h2 id="как-работать-с-дисками">Как работать с дисками<a class="anchor" href="#%d0%ba%d0%b0%d0%ba-%d1%80%d0%b0%d0%b1%d0%be%d1%82%d0%b0%d1%82%d1%8c-%d1%81-%d0%b4%d0%b8%d1%81%d0%ba%d0%b0%d0%bc%d0%b8">#</a></h2>
 <ul>
 <li><code>lsblk -f</code> или <code>fdisk -l</code> - посмотеть полный список дисков на ВМ
-<img src="/_images/S-2024-03-28_23.10.45.png" alt="">
+<img src="/00-images/S-2024-03-28_23.10.45.png" alt="">
 <em>Диски</em> — это блочные устройства: данные разделяются на блоки, и блоки раскладываются по диску. В Linux блочные устройства называются по следующему шаблону: <code>/dev/</code> + <code>тип устройства</code> + <code>буква диска</code> + <code>номер раздела</code>. Например, <code>/dev/sda1</code> — первый раздел первого диска типа SCSI.</li>
 <li>«<em>Тип устройства</em>» — это однобуквенный идентификатор: &ldquo;h&rdquo; - IDE дисков, &ldquo;s&rdquo; - SCSI и &ldquo;v&rdquo; - виртуальных дисков. Каждому новому добавленному диску выделяется следующая буква латинского алфавита. На диске может быть несколько разделов и каждый из них имеет свой номер. Номера разделов начинаются с 1. Например, <code>/dev/sda1</code> — первый раздел первого диска, <code>/dev/sda2</code> — второй раздел первого диска, <code>/dev/sdb1</code> — первый раздел второго диска и так далее.
 <strong>Разметка диска</strong>
@@ -1515,7 +1515,7 @@ https://github.com/alex-shpak/hugo-book
 <code>partprobe</code> - перечитать информацию о разделах диска после работы fdisk</li>
 </ul>
 <h2 id="logical-volume-manager">Logical Volume Manager<a class="anchor" href="#logical-volume-manager">#</a></h2>
-<p><img src="/_images/2024-03-28_14-48-51.png" alt="">
+<p><img src="/00-images/2024-03-28_14-48-51.png" alt="">
 LVM управляет тремя сущностями:</p>
 <ul>
 <li><strong>Физический том — Physical Volume (PV)</strong>: раздел на физическом диске или весь диск целиком.
@@ -1549,7 +1549,7 @@ LVM управляет тремя сущностями:</p>
 </li>
 </ul>
 <h2 id="типы-файловых-систем">Типы файловых систем<a class="anchor" href="#%d1%82%d0%b8%d0%bf%d1%8b-%d1%84%d0%b0%d0%b9%d0%bb%d0%be%d0%b2%d1%8b%d1%85-%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc">#</a></h2>
-<p><img src="/_images/S_2024-03-31-17-58-34-782_com.kmp.video.jpg.md" alt="">
+<p><img src="/00-images/S_2024-03-31-17-58-34-782_com.kmp.video.jpg.md" alt="">
 Все файловые системы создаются утилитой <code>mkfs.&lt;FS_NAME&gt; (**mkfs.ext4**, **mkfs.xfs**, ..)</code>.
 <code>sudo mkfs.ext4 /dev/sausage-store/logs</code>
 <code>resize2fs (resize2fs [-f] /dev/sausage-store/logs)</code> - расширить файловую систему
@@ -1603,15 +1603,15 @@ LVM управляет тремя сущностями:</p>
 </li>
 <li><code>du  (du -h / du -h -d 1 /run)</code> - используемое место на дисках (рекурсивно)</li>
 <li><code>ncdu (ncdu /run)</code> - демонстрация файлов в виде псевдографики
-<img src="/_images/PI-20240330181204.png" alt=""></li>
+<img src="/00-images/PI-20240330181204.png" alt=""></li>
 <li><code>lsof (lsof -u frontend -a /run)</code> -  отображениие файлов процессов
 <ul>
 <li><code>lsof -a +L1 /run</code> покажет только удалённые файлы в конкретной директории, которые занимают память из-за того, что процесс не отпустил дескрипторы
-<img src="/_images/PI-20240330182502.png" alt=""></li>
+<img src="/00-images/PI-20240330182502.png" alt=""></li>
 </ul>
 </li>
 <li><code>ls -li</code> - первый символ указывает на тип файла
-<img src="/_images/PI-20240330184836.png" alt=""></li>
+<img src="/00-images/PI-20240330184836.png" alt=""></li>
 <li><code>ls -la</code> - второй столбец количество ссылок на файловый дескриптор</li>
 <li><code>ln (ln -s /home/student/file1 link2)</code> - создание ссылки (<code>-s</code> (soft) - мягкой). Жесткиие ссылки - ссылаются на файловый дескриптор также как и файл, Мягкие содержать путь. Файл не будет удален если на него есть жесткая ссылка.</li>
 <li><code>stat (stat file1)</code> - просмотр файлового дескриптора (inode)

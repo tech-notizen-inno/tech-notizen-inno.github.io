@@ -8,6 +8,9 @@
 hugo server --contentDir  ~/YandexDisk/Sync.\ Projects/Obsidian.Notes/Я.Практикум/ --cleanDestinationDir --destination ../docs
 ../../../HUGO/hugo_0.150.0_darwin-universal/hugo server  --contentDir  ~/Yandex.Disk.localized/Sync.\ Projects/Obsidian.Notes/Я.Практикум/ --cleanDestinationDir --destination ../docs
 
+### Render 
+1. render-image.html - создает абсолютную ссылку в виде /00-images/XXXXX
+
 ## Просмотр сайта
 Локальный просмотр сайта при запущенном hugo `hugo server` [открыть](http://localhost:1313)
 

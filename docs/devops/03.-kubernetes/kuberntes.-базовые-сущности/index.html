@@ -1524,11 +1524,11 @@ https://github.com/alex-shpak/hugo-book
   <article class="markdown book-article"><h2 id="pod">Pod<a class="anchor" href="#pod">#</a></h2>
 <p>Один Pod представляет собой один инстанс приложения, включающий один или несколько Docker-контейнеров.</p>
 <h3 id="дополнительные-виды-контейнеров">Дополнительные виды контейнеров<a class="anchor" href="#%d0%b4%d0%be%d0%bf%d0%be%d0%bb%d0%bd%d0%b8%d1%82%d0%b5%d0%bb%d1%8c%d0%bd%d1%8b%d0%b5-%d0%b2%d0%b8%d0%b4%d1%8b-%d0%ba%d0%be%d0%bd%d1%82%d0%b5%d0%b9%d0%bd%d0%b5%d1%80%d0%be%d0%b2">#</a></h3>
-<p><img src="/_images/2024-12-08_12-09-31.png" alt="">
-<img src="/_images/2024-12-08_12-11-11.png" alt=""></p>
+<p><img src="/00-images/2024-12-08_12-09-31.png" alt="">
+<img src="/00-images/2024-12-08_12-11-11.png" alt=""></p>
 <h3 id="манифест-для-pod">Манифест для Pod<a class="anchor" href="#%d0%bc%d0%b0%d0%bd%d0%b8%d1%84%d0%b5%d1%81%d1%82-%d0%b4%d0%bb%d1%8f-pod">#</a></h3>
-<p><img src="/_images/2024-12-08_12-14-46.png" alt="">
-<img src="/_images/2024-12-08_12-15-58.png" alt="">
+<p><img src="/00-images/2024-12-08_12-14-46.png" alt="">
+<img src="/00-images/2024-12-08_12-15-58.png" alt="">
 В блоке <code>spec</code> указывают специфичные для конкретной сущности атрибуты. Для Pod&rsquo;а такими атрибутами будут: контейнеры, которые мы хотим запустить в нём, и образы, на основе которых будут создаваться эти контейнеры.
 <strong>imagePullPolicy</strong> определяет для <code>kubelet</code> политику скачивания образа контейнера:
 - <strong>IfNotPresent</strong> — скачивать образ контейнера, если отсутствует на Node.
@@ -1544,7 +1544,7 @@ https://github.com/alex-shpak/hugo-book
   </thead>
   <tbody>
       <tr>
-          <td><img src="/_images/PI-20241208175124.png" alt=""></td>
+          <td><img src="/00-images/PI-20241208175124.png" alt=""></td>
           <td></td>
       </tr>
       <tr>
@@ -1552,7 +1552,7 @@ https://github.com/alex-shpak/hugo-book
           <td><strong>Передача секретов через манифест</strong></td>
       </tr>
       <tr>
-          <td><img src="/_images/PI-20241208175913.png" alt=""></td>
+          <td><img src="/00-images/PI-20241208175913.png" alt=""></td>
           <td></td>
       </tr>
   </tbody>
@@ -1567,7 +1567,7 @@ https://github.com/alex-shpak/hugo-book
   </thead>
   <tbody>
       <tr>
-          <td><img src="/_images/2024-12-08_13-28-33.png" alt=""></td>
+          <td><img src="/00-images/2024-12-08_13-28-33.png" alt=""></td>
           <td></td>
       </tr>
       <tr>
@@ -1575,20 +1575,20 @@ https://github.com/alex-shpak/hugo-book
           <td><strong>Включение одних переменных в состав других</strong></td>
       </tr>
       <tr>
-          <td><img src="/_images/PI-20241230130321.png" alt=""></td>
+          <td><img src="/00-images/PI-20241230130321.png" alt=""></td>
           <td></td>
       </tr>
   </tbody>
 </table>
 <h3 id="использование-лимитов">Использование лимитов<a class="anchor" href="#%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-%d0%bb%d0%b8%d0%bc%d0%b8%d1%82%d0%be%d0%b2">#</a></h3>
-<p><img src="/_images/2024-12-08_12-21-52.png" alt="">
+<p><img src="/00-images/2024-12-08_12-21-52.png" alt="">
 mi - 1/1000 CPU, 100mi = 0,1 CPU</p>
 <ul>
 <li><a href="Limits.txt">Limits Manifest</a></li>
 <li><a href="https://kubernetes.io/docs/concepts/policy/limit-range/">Описание лимитов</a></li>
 </ul>
 <h3 id="жизненный-цикл-pod">Жизненный цикл Pod<a class="anchor" href="#%d0%b6%d0%b8%d0%b7%d0%bd%d0%b5%d0%bd%d0%bd%d1%8b%d0%b9-%d1%86%d0%b8%d0%ba%d0%bb-pod">#</a></h3>
-<p><img src="/_images/2024-12-08_12-27-18.png" alt=""></p>
+<p><img src="/00-images/2024-12-08_12-27-18.png" alt=""></p>
 <h3 id="probes">Probes<a class="anchor" href="#probes">#</a></h3>
 <ul>
 <li><strong>livenessProbe</strong> — запущен ли контейнер?
@@ -1612,37 +1612,37 @@ mi - 1/1000 CPU, 100mi = 0,1 CPU</p>
 <li><strong>readinessProbe</strong> — приложение готово работать с пользователями и можно ли пускать трафик?
 <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/">Описание проб</a> .</li>
 <li>Выполнение проверок
-<img src="/_images/2024-12-12_08-37-15.png" alt=""></li>
+<img src="/00-images/2024-12-12_08-37-15.png" alt=""></li>
 <li><a href="Pods-with-Probes.txt">пример определения pod с probes</a></li>
 </ul>
 <h2 id="service">Service<a class="anchor" href="#service">#</a></h2>
-<p><img src="/_images/2024-12-08_13-05-41.png" alt="">
-<img src="/_images/2024-12-08_13-06-05.png" alt="">
+<p><img src="/00-images/2024-12-08_13-05-41.png" alt="">
+<img src="/00-images/2024-12-08_13-06-05.png" alt="">
 <a href="Service.txt">Service Manifest</a></p>
 <h2 id="endpoint">Endpoint<a class="anchor" href="#endpoint">#</a></h2>
-<p><img src="/_images/2024-12-08_13-09-08.png" alt=""></p>
+<p><img src="/00-images/2024-12-08_13-09-08.png" alt=""></p>
 <ul>
 <li><a href="Endpoint.txt">Endpoint Manifest</a></li>
 </ul>
 <h2 id="volumes">Volumes<a class="anchor" href="#volumes">#</a></h2>
-<p><img src="/_images/2024-12-08_13-10-26.png" alt=""></p>
+<p><img src="/00-images/2024-12-08_13-10-26.png" alt=""></p>
 <h3 id="persistentvolume">PersistentVolume<a class="anchor" href="#persistentvolume">#</a></h3>
-<p><img src="/_images/2024-12-08_13-13-53.png" alt="">
-<img src="/_images/2024-12-08_13-16-33.png" alt=""></p>
+<p><img src="/00-images/2024-12-08_13-13-53.png" alt="">
+<img src="/00-images/2024-12-08_13-16-33.png" alt=""></p>
 <ul>
 <li><a href="PersistentVolume.txt">PersistentVolume Manifest</a>
 Статусы volumes
-<img src="/_images/2024-12-08_13-16-19.png" alt=""></li>
+<img src="/00-images/2024-12-08_13-16-19.png" alt=""></li>
 </ul>
 <h3 id="persistentvolumeclaim">PersistentVolumeClaim<a class="anchor" href="#persistentvolumeclaim">#</a></h3>
 <p>Persistent Volume Claim - запрос на часть хранилища (использование хранилища)
-<img src="/_images/PI-20241208174913.png" alt=""></p>
+<img src="/00-images/PI-20241208174913.png" alt=""></p>
 <ul>
 <li><a href="PersistentVolumeClaim.txt">PersistentVolumeClaim Manifest</a></li>
 </ul>
 <h3 id="configmap">ConfigMap<a class="anchor" href="#configmap">#</a></h3>
-<p><img src="/_images/2024-12-08_13-22-54.png" alt="">
-<img src="/_images/2024-12-08_13-23-37.png" alt=""></p>
+<p><img src="/00-images/2024-12-08_13-22-54.png" alt="">
+<img src="/00-images/2024-12-08_13-23-37.png" alt=""></p>
 <ul>
 <li><a href="ConfigMap.txt">ConfigMap Manifest</a></li>
 </ul>

@@ -1503,8 +1503,8 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><p><img src="/_images/S_2024-03-31-17-25-02-638_com.kmp.video.jpg" alt="">
-<img src="/_images/S_2024-03-31-17-23-23-168_com.kmp.video.jpg" alt=""></p>
+  <article class="markdown book-article"><p><img src="/00-images/S_2024-03-31-17-25-02-638_com.kmp.video.jpg" alt="">
+<img src="/00-images/S_2024-03-31-17-23-23-168_com.kmp.video.jpg" alt=""></p>
 <h2 id="команды-для-работы-с-systemd">Команды для работы с Systemd<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-%d0%b4%d0%bb%d1%8f-%d1%80%d0%b0%d0%b1%d0%be%d1%82%d1%8b-%d1%81-systemd">#</a></h2>
 <p><code>systemctl list-units --type service --all</code> — просмотр всех юнитов в системе
 <code>systemctl start name</code> — запустить сервис
@@ -1519,14 +1519,14 @@ https://github.com/alex-shpak/hugo-book
 <code>systemctl list-unit-files --type service</code> — список установленных юнит-файлов сервисов
 В зависимости от дистрибутива, в директории <code>/lib/systemd/system/</code>, <code>/usr/lib/systemd/user/</code>, <code>/usr/lib/systemd/system/</code>. Есть ещё директория <code>/etc/systemd/system/</code> — место для дополнительных юнит-файлов, сюда мы также будем добавлять свои</p>
 <h2 id="формат-файлов-юнит">Формат файлов-юнит<a class="anchor" href="#%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%82-%d1%84%d0%b0%d0%b9%d0%bb%d0%be%d0%b2-%d1%8e%d0%bd%d0%b8%d1%82">#</a></h2>
-<p><img src="/_images/S-2024-03-28_13.57.14.png" alt="">
+<p><img src="/00-images/S-2024-03-28_13.57.14.png" alt="">
 Директива <code>OnCalendar</code> указывает время или частоту запуска таймера. В общем случае формат директивы такой:
 <code>&quot;&lt;дни недели&gt; &lt;год&gt;-&lt;месяц&gt;-&lt;числа месяца&gt; &lt;часы&gt;:&lt;минуты&gt;:&lt;секунды&gt;&quot;</code>.
 Дни недели необязательны и в нашем примере значение <code>&quot;OnCalendar=*-*-* *:*:00&quot;</code> читается как «каждую нулевую секунду» (по-русски — каждую минуту).
 <code>systemd-analyze calendar &quot;*-*-* *:*:00&quot;</code> - проверка календаря
-<img src="/_images/PI-20240328140830.png" alt=""></p>
+<img src="/00-images/PI-20240328140830.png" alt=""></p>
 <h2 id="пример-файла-юнита-с-запуском-java">Пример файла-юнита с запуском Java<a class="anchor" href="#%d0%bf%d1%80%d0%b8%d0%bc%d0%b5%d1%80-%d1%84%d0%b0%d0%b9%d0%bb%d0%b0-%d1%8e%d0%bd%d0%b8%d1%82%d0%b0-%d1%81-%d0%b7%d0%b0%d0%bf%d1%83%d1%81%d0%ba%d0%be%d0%bc-java">#</a></h2>
-<p><img src="/_images/PI-20240412122003.png" alt=""></p>
+<p><img src="/00-images/PI-20240412122003.png" alt=""></p>
 <h2 id="передача-параметров-через-systemd-unit">Передача параметров через system.d unit<a class="anchor" href="#%d0%bf%d0%b5%d1%80%d0%b5%d0%b4%d0%b0%d1%87%d0%b0-%d0%bf%d0%b0%d1%80%d0%b0%d0%bc%d0%b5%d1%82%d1%80%d0%be%d0%b2-%d1%87%d0%b5%d1%80%d0%b5%d0%b7-systemd-unit">#</a></h2>
 <ol>
 <li>Использовать инструкцию внутри unit <code>EnvironmentFile=&lt;env-file&gt;.env</code></li>
@@ -1534,7 +1534,7 @@ https://github.com/alex-shpak/hugo-book
 <li>Сгенерировать файл во время CI/CD</li>
 </ol>
 <p>формирование файла
-<img src="/_images/PI-20241006104310.png" alt=""></p>
+<img src="/00-images/PI-20241006104310.png" alt=""></p>
 <p>вызов в gitlab-ci.yml<br>
 <code>ssh ${DEV_USER}@${DEV_HOST} &quot;export &quot;PSQL_PASSWORD=${PSQL_PASSWORD}&quot;; export &quot;MONGO_PASSWORD=${MONGO_PASSWORD}&quot;; setsid /bin/bash -s &quot; &lt; ./backend/deploy.sh</code></p>
 </article>

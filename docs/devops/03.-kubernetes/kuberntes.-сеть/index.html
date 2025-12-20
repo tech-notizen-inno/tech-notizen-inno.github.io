@@ -1518,7 +1518,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>Сервисы на Worker-ноде (такие как <code>kubelet</code>) умели взаимодействовать с Pod&rsquo;ами на этой Worker-ноде так же напрямую и без NAT
-<img src="/_images/2024-12-14_18-46-08.png" alt="">
+<img src="/00-images/2024-12-14_18-46-08.png" alt="">
 <strong>CNI или «Container Network Interface»</strong> — это спецификация правил сетевого взаимодействия контейнеров, а также правил создания и удаления сетевых интерфейсов для контейнеров. CNI-плагин <strong>kubenet</strong> — встроенный в <strong>kubelet</strong> плагин с самой базовой функциональностью.</li>
 </ul>
 </li>
@@ -1526,13 +1526,13 @@ https://github.com/alex-shpak/hugo-book
 <h2 id="service-network">Service Network<a class="anchor" href="#service-network">#</a></h2>
 <p>Для работоспособности сервисов созданется <code>dns-service</code>, позволяющий маршрутизировать трафик. Тип сервиса определяет способ доставки трафика до Pod&rsquo;ов. По умолчанию создаётся сервис типа <code>ClusterIP</code>. Адрес такого сервиса выделяется из диапазона <code>Service Network</code>. На Worker-ноде сервис реализован с помощью технологий балансировки <strong>iptables</strong> или <strong>IP Virtual Server</strong> (IPVS) — встроенного в ядро Linux балансировщика для протоколов TCP и UDP.
 Компонент <strong>kube-proxy</strong> на каждой Worker-ноде отслеживает события создания сервисов и добавляет соответствующие iptables-правила в NAT-таблицу для трансляции адреса сервиса на адреса Pod&rsquo;ов или создаёт IPVS балансировщик адреса сервиса на адреса Pod&rsquo;ов.
-<img src="/_images/2024-12-14_22-02-41_1.png" alt="">
+<img src="/00-images/2024-12-14_22-02-41_1.png" alt="">
 Другие два типа сервисов <code>NodePort</code> и <code>LoadBalancer</code> решают задачу доступа внешних пользователей к приложениям внутри кластера Kubernetes.
 Сервис типа <code>NodePort</code> позволяет подключиться к приложению через IP-адрес Worker-ноды. При запуске кластера Kubernetes определяется диапазон портов (30000-32767 по умолчанию), из которого выделяется очередной номер порта для нового сервиса.</p>
 <table>
   <thead>
       <tr>
-          <th><img src="/_images/PI-20241215002105.png" alt=""></th>
+          <th><img src="/00-images/PI-20241215002105.png" alt=""></th>
           <th></th>
       </tr>
   </thead>
@@ -1542,7 +1542,7 @@ https://github.com/alex-shpak/hugo-book
           <td>NodePort Service</td>
       </tr>
       <tr>
-          <td><img src="/_images/S_20250224-224853.png" alt=""></td>
+          <td><img src="/00-images/S_20250224-224853.png" alt=""></td>
           <td></td>
       </tr>
       <tr>
@@ -1557,7 +1557,7 @@ https://github.com/alex-shpak/hugo-book
 </table>
 <h2 id="ingress">Ingress<a class="anchor" href="#ingress">#</a></h2>
 <p>Основное назначение <code>Ingress</code> состоит в обеспечении внешнего доступа к HTTP/HTTPS-приложениям
-<img src="/_images/PI-20241215002433.png" alt="">
+<img src="/00-images/PI-20241215002433.png" alt="">
 Пример Ingress Controller - <code>NGINX Ingress Controller</code>, который запускает сам контроллер, Pod&rsquo;ы с Nginx и создаёт сервис типа <code>LoadBalancer</code> для этих Pod&rsquo;ов и протоколов HTTP и HTTPS. Контроллер отслеживает события запросов на создание или изменение <code>Ingress</code>-ресурсов и добавляет конфигурацию в Nginx для маршрутизации траффика к приложению.
 <a href="Ingress.txt">Ingress Manifest</a></p>
 <h3 id="kube-proxy">Kube Proxy<a class="anchor" href="#kube-proxy">#</a></h3>
@@ -1567,8 +1567,8 @@ https://github.com/alex-shpak/hugo-book
 Пример :
 <code>http://localhost:8080/api/v1/proxy/namespaces/default/services/my-internal-service:http/</code></p>
 <h3 id="архитектура-nginx-ingress">Архитектура NGINX Ingress<a class="anchor" href="#%d0%b0%d1%80%d1%85%d0%b8%d1%82%d0%b5%d0%ba%d1%82%d1%83%d1%80%d0%b0-nginx-ingress">#</a></h3>
-<p><img src="/_images/2024-12-14_22-04-03.png" alt="">
-<img src="/_images/2024-12-14_22-04-57.png" alt=""></p>
+<p><img src="/00-images/2024-12-14_22-04-03.png" alt="">
+<img src="/00-images/2024-12-14_22-04-57.png" alt=""></p>
 </article>
  
       

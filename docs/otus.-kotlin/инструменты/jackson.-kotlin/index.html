@@ -1507,7 +1507,7 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown book-article"><p>Позволяет преобразовывать JSON в классы Java/Kotlin
 ObjectMapper — наиболее часто используемая часть библиотеки Jackson, так как является самым простым способом преобразования между POJO и JSON. Она находится в <code>com.fasterxml.jackson.databind.</code>
-<img src="/_images/S_20250901-151103.png" alt=""></p>
+<img src="/00-images/S_20250901-151103.png" alt=""></p>
 <h2 id="примеры-сериализации-и-десериализации">Примеры сериализации и десериализации<a class="anchor" href="#%d0%bf%d1%80%d0%b8%d0%bc%d0%b5%d1%80%d1%8b-%d1%81%d0%b5%d1%80%d0%b8%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d0%b8-%d0%b8-%d0%b4%d0%b5%d1%81%d0%b5%d1%80%d0%b8%d0%b0%d0%bb%d0%b8%d0%b7%d0%b0%d1%86%d0%b8%d0%b8">#</a></h2>
 <ul>
 <li><code>String json = objectMapper.writeValueAsString(employee)</code>  - Записть в JSON</li>
@@ -1519,7 +1519,7 @@ ObjectMapper — наиболее часто используемая часть
 </ul>
 <h2 id="аннотоации-в-jackson">Аннотоации в Jackson<a class="anchor" href="#%d0%b0%d0%bd%d0%bd%d0%be%d1%82%d0%be%d0%b0%d1%86%d0%b8%d0%b8-%d0%b2-jackson">#</a></h2>
 <p>Пример использования аннотаций
-|<img src="/_images/PI-20250907124934.png" alt=""></p>
+|<img src="/00-images/PI-20250907124934.png" alt=""></p>
 <table>
   <thead>
       <tr>
@@ -1537,42 +1537,42 @@ ObjectMapper — наиболее часто используемая часть
       <tr>
           <td>@JsonSetter</td>
           <td>Сопоставить поле в строке JSON с полем в POJO, где их имена не совпадают.</td>
-          <td><img src="/_images/PI-20250907125326.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907125326.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonAnySetter</td>
           <td>Эта аннотация полезна в случаях, когда JSON содержит некоторые поля, не объявленные в POJO.</td>
-          <td><img src="/_images/PI-20250907130130.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907130130.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonGetter</td>
           <td>Полезно, когда мы хотим сопоставить поле POJO с полем JSON, используя другое имя.</td>
-          <td><img src="/_images/PI-20250907125609.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907125609.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonAnyGetter</td>
           <td>Эта аннотация позволяет нам использовать объект <code>Map</code> как источник свойств JSON. Скажем, у нас есть эта карта как поле в классе <code>Cat</code>.</td>
-          <td><img src="/_images/PI-20250907125941.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907125941.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonIgnore</td>
           <td>Поле с аннотацией игнорируется как при записи, так и при чтении JSON.</td>
-          <td><img src="/_images/PI-20250907130247.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907130247.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonProperty</td>
           <td>Позволяет изменить имя свойства, в которое будет сериализировано поле. Еще этой аннотацией можно помечать методы, и их возвращаемое значение будет преобразовано в JSON-свойство при сериализации:</td>
-          <td><img src="/_images/PI-20250907130618.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907130618.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonInclude</td>
           <td>С помощью этой аннотации можно указать, в каком случае поле должно сериализироваться.</td>
-          <td><img src="/_images/PI-20250907130831.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907130831.png" alt=""></td>
       </tr>
       <tr>
           <td>@JsonPropertyOrder</td>
           <td>позволяет задать порядок сериализации полей</td>
-          <td><img src="/_images/PI-20250907131010.png" alt=""></td>
+          <td><img src="/00-images/PI-20250907131010.png" alt=""></td>
       </tr>
   </tbody>
 </table>

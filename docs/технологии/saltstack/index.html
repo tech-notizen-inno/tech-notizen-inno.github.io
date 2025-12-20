@@ -1530,14 +1530,14 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <ul>
 <li>Salt работает по топологии Master(сервер) / Minion(клиент)</li>
 <li>SaltStack использует для транспорта - <a href="https://en.wikipedia.org/wiki/ZeroMQ">ZeroMQ</a>. Позже инженеры из Linkedin добавили возможность работы через <a href="https://docs.saltproject.io/en/latest/topics/transports/tcp.html">raw tcp.</a> Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">publish/subscribe</a> модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют.
-<img src="/_images/PI-20240408142204.png" alt="PI-20240408142204.png"></li>
+<img src="/00-images/PI-20240408142204.png" alt="PI-20240408142204.png"></li>
 <li>Миньоны подключаются к мастеру на порты <strong>TCP 4505,4506</strong>.
-<img src="/_images/PI-20240408141039.png" alt="PI-20240408141039.png"></li>
+<img src="/00-images/PI-20240408141039.png" alt="PI-20240408141039.png"></li>
 <li>Аутентификация миньонов по ключам в Мастере
 <ul>
 <li><code>sudo salt-key -L</code> - просмотреть список ключей на мастере</li>
 <li><code>sudo salt-key -A</code> - принять ключи полученные с миньона
-<img src="/_images/PI-20240408140348.png" alt="PI-20240408140348.png"></li>
+<img src="/00-images/PI-20240408140348.png" alt="PI-20240408140348.png"></li>
 </ul>
 </li>
 <li>Два формата работы
@@ -1556,41 +1556,41 @@ Salt работает по топологии Master(сервер) / Minion(кл
 </ul>
 </li>
 <li>Запуск команд
-<img src="/_images/S_20251115-092810.png" alt=""></li>
+<img src="/00-images/S_20251115-092810.png" alt=""></li>
 <li><strong>Зерна (GRAINS).</strong> Salt ипользует систему, называемую <a href="https://docs.saltstack.com/en/latest/topics/targeting/grains.html">Grains</a> для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое</li>
 </ul>
 <h2 id="состояния-states">Состояния (States)<a class="anchor" href="#%d1%81%d0%be%d1%81%d1%82%d0%be%d1%8f%d0%bd%d0%b8%d1%8f-states">#</a></h2>
 <ul>
 <li><strong>Стейты (state files)</strong> — аналог playbooks в Ansible. В них с помощью <a href="https://docs.saltstack.com/en/latest/ref/states/all/index.html">state.modules</a>, описывается, к какому состоянию нужно привести миньона.
-<img src="/_images/PI-20240408141538.png" alt="PI-20240408141538.png"></li>
+<img src="/00-images/PI-20240408141538.png" alt="PI-20240408141538.png"></li>
 <li>Кроме того в SaltStack существует понятие <a href="https://docs.saltstack.com/en/latest/ref/states/top.html">top-файла</a>. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить.
-<img src="/_images/PI-20240408141546.png" alt="PI-20240408141546.png"></li>
+<img src="/00-images/PI-20240408141546.png" alt="PI-20240408141546.png"></li>
 <li><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/requisites.html#requisites">Порядок исполнения элементов state/Requisites</a></li>
 <li><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/state-system.html">Исполнение состояний</a></li>
 <li>SLS Namespaces
 ![[IMG_0520.jpeg]]</li>
 <li><a href="https://docs.saltproject.io/en/latest/ref/states/index.html">STATE SYSTEM REFERENCE</a></li>
 <li>High Data
-<img src="/_images/PI-20240514125512.png" alt="PI-20240514125512.png"></li>
+<img src="/00-images/PI-20240514125512.png" alt="PI-20240514125512.png"></li>
 </ul>
 <h2 id="расширенные-темы">Расширенные темы<a class="anchor" href="#%d1%80%d0%b0%d1%81%d1%88%d0%b8%d1%80%d0%b5%d0%bd%d0%bd%d1%8b%d0%b5-%d1%82%d0%b5%d0%bc%d1%8b">#</a></h2>
 <ul>
 <li><strong>Pillar</strong> - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны.</li>
 <li><strong>Mine</strong>. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the <a href="https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.mine.html#module-salt.modules.mine" title="salt.modules.mine"><code>salt.modules.mine</code></a> module.</li>
 <li><strong>Salt Returners</strong> — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output
-<img src="/_images/PI-20240409113734.png" alt="PI-20240409113734.png">
+<img src="/00-images/PI-20240409113734.png" alt="PI-20240409113734.png">
 <ul>
 <li><a href="https://docs.saltproject.io/en/latest/ref/returners/index.html#testing-the-returner">Документация</a>,</li>
 <li>Можно все события передавать внешнему потербителю
-<img src="/_images/PI-20240503174245.png" alt="PI-20240503174245.png"></li>
+<img src="/00-images/PI-20240503174245.png" alt="PI-20240503174245.png"></li>
 <li>Добавление returner
-<img src="/_images/returner-salt.png" alt="returner-salt.PNG"></li>
+<img src="/00-images/returner-salt.png" alt="returner-salt.PNG"></li>
 </ul>
 </li>
 <li><a href="https://docs.saltstack.com/en/latest/topics/reactor/">Reactor</a>. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу.
-<img src="/_images/PI-20240409113851.png" alt="PI-20240409113851.png"></li>
+<img src="/00-images/PI-20240409113851.png" alt="PI-20240409113851.png"></li>
 <li>Расписание - запускает каждую команду в своем процессе
-<img src="/_images/schedule-salt.png" alt="schedule-salt.PNG"></li>
+<img src="/00-images/schedule-salt.png" alt="schedule-salt.PNG"></li>
 </ul>
 <h2 id="jinja-рендереры">Jinja (Рендереры)<a class="anchor" href="#jinja-%d1%80%d0%b5%d0%bd%d0%b4%d0%b5%d1%80%d0%b5%d1%80%d1%8b">#</a></h2>
 <p><a href="https://docs.saltproject.io/en/latest/topics/jinja/index.html">Общая документация для Salt</a>
@@ -1633,11 +1633,11 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span><span style="color:#75715e">{{</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;one&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;two&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">|</span>  <span style="color:#a6e22e">join</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;, &#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">capitalize</span> <span style="color:#75715e">}}</span>` = `&#34;One, two&#34;</span></span></code></pre></div></li>
 <li>
 <p>Проверка на то, что переменная определена</p>
-<p><img src="/_images/PI-20240503173855.png" alt="PI-20240503173855.png"></p>
+<p><img src="/00-images/PI-20240503173855.png" alt="PI-20240503173855.png"></p>
 </li>
 <li>
 <p>Также может быть использован render прямо на языке Python
-<img src="/_images/PI-20240408142917.png" alt="PI-20240408142917.png"></p>
+<img src="/00-images/PI-20240408142917.png" alt="PI-20240408142917.png"></p>
 </li>
 <li>
 <p><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/jinja.html">Полное описание синтаксиса</a></p>
@@ -1648,7 +1648,7 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <ol>
 <li>Выложить формулу в /srv/formulas/xxxx</li>
 <li>Прописать формулу в конфиг
-<img src="/_images/PI-20240427111745.png" alt="PI-20240427111745.png"></li>
+<img src="/00-images/PI-20240427111745.png" alt="PI-20240427111745.png"></li>
 <li>Рестартовать master</li>
 <li>Отредактировать pillar.examle</li>
 <li>Изучить состояния в формуле</li>

@@ -1532,8 +1532,8 @@ https://github.com/alex-shpak/hugo-book
 <code>cgroups</code> — для изоляции ресурсов: сколько процессора, памяти и других мощностей будет доступно изолированному процессу;
 <code>CAP drop</code> — для сброса лишних прав на системные вызовы (набор таких прав на capabilities)</p>
 <p><strong>Runc</strong> — это движок для работы с контейнерами. Нужно создать папку, внести в неё <code>config.json</code> файлик, прописать там ограничения, а рядом сложить все файлы, которые нужны процессу. При выполнении <code>runc run</code>
-<img src="/_images/PI-20241012104135.png" alt="">
-<img src="/_images/PI-20241012110624.png" alt=""></p>
+<img src="/00-images/PI-20241012104135.png" alt="">
+<img src="/00-images/PI-20241012110624.png" alt=""></p>
 <p>Приложени должны писать свои логи в <code>stdout</code> и <code>stderr</code>, чтобы докер мог их собрать.
 Контейнеры имеют свои директории на хостовой машине и пишут в неё логи и другую информацию. Обычно директория контейнеров распологается по адресу <code>/var/lib/docker/containers/&lt;container_id&gt;</code></p>
 <p>Логи из контейнера настраиваются через <code>docker daemon</code></p>
@@ -1546,7 +1546,7 @@ https://github.com/alex-shpak/hugo-book
   </thead>
   <tbody>
       <tr>
-          <td><img src="/_images/PI-20250118201023.png" alt=""></td>
+          <td><img src="/00-images/PI-20250118201023.png" alt=""></td>
           <td></td>
       </tr>
   </tbody>
@@ -1554,17 +1554,17 @@ https://github.com/alex-shpak/hugo-book
 <h2 id="образы">Образы<a class="anchor" href="#%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d1%8b">#</a></h2>
 <p>Docker очень рационально использует место. Образ состоит из слоёв, каждый из которых представляет неизменяемую файловую систему, то есть набор файлов и папок. В целом образ является <strong>объединенной файловой системой (Union File System, или Union FS)</strong>.
 <code>Каждый слой в Docker может быть только для чтения, за исключением верхнего, который поддерживает изменения.</code>
-<img src="/_images/PI-20241103180223.png" alt="">
+<img src="/00-images/PI-20241103180223.png" alt="">
 В <code>.dockerignore</code> можно задавать шаблоны каталогов и файлов, которые попадут в образ.
-<img src="/_images/S-2024-11-03_18.56.05.png" alt="">
+<img src="/00-images/S-2024-11-03_18.56.05.png" alt="">
 <strong>многоэтапная (multi-stage) сборка</strong></p>
 <h3 id="ключевые-слова-dockerfile">Ключевые слова Dockerfile<a class="anchor" href="#%d0%ba%d0%bb%d1%8e%d1%87%d0%b5%d0%b2%d1%8b%d0%b5-%d1%81%d0%bb%d0%be%d0%b2%d0%b0-dockerfile">#</a></h3>
-<p><img src="/_images/PI-20241103182347.png" alt="">
+<p><img src="/00-images/PI-20241103182347.png" alt="">
 Для запуска процесса в контейнере обычно используют <code>RUN</code>, <code>ENTRYPOINT</code> или <code>CMD</code>. <code>RUN</code> хорош для служебных действий вроде установки пакетов или смены каталога. Чтобы запустить основной процесс контейнера, используют <code>ENTRYPOINT</code> или <code>CMD</code>, без них контейнер не взлетит. Основная разница между ними в том, что при использовании <code>CMD</code> параметры командной строки, которые вы передаёте в момент запуска контейнера в командной строке, могут перезаписать параметры, указанные в Dockerfile. В случае с <code>ENTRYPOINT</code>, параметры из командной строки не могут перезаписать значения из Dockerfile</p>
 <h2 id="docker-в-cicd">Docker в CI/CD<a class="anchor" href="#docker-%d0%b2-cicd">#</a></h2>
 <p>Kaniko — поможет нам создать образ, а Crane — поставить на нём теги</p>
 <p>в build добавить Kaniko
-<img src="/_images/PI-20241104015912.png" alt=""></p>
+<img src="/00-images/PI-20241104015912.png" alt=""></p>
 <p>в release добавить crane</p>
 <p><code>image:</code>
 <code>name: gcr.io/go-containerregistry/crane:debug</code>
@@ -1628,9 +1628,9 @@ https://github.com/alex-shpak/hugo-book
 </li>
 <li><code>docker context ls</code> - посмотреть все контексты</li>
 <li><code>docker inspect</code> - можно использовать, чтобы посмотреть переменные среды
-<img src="/_images/PI-20241124121239.png" alt=""></li>
+<img src="/00-images/PI-20241124121239.png" alt=""></li>
 <li><code>docker exec &lt;container&gt; env</code> - посмотреть переменные внутри контейнера
-<img src="/_images/PI-20241124121541.png" alt=""></li>
+<img src="/00-images/PI-20241124121541.png" alt=""></li>
 <li><code>docker network ls</code> - посмотреть сети</li>
 <li><code>docker volumes ls</code> - посмотреть подключаемые тома</li>
 <li>удалить ненужные образы (в примере по ключу praktikum) - `docker rmi -f <code>docker images | grep praktikum | awk '{ print $3}' | tr '\n' ' ' </code></li>
@@ -1638,29 +1638,29 @@ https://github.com/alex-shpak/hugo-book
 <h2 id="docker-compose">Docker Compose<a class="anchor" href="#docker-compose">#</a></h2>
 <ul>
 <li><a href="https://docs.docker.com/reference/compose-file/build/">Описание build секции. Compose build Specification</a>
-<img src="/_images/PI-20241110102237.png" alt=""></li>
+<img src="/00-images/PI-20241110102237.png" alt=""></li>
 <li><a href="https://docs.docker.com/reference/compose-file/">Описание формата файла. Compose file reference</a>
-<img src="/_images/PI-20241110102303.png" alt=""></li>
+<img src="/00-images/PI-20241110102303.png" alt=""></li>
 <li>подключение томов
-<img src="/_images/PI-20241110102402.png" alt=""></li>
+<img src="/00-images/PI-20241110102402.png" alt=""></li>
 </ul>
 <ul>
 <li><code>docker context inspect &lt;container-name&gt;</code> - посмотреть тома
-<img src="/_images/PI-20241124122428.png" alt=""></li>
+<img src="/00-images/PI-20241124122428.png" alt=""></li>
 </ul>
 <ul>
 <li>использование профилей
-<img src="/_images/S-2024-11-24_12.16.37.png" alt=""></li>
+<img src="/00-images/S-2024-11-24_12.16.37.png" alt=""></li>
 <li>Дерево процессов containerd
-<img src="/_images/PI-20241124122704.png" alt=""></li>
+<img src="/00-images/PI-20241124122704.png" alt=""></li>
 <li>указание зависимости
-<img src="/_images/PI-20241124122102.png" alt=""></li>
+<img src="/00-images/PI-20241124122102.png" alt=""></li>
 <li>включение другого файла в текущий compose файл
-<img src="/_images/PI-20241124122122.png" alt=""></li>
+<img src="/00-images/PI-20241124122122.png" alt=""></li>
 <li>Примеры compose файлов
-<img src="/_images/PI-20241124122554.png" alt=""></li>
+<img src="/00-images/PI-20241124122554.png" alt=""></li>
 <li>Пример задания логов
-<img src="/_images/PI-20250118201829.png" alt=""></li>
+<img src="/00-images/PI-20250118201829.png" alt=""></li>
 </ul>
 <h3 id="docker-compose-command">Docker Compose Command<a class="anchor" href="#docker-compose-command">#</a></h3>
 <ul>
@@ -1697,9 +1697,9 @@ https://github.com/alex-shpak/hugo-book
 <code>timeout: 10s</code>
 <code>start_period: 20s</code>
 <code>retries: 6</code></p>
-<p><img src="/_images/PI-20241116210138.png" alt="">
+<p><img src="/00-images/PI-20241116210138.png" alt="">
 Статус для контейнеров с healthcheck отображает состояние &ldquo;здоровья&rdquo;
-<img src="/_images/PI-20241116210421.png" alt=""></p>
+<img src="/00-images/PI-20241116210421.png" alt=""></p>
 <p>curl может быть заменен на <code>wget --no-verbose --tries=1 --spider http://localhost || exit 1</code></p>
 </article>
  

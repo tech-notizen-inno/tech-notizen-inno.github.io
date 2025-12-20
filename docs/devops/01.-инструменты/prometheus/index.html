@@ -1510,13 +1510,13 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown book-article"><h2 id="архитектура">Архитектура<a class="anchor" href="#%d0%b0%d1%80%d1%85%d0%b8%d1%82%d0%b5%d0%ba%d1%82%d1%83%d1%80%d0%b0">#</a></h2>
-<p><img src="/_images/S_20250120-114557.png" alt=""></p>
+<p><img src="/00-images/S_20250120-114557.png" alt=""></p>
 <h2 id="формат-метрик">Формат метрик<a class="anchor" href="#%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%82-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba">#</a></h2>
-<p><img src="/_images/S_20250122-073540.png" alt=""></p>
+<p><img src="/00-images/S_20250122-073540.png" alt=""></p>
 <h2 id="виды-метрик">Виды метрик<a class="anchor" href="#%d0%b2%d0%b8%d0%b4%d1%8b-%d0%bc%d0%b5%d1%82%d1%80%d0%b8%d0%ba">#</a></h2>
-<p><img src="/_images/PI-20250125223158.png" alt="">
-<img src="/_images/PI-20250125223227.png" alt="">
-<img src="/_images/PI-20250125223313.png" alt=""></p>
+<p><img src="/00-images/PI-20250125223158.png" alt="">
+<img src="/00-images/PI-20250125223227.png" alt="">
+<img src="/00-images/PI-20250125223313.png" alt=""></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># HELP http_secs_bucket </span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#     Histogram of latencies for HTTP requests.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># TYPE http_secs_bucket histogram</span>
@@ -1529,8 +1529,8 @@ https://github.com/alex-shpak/hugo-book
 </span></span><span style="display:flex;"><span>http_secs_bucket<span style="color:#f92672">{</span>method<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>,status<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;201&#34;</span>,uri<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/api/&#34;</span>,le<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.089478485&#34;</span>,<span style="color:#f92672">}</span> 235.0
 </span></span><span style="display:flex;"><span>http_server_secs_count<span style="color:#f92672">{</span>method<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>,status<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;201&#34;</span>,uri<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/api/orders&#34;</span>,<span style="color:#f92672">}</span> 250.0
 </span></span><span style="display:flex;"><span>http_server_secs_sum<span style="color:#f92672">{</span>method<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>,status<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;201&#34;</span>,uri<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/api/orders&#34;</span>,<span style="color:#f92672">}</span> 15.340843123</span></span></code></pre></div><p>В метрике гистограммы также экспортируются два счётчика: сумма всех измерений (<code>sum</code>) и общее количество измерений (<code>count</code>), что позволяет посчитать простое среднее.
-<img src="/_images/PI-20250202010634.png" alt=""></p>
-<p><img src="/_images/PI-20250125223923.png" alt=""></p>
+<img src="/00-images/PI-20250202010634.png" alt=""></p>
+<p><img src="/00-images/PI-20250125223923.png" alt=""></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># HELP prometheus_interval_length_seconds Actual intervals between scrapes.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># TYPE prometheus_interval_length_seconds summary</span>
 </span></span><span style="display:flex;"><span>prometheus_interval_length_seconds<span style="color:#f92672">{</span>interval<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10s&#34;</span>,quantile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.01&#34;</span><span style="color:#f92672">}</span> 9.999061507
@@ -1539,18 +1539,18 @@ https://github.com/alex-shpak/hugo-book
 </span></span><span style="display:flex;"><span>prometheus_interval_length_seconds<span style="color:#f92672">{</span>interval<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10s&#34;</span>,quantile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.9&#34;</span><span style="color:#f92672">}</span> 10.000665665
 </span></span><span style="display:flex;"><span>prometheus_interval_length_seconds<span style="color:#f92672">{</span>interval<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10s&#34;</span>,quantile<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0.99&#34;</span><span style="color:#f92672">}</span> 10.000897368
 </span></span><span style="display:flex;"><span>prometheus_interval_length_seconds_sum<span style="color:#f92672">{</span>interval<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10s&#34;</span><span style="color:#f92672">}</span> 3180.004061973001
-</span></span><span style="display:flex;"><span>prometheus_interval_length_seconds_count<span style="color:#f92672">{</span>interval<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10s&#34;</span><span style="color:#f92672">}</span> <span style="color:#ae81ff">318</span></span></span></code></pre></div><p><img src="/_images/PI-20250125224200.png" alt=""></p>
+</span></span><span style="display:flex;"><span>prometheus_interval_length_seconds_count<span style="color:#f92672">{</span>interval<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10s&#34;</span><span style="color:#f92672">}</span> <span style="color:#ae81ff">318</span></span></span></code></pre></div><p><img src="/00-images/PI-20250125224200.png" alt=""></p>
 <h2 id="prometheus-service-discovery">Prometheus Service Discovery<a class="anchor" href="#prometheus-service-discovery">#</a></h2>
-<p><img src="/_images/I-2025-01-25_21.52.14.png" alt="">
+<p><img src="/00-images/I-2025-01-25_21.52.14.png" alt="">
 Автоматическое обнаружение targets
-<img src="/_images/S_20250122-073941.png" alt="">
+<img src="/00-images/S_20250122-073941.png" alt="">
 В <code>scrape_configs</code> добавляются специальные директивы: <code>kubernetes_sd_configs</code> — что искать; <code>relabel_configs</code> — как искать
 <a href="prometheus.yml.txt">Конфигурация Prometheus</a>
-<img src="/_images/S_20250122-074457_1.png" alt="">
+<img src="/00-images/S_20250122-074457_1.png" alt="">
 Чтобы отработал Discovery нужно добавить аннотоации к deployment/pod
-<img src="/_images/PI-20250125220551.png" alt=""></p>
+<img src="/00-images/PI-20250125220551.png" alt=""></p>
 <h2 id="promql--язык-запросов-prometheus">PromQL — язык запросов Prometheus<a class="anchor" href="#promql--%d1%8f%d0%b7%d1%8b%d0%ba-%d0%b7%d0%b0%d0%bf%d1%80%d0%be%d1%81%d0%be%d0%b2-prometheus">#</a></h2>
-<p><img src="/_images/S_20250124-132727.png" alt=""></p>
+<p><img src="/00-images/S_20250124-132727.png" alt=""></p>
 <ul>
 <li><code>http_requests_total finstance=&quot;frontend&quot;, env=&quot;test&quot;｝</code>- временной ряд связанный с метрикой <code>http_requests_total</code> и значениями лейблов в фигурных скобках</li>
 <li><code>http_server_requests_seconds_count{method=&quot;GET&quot;,uri=&quot;/actuator/prometheus&quot;}[5m]</code> - временной ряд можно указывать в квадратных скобках</li>
@@ -1560,33 +1560,33 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>Функции для работы с counters
-<img src="/_images/S_20250131-211938.png" alt=""></li>
+<img src="/00-images/S_20250131-211938.png" alt=""></li>
 <li>Функции для работы с gauge
-<img src="/_images/S_20250202-234501.png" alt=""></li>
+<img src="/00-images/S_20250202-234501.png" alt=""></li>
 <li>Функции работы с range vector
-<img src="/_images/S_20250202-235007.png" alt=""></li>
+<img src="/00-images/S_20250202-235007.png" alt=""></li>
 </ul>
 <h3 id="агрегирующие-функции">Агрегирующие функции<a class="anchor" href="#%d0%b0%d0%b3%d1%80%d0%b5%d0%b3%d0%b8%d1%80%d1%83%d1%8e%d1%89%d0%b8%d0%b5-%d1%84%d1%83%d0%bd%d0%ba%d1%86%d0%b8%d0%b8">#</a></h3>
-<p><img src="/_images/S_20250201-133111.png" alt="">
+<p><img src="/00-images/S_20250201-133111.png" alt="">
 Формат задания функции
-<img src="/_images/S_20250201-133355.png" alt=""></p>
+<img src="/00-images/S_20250201-133355.png" alt=""></p>
 <ul>
 <li><code>sum(rate(http_server_requests_seconds_count[5m]))</code> -  функция <code>sum</code> выдает сумму всех скоростей (<code>rate</code>) роста метрики <code>http_server_requests_seconds_count</code></li>
 <li><code>sum by (uri)</code> - cумма с группировкой по лейблу</li>
 <li><code>histogram_quantile</code> - принимает на вход значение интересующего нас квантиля и имя временных рядов разбиений гистограммы. Пример <code>histogram_quantile(0.99, rate(http_server_requests_seconds_bucket[5m]))</code></li>
 <li><code>offset</code> - позволяет получить прошлые данные. Например, на 1 день назад <code>http_requests_total offset 1d </code></li>
 <li>Сравнение меток
-<img src="/_images/I-2025-02-08_12.42.56.png" alt="">
-<img src="/_images/PI-20250208125351.png" alt="">
-<img src="/_images/PI-20250208125405.png" alt=""></li>
+<img src="/00-images/I-2025-02-08_12.42.56.png" alt="">
+<img src="/00-images/PI-20250208125351.png" alt="">
+<img src="/00-images/PI-20250208125405.png" alt=""></li>
 </ul>
 <h2 id="allertmanager-allerting">Allertmanager (Allerting)<a class="anchor" href="#allertmanager-allerting">#</a></h2>
-<p><img src="/_images/S_20250127-121510.png" alt="">
+<p><img src="/00-images/S_20250127-121510.png" alt="">
 <a href="https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/">Ссылка на конфигурирование правил alert</a>
-<img src="/_images/S_20250127-121622.png" alt="">
-<img src="/_images/S_20250127-121753.png" alt="">
+<img src="/00-images/S_20250127-121622.png" alt="">
+<img src="/00-images/S_20250127-121753.png" alt="">
 Для настройки Alertmanager для отправки сообщений нужно использовать <a href="alertmanager.txt">манифест</a>. Параметры манифеста
-<img src="/_images/PI-20250202144157.png" alt=""></p>
+<img src="/00-images/PI-20250202144157.png" alt=""></p>
 </article>
  
       

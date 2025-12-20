@@ -1519,23 +1519,23 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown book-article"><h2 id="основные-сущности">Основные сущности<a class="anchor" href="#%d0%be%d1%81%d0%bd%d0%be%d0%b2%d0%bd%d1%8b%d0%b5-%d1%81%d1%83%d1%89%d0%bd%d0%be%d1%81%d1%82%d0%b8">#</a></h2>
-<p><img src="/_images/PI-20240514140315.png" alt=""></p>
+<p><img src="/00-images/PI-20240514140315.png" alt=""></p>
 <h3 id="ansible-task">Ansible Task<a class="anchor" href="#ansible-task">#</a></h3>
 <p><strong>Ansible Task</strong> — это блок в YAML, с помощью которого можно сообщить Ansible, что мы ожидаем получить на целевом сервере: установленный пакет, желаемую конфигурацию и запущенный сервис.
-<img src="/_images/PI-20240514140530.png" alt=""></p>
+<img src="/00-images/PI-20240514140530.png" alt=""></p>
 <ul>
 <li>Список встроенных модулей Ansible (<a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html">Ссылка</a>)</li>
 <li>Список всех модулей Ansible (<a href="https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html">Ссылка</a>)</li>
 </ul>
 <h3 id="ansible-role">Ansible Role<a class="anchor" href="#ansible-role">#</a></h3>
 <p><strong>Ansible-роль</strong> представляет собой директорию, с упорядоченными по назначению YAML-файлами.
-<img src="/_images/PI-20240514143024.png" alt=""></p>
+<img src="/00-images/PI-20240514143024.png" alt=""></p>
 <h3 id="ansible-play">Ansible Play<a class="anchor" href="#ansible-play">#</a></h3>
 <p><strong>Ansible Play</strong> — это блок описания в YAML, в котором указан шаблон целевых хостов (или ещё говорят <code>host pattern</code>) и список задач или ролей для этих хостов.
-<img src="/_images/PI-20240514143547.png" alt=""></p>
+<img src="/00-images/PI-20240514143547.png" alt=""></p>
 <h3 id="ansible-playbook">Ansible Playbook<a class="anchor" href="#ansible-playbook">#</a></h3>
 <p>Список плеев организуется в <strong>Ansible-плейбук</strong> (<code>playbook</code>) — YAML-файл, который передаётся утилите <code>ansible-playbook</code>
-<img src="/_images/PI-20240514143854.png" alt=""></p>
+<img src="/00-images/PI-20240514143854.png" alt=""></p>
 <ul>
 <li><code>ansible-playbook playbook.yaml</code> - запустить playbook
 <ul>
@@ -1547,9 +1547,9 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <h3 id="inventory">Inventory<a class="anchor" href="#inventory">#</a></h3>
 <p>Конфигурация, необходимая Ansible для подключения к целевым серверам, называется <strong>inventory</strong>
-<img src="/_images/PI-20240514144127.png" alt=""></p>
+<img src="/00-images/PI-20240514144127.png" alt=""></p>
 <h2 id="структура-проекта-ansible">Структура проекта Ansible<a class="anchor" href="#%d1%81%d1%82%d1%80%d1%83%d0%ba%d1%82%d1%83%d1%80%d0%b0-%d0%bf%d1%80%d0%be%d0%b5%d0%ba%d1%82%d0%b0-ansible">#</a></h2>
-<p><img src="/_images/S-2024-05-14_18.47.13.png" alt=""></p>
+<p><img src="/00-images/S-2024-05-14_18.47.13.png" alt=""></p>
 <ul>
 <li>Для организации репозиториев с Ansible кодом используют коллекции. Коллекция инкапсулирует весь необходимый код для какой-то высокоуровневой задачи.</li>
 <li>Итоговый воркфлоу автоматизации управления конфигурацией может выглядеть следующим образом:
@@ -1562,32 +1562,32 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <h3 id="переменные-ansible">Переменные Ansible<a class="anchor" href="#%d0%bf%d0%b5%d1%80%d0%b5%d0%bc%d0%b5%d0%bd%d0%bd%d1%8b%d0%b5-ansible">#</a></h3>
 <p>Статические переменные задаются в <code>group_vars</code>
-<img src="/_images/PI-20240514144549.png" alt="">
+<img src="/00-images/PI-20240514144549.png" alt="">
 Переопределение переменных (Порядок)</p>
 <ol>
 <li>ключ ansible-playbook <code>--extra-vars &quot;my_var=value&quot;</code></li>
 <li><code>group_vars/&lt;my group&gt;.yaml</code></li>
 <li>Ansible-inventory
-<img src="/_images/S-2024-05-14_14.47.18.png" alt=""></li>
+<img src="/00-images/S-2024-05-14_14.47.18.png" alt=""></li>
 <li>Ansible-roles</li>
 </ol>
 <h3 id="ansible-facts">Ansible Facts<a class="anchor" href="#ansible-facts">#</a></h3>
 <p>При запуске плея, при первом подключении к хостам и до запуска указанных задач, Ansible запускает модуль <code>setup</code>, который выполняет анализ окружения целевого хоста и формирует набор переменных в словаре <code>ansible_facts</code>.
 <em>Отключить сбор фактов</em>
-<img src="/_images/PI-20240514181757.png" alt="">
+<img src="/00-images/PI-20240514181757.png" alt="">
 <em>Получение только определенного набора фактов</em>
-<img src="/_images/PI-20240514182333.png" alt="">
+<img src="/00-images/PI-20240514182333.png" alt="">
 <em>Кэширование фактов через ansible.cfg</em>
-<img src="/_images/PI-20240514182425.png" alt=""></p>
+<img src="/00-images/PI-20240514182425.png" alt=""></p>
 <h3 id="jinja2-шаблоны-в-ansible">Jinja2 шаблоны в Ansible<a class="anchor" href="#jinja2-%d1%88%d0%b0%d0%b1%d0%bb%d0%be%d0%bd%d1%8b-%d0%b2-ansible">#</a></h3>
 <p><em>Пример использования шаблока Jinja в задаче Ansible</em>
-<img src="/_images/S-2024-05-14_18.27.14.png" alt="">
+<img src="/00-images/S-2024-05-14_18.27.14.png" alt="">
 При рендеренге будут использоваться подстановке и другие опции Jinja
-<img src="/_images/S-2024-05-14_18.28.52.png" alt=""></p>
+<img src="/00-images/S-2024-05-14_18.28.52.png" alt=""></p>
 <h3 id="конфигурация-ansible">Конфигурация Ansible<a class="anchor" href="#%d0%ba%d0%be%d0%bd%d1%84%d0%b8%d0%b3%d1%83%d1%80%d0%b0%d1%86%d0%b8%d1%8f-ansible">#</a></h3>
 <ul>
 <li>Прописывается в файле <code>ansible.cfg</code>
-<img src="/_images/PI-20240514183402.png" alt=""></li>
+<img src="/00-images/PI-20240514183402.png" alt=""></li>
 <li>Конфигурационый файл может быть расположен
 <ul>
 <li>
@@ -1625,12 +1625,12 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>в файле переменных указать
-<img src="/_images/PI-20240514183937.png" alt=""></li>
+<img src="/00-images/PI-20240514183937.png" alt=""></li>
 <li>запросить запрос пароля при проигрывании playbook <code>ansible-playbook playbook.yaml --ask-vault-pass</code></li>
 <li>либо сформировать файл с паролем и указать его в  <code>ansible.cfg</code>
-<img src="/_images/S-2024-05-14_18.41.24.png" alt=""></li>
+<img src="/00-images/S-2024-05-14_18.41.24.png" alt=""></li>
 <li>проверить зашифрованое через decrypt (сформировать файл + вызвать <code>decrypt</code>)
-<img src="/_images/PI-20240519150322.png" alt=""></li>
+<img src="/00-images/PI-20240519150322.png" alt=""></li>
 </ul>
 <h2 id="основные-команды">Основные команды<a class="anchor" href="#%d0%be%d1%81%d0%bd%d0%be%d0%b2%d0%bd%d1%8b%d0%b5-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h2>
 <p><code>ansible-galaxy init &lt;my role name&gt;</code> - сгенерировать ansible-role
@@ -1639,7 +1639,7 @@ https://github.com/alex-shpak/hugo-book
 <code>ansible &lt;IP&gt; -m setup</code> - Запустите ad-hoc команду для получения переменных <code>ansible_facts</code>
 <code>ansible-config</code> - покажет список всех параметров конфигурации, их значения по умолчанию</p>
 <h2 id="сравнение-с-другими-системами">Сравнение с другими системами<a class="anchor" href="#%d1%81%d1%80%d0%b0%d0%b2%d0%bd%d0%b5%d0%bd%d0%b8%d0%b5-%d1%81-%d0%b4%d1%80%d1%83%d0%b3%d0%b8%d0%bc%d0%b8-%d1%81%d0%b8%d1%81%d1%82%d0%b5%d0%bc%d0%b0%d0%bc%d0%b8">#</a></h2>
-<p><img src="/_images/PI-20240514134608.png" alt=""></p>
+<p><img src="/00-images/PI-20240514134608.png" alt=""></p>
 </article>
  
       

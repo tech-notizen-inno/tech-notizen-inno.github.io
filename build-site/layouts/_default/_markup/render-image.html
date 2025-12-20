@@ -1,5 +1,5 @@
 {{- $u := urls.Parse .Destination -}}
-{{- $src := printf "/_images/%s" $u.String -}}
+{{- $src := printf "/00-images/%s" $u.String -}}
 {{- if strings.HasSuffix $u.String ".pdf" -}}
   {{- /* $src := printf "/_files/%s" $u.String */ -}}
 {{- end -}}

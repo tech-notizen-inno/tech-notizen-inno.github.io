@@ -1520,7 +1520,7 @@ $(date &#43;&#34;%Y-%m-%d_%H-%M-%S&#34;) - вывод даты с точност
 <p><code>rsync -azvh &lt;u1&gt;@&lt;sausage&gt;:/home/jarservice/sausage-store.jar &lt;u2&gt;@&lt;backup&gt;:/mnt/sausage_backup/$(date +&quot;%m-%d-%Y&quot;)/ &gt; /var/log/sausage-store.log</code></p>
 <p><code>$(date +&quot;%Y-%m-%d_%H-%M-%S&quot;)</code> - вывод даты с точностью до секунд</p>
 <p>Ключи утилиты:
-<img src="/_images/PI-20240415145823.png" alt=""></p>
+<img src="/00-images/PI-20240415145823.png" alt=""></p>
 <h2 id="удаление-бэкапа-с-помощью-cron-и-find">Удаление бэкапа с помощью cron и find<a class="anchor" href="#%d1%83%d0%b4%d0%b0%d0%bb%d0%b5%d0%bd%d0%b8%d0%b5-%d0%b1%d1%8d%d0%ba%d0%b0%d0%bf%d0%b0-%d1%81-%d0%bf%d0%be%d0%bc%d0%be%d1%89%d1%8c%d1%8e-cron-%d0%b8-find">#</a></h2>
 <p>Пример</p>
 <pre><code>`0 3 * * * find /mnt/sausage_backup/ -name &quot;sausage-store.jar&quot; -type f -mtime +14 -delete`

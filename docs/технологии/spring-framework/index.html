@@ -1509,11 +1509,11 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown book-article"><h2 id="контейнер-spring-ioc--dependency-injection">Контейнер Spring IOC / Dependency Injection<a class="anchor" href="#%d0%ba%d0%be%d0%bd%d1%82%d0%b5%d0%b9%d0%bd%d0%b5%d1%80-spring-ioc--dependency-injection">#</a></h2>
 <p>Схема работы приложения Spring
-<img src="/_images/PI-20250914205339.png" alt="PI-20250914205339.png"></p>
+<img src="/00-images/PI-20250914205339.png" alt="PI-20250914205339.png"></p>
 <ul>
 <li>getBean, getResource, getEnvironment - получение внедренных сущностей</li>
 <li>Метод, который возвращает бин аннотируется @Bean для Spring.
-<img src="/_images/PI-20250914203935.png" alt="PI-20250914203935.png"></li>
+<img src="/00-images/PI-20250914203935.png" alt="PI-20250914203935.png"></li>
 <li><code>@Configuration</code> is the annotation of Configuratin annotated on top of a class + @Bean annotation that’s annotated on top of a method signaling to the Spring Framework that this method contains a definition of Java Bean</li>
 <li>Объект аннотируется <code>@Component</code> → Spring создаст его</li>
 <li>Объект имеет аргумент конструктора <code>@Autowired</code> → Spring автоматически внедрит источник данных, настроенный с помощью вашего метода <code>@Bean</code> (В новых версиях достаточно конструктора с параметром, который является Bean)</li>
@@ -1531,13 +1531,13 @@ https://github.com/alex-shpak/hugo-book
 <h2 id="spring-aop">Spring AOP<a class="anchor" href="#spring-aop">#</a></h2>
 <ul>
 <li>Использует proxy для аннотаций. Пример - @Transactional
-<img src="/_images/PI-20250914203634.png" alt="PI-20250914203634.png"></li>
+<img src="/00-images/PI-20250914203634.png" alt="PI-20250914203634.png"></li>
 </ul>
 <h2 id="spring-mvc">Spring MVC<a class="anchor" href="#spring-mvc">#</a></h2>
 <p>Uber-контроллер в среде Spring MVC Spring представляет собой сервлет, который называется DispatcherServlet.
-<img src="/_images/PI-20250914204423.png" alt="PI-20250914204423.png">
+<img src="/00-images/PI-20250914204423.png" alt="PI-20250914204423.png">
 Объявление контроллера. Все что проаннотировано @Controller сообщает Spring: этот класс хочет реагировать на HTTP-запросы и ответы
-<img src="/_images/PI-20250914204613.png" alt="PI-20250914204613.png"></p>
+<img src="/00-images/PI-20250914204613.png" alt="PI-20250914204613.png"></p>
 <ul>
 <li><code>@RequestMapping</code> передает информацию о &ldquo;маршрутизации&rdquo;. Маппинг метода на пусть</li>
 <li><code>@RestController</code> - класс типа контроллер, который работает с content negotiation</li>
@@ -1553,7 +1553,7 @@ https://github.com/alex-shpak/hugo-book
 <h2 id="spring-boot">Spring Boot<a class="anchor" href="#spring-boot">#</a></h2>
 <p><strong>Spring Boot</strong> — это полезный проект, целью которого является упрощение создания приложений на основе Spring. Он позволяет наиболее простым способом создать web-приложение, требуя от разработчиков минимум усилий по его настройке и написанию кода</p>
 <p>Запуск SpringBoot Applicaiton</p>
-<p><img src="/_images/PI-20240408164059.png" alt="PI-20240408164059.png"></p>
+<p><img src="/00-images/PI-20240408164059.png" alt="PI-20240408164059.png"></p>
 <h2 id="управление-зависимостями">Управление зависимостями<a class="anchor" href="#%d1%83%d0%bf%d1%80%d0%b0%d0%b2%d0%bb%d0%b5%d0%bd%d0%b8%d0%b5-%d0%b7%d0%b0%d0%b2%d0%b8%d1%81%d0%b8%d0%bc%d0%be%d1%81%d1%82%d1%8f%d0%bc%d0%b8">#</a></h2>
 <p>Spring Bootупаковывает необходимые сторонние зависимости для каждого типа приложения на основе Spring и предоставляет <strong>starter</strong>-пакетов (spring-boot-starter-web, spring-boot-starter-data-jpa и т.д.)</p>
 <ul>
@@ -1609,8 +1609,8 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>Список endpoints для мониторинга
-<img src="/_images/PI-20250927114818.png" alt="PI-20250927114818.png">
-<img src="/_images/PI-20250927114834.png" alt="PI-20250927114834.png"></li>
+<img src="/00-images/PI-20250927114818.png" alt="PI-20250927114818.png">
+<img src="/00-images/PI-20250927114834.png" alt="PI-20250927114834.png"></li>
 <li>конфигурирование
 <ul>
 <li><code>management.endpoint.{id}.enabled</code> - включить/выключить любую точку. Пример включения <em>shutdown</em> - <em>management.endpoint.shutdown.enabled=true</em></li>
@@ -1634,7 +1634,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 </li>
 <li>Код для создания custom health indicator
-<img src="/_images/PI-20250927120130.png" alt="PI-20250927120130.png"></li>
+<img src="/00-images/PI-20250927120130.png" alt="PI-20250927120130.png"></li>
 </ul>
 <h2 id="материалы">Материалы<a class="anchor" href="#%d0%bc%d0%b0%d1%82%d0%b5%d1%80%d0%b8%d0%b0%d0%bb%d1%8b">#</a></h2>
 <ul>

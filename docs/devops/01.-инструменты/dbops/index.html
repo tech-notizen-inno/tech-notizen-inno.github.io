@@ -1542,7 +1542,7 @@ https://github.com/alex-shpak/hugo-book
 <li><code>INSERT INTO product (id, name, picture_url, price) values (1, 'Сливочная', 'https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg', 320.00);</code> - внести данные</li>
 <li><code>SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product);</code> - использование функций</li>
 <li>JOIN + функции-агрегаторы + работа с датами
-<img src="/_images/S-2024-10-06_10.55.47.png" alt=""></li>
+<img src="/00-images/S-2024-10-06_10.55.47.png" alt=""></li>
 <li></li>
 </ul>
 <h2 id="ddl">DDL<a class="anchor" href="#ddl">#</a></h2>
@@ -1551,11 +1551,11 @@ https://github.com/alex-shpak/hugo-book
 <li><code>CREATE SCHEMA dw;</code> - создание схемы</li>
 <li><code>CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) );</code> - создание таблицы</li>
 <li><code>CREATE INDEX idx_order_product_order_id ON order_product (order_id)</code> - создание индекса
-<img src="/_images/PI-20241001210414.png" alt=""></li>
+<img src="/00-images/PI-20241001210414.png" alt=""></li>
 </ul>
 <h2 id="транзакции">Транзакции<a class="anchor" href="#%d1%82%d1%80%d0%b0%d0%bd%d0%b7%d0%b0%d0%ba%d1%86%d0%b8%d0%b8">#</a></h2>
-<p><img src="/_images/PI-20241006110213.png" alt="">
-<img src="/_images/S-2024-09-30_21.04.52.png" alt=""></p>
+<p><img src="/00-images/PI-20241006110213.png" alt="">
+<img src="/00-images/S-2024-09-30_21.04.52.png" alt=""></p>
 <h2 id="миграции">Миграции<a class="anchor" href="#%d0%bc%d0%b8%d0%b3%d1%80%d0%b0%d1%86%d0%b8%d0%b8">#</a></h2>
 <p>Инструменты миграции - Flyway или Liquibase.</p>
 <h3 id="flyway">Flyway<a class="anchor" href="#flyway">#</a></h3>
@@ -1566,14 +1566,14 @@ https://github.com/alex-shpak/hugo-book
 <li><code>validate</code> — запустится встроенная проверка на корректность синтаксиса SQL-скриптов</li>
 </ul>
 <p>Миграционные скрипты подразделяются на типы:</p>
-<p><img src="/_images/PI-20241001084703.png" alt=""></p>
+<p><img src="/00-images/PI-20241001084703.png" alt=""></p>
 <ul>
 <li><strong>Versioned Migrations</strong> — основные скрипты миграции, в которых создаются таблицы, схемы, пользователи, вносятся тестовые данные. Начинаются с <code>V001__</code>.</li>
 <li><strong>Undo Migrations</strong> — скрипты, предназначенные для отмены миграции. Начинаются с <code>U01__</code>.</li>
 <li><strong>Repeatable Migrations</strong> — скрипты, предназначенные для повтора и выполняемые каждый раз при запуске приложения. Используются для выдачи прав пользователям, создание VIEW-шек, функций и много другого. Запускаются последними, после того как отработали скрипты миграции. Начинаются с <code>R__</code>.</li>
 </ul>
 <p>Адрес подключения к базе данных и расположение скриптов миграции указываются в конфигурационном файле <code>flyway.conf</code>.</p>
-<p><img src="/_images/PI-20241001085033.png" alt=""></p>
+<p><img src="/00-images/PI-20241001085033.png" alt=""></p>
 <h4 id="способы-использования">Способы использования<a class="anchor" href="#%d1%81%d0%bf%d0%be%d1%81%d0%be%d0%b1%d1%8b-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d1%8f">#</a></h4>
 <ul>
 <li>Независимая утилита. Пример запуска flyway <code>flyway -user=my_sql -password=23e2f345f3 -locations='filesystem:db/migration' -url=&quot;jdbc:sqlserver://192.168.1.30;database=test&quot; -target=4  migrate</code></li>
@@ -1598,7 +1598,7 @@ https://github.com/alex-shpak/hugo-book
 <li><code>show collections</code> - список коллекций</li>
 <li><code>db.stats()</code> - статистика базы</li>
 <li><code>db.xxxx</code> - команды для работы с БД
-<img src="/_images/PI-20241006003207.png" alt="">
+<img src="/00-images/PI-20241006003207.png" alt="">
 <ul>
 <li><code>db.products.find()</code> - посмотреть значение коллекции products (имя соответствует названию коллекции)</li>
 <li><code>db.products.find({price: {$lt: 60}})</code> - поиск конкретного значения</li>
@@ -1607,7 +1607,7 @@ https://github.com/alex-shpak/hugo-book
 </li>
 </ul>
 <p>Добавить mongo в проект с Java (pom.xml)
-<img src="/_images/PI-20241006004037.png" alt=""></p>
+<img src="/00-images/PI-20241006004037.png" alt=""></p>
 <p>Spring Boot позволяет все переменные, заданные в <code>src/main/resources/application.properties</code>, переопределить с помощью переменных окружения, используя заглавные буквы и заменив точки на символ подчёркивания.</p>
 <p>Например, параметр <code>spring.data.mongodb.uri</code> можно переопределить используя переменную окружения: <code>SPRING_DATA_MONGODB_URI={строка подключения}</code>.</p>
 </article>

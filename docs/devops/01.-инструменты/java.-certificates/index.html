@@ -1494,14 +1494,14 @@ keytool -list -storetype JKS -keystore /etc/ssl/certs/java/cacerts -storepass ch
 <p><strong>Команды</strong></p>
 <ul>
 <li><code>keytool -list -storetype JKS -keystore /etc/ssl/certs/java/cacerts -storepass changeit</code> - вывести список сертификатов
-<img src="/_images/PI-20241006081938.png" alt=""></li>
+<img src="/00-images/PI-20241006081938.png" alt=""></li>
 <li><code>sudo keytool -importcert -file YandexInternalRootCA.crt -alias yandex -cacerts  -storepass changeit  -noprompt</code> - импортировать сертификат <em>YandexInternalRootCA.crt</em> в <em>cacert</em>
-<img src="/_images/PI-20241006082210.png" alt=""></li>
+<img src="/00-images/PI-20241006082210.png" alt=""></li>
 <li>Keystore по умолчанию - <code>/etc/ssl/certs/java/cacerts</code></li>
 <li><code>sudo keytool -importcert -alias yandex -file YandexInternalRootCA.crt -keystore YATrustStore -storepass superpass -noprompt</code> - создать keystore <em>YATrustStore</em> и паролем <em>superpass</em> и поместить в него сертиификат <em>YandexInternalRootCA.crt</em></li>
 </ul>
 <p>Для запуска с keystore нужно добавить параметры запуска
-<img src="/_images/PI-20241006083410.png" alt=""></p>
+<img src="/00-images/PI-20241006083410.png" alt=""></p>
 </article>
  
       

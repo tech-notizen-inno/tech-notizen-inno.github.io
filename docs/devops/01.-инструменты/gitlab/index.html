@@ -1521,17 +1521,17 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown book-article"><h1 id="-gitlab-ciyml">. gitlab-ci.yml<a class="anchor" href="#-gitlab-ciyml">#</a></h1>
 <p><strong>Для созадния сборки необходимо сформировать файл .gitlab-ci.yml/ Пример файла (stages, jobs, artefacts, scripts)</strong>
-<img src="/_images/S-2024-03-16_19.50.03.png" alt=""></p>
+<img src="/00-images/S-2024-03-16_19.50.03.png" alt=""></p>
 <h2 id="условия">Условия<a class="anchor" href="#%d1%83%d1%81%d0%bb%d0%be%d0%b2%d0%b8%d1%8f">#</a></h2>
-<p><img src="/_images/S-2024-03-16_19.46.40.png" alt=""></p>
+<p><img src="/00-images/S-2024-03-16_19.46.40.png" alt=""></p>
 <h3 id="использование-rules">Использование rules<a class="anchor" href="#%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-rules">#</a></h3>
-<p><img src="/_images/PI-20240316200244.png" alt=""></p>
+<p><img src="/00-images/PI-20240316200244.png" alt=""></p>
 <h2 id="использование-кэша-сборки">Использование кэша сборки<a class="anchor" href="#%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b5-%d0%ba%d1%8d%d1%88%d0%b0-%d1%81%d0%b1%d0%be%d1%80%d0%ba%d0%b8">#</a></h2>
-<p><img src="/_images/S-2024-03-20_07.41.16.png" alt="">
-<img src="/_images/PI-20240320074843.png" alt=""></p>
+<p><img src="/00-images/S-2024-03-20_07.41.16.png" alt="">
+<img src="/00-images/PI-20240320074843.png" alt=""></p>
 <ul>
 <li><code>cache:policy</code> - устанавливает политику кэширования. Могут быть: <code>pull</code> - только скачивать кэш; <code>push</code> - только загружать кэш; <code>pull-push</code> (default) - скачивать и загружать (update)
-<img src="/_images/S-2024-04-16_07.38.31.png" alt=""></li>
+<img src="/00-images/S-2024-04-16_07.38.31.png" alt=""></li>
 </ul>
 <h2 id="downstream-pipeline">Downstream pipeline<a class="anchor" href="#downstream-pipeline">#</a></h2>
 <p>A downstream pipeline is any GitLab CI/CD pipeline triggered by another pipeline. Downstream pipelines run independently and concurrently to the upstream pipeline that triggered them.</p>
@@ -1540,35 +1540,35 @@ https://github.com/alex-shpak/hugo-book
 <li>A <em>multi-project pipeline</em> is a downstream pipeline triggered in a <em>different</em> project than the first pipeline.</li>
 </ul>
 <p>Для запуска используется ключевое слово  <code>trigger</code>
-<img src="/_images/S-2024-04-16_07.46.44.png" alt="">
+<img src="/00-images/S-2024-04-16_07.46.44.png" alt="">
 Управляется запуск с помощью <code>rules</code> или <code>only</code>
-<img src="/_images/S-2024-04-16_07.50.19.png" alt="">
+<img src="/00-images/S-2024-04-16_07.50.19.png" alt="">
 Можно использовать в дочерном pipeline отличную от конфигурации родительского
-<img src="/_images/S-2024-04-16_07.51.17.png" alt=""></p>
+<img src="/00-images/S-2024-04-16_07.51.17.png" alt=""></p>
 <h2 id="инструкции-gitlab-ciyml">Инструкции gitlab-ci.yml<a class="anchor" href="#%d0%b8%d0%bd%d1%81%d1%82%d1%80%d1%83%d0%ba%d1%86%d0%b8%d0%b8-gitlab-ciyml">#</a></h2>
 <ul>
 <li><code>dependencies</code> - позволяет указать какие артефакты будут использоваться в Job
-<img src="/_images/PI-20240416074318.png" alt=""></li>
+<img src="/00-images/PI-20240416074318.png" alt=""></li>
 <li><code>needs</code> - позволяет указать Job, который требуется из предыдущего stage, чтобы начать выполнять данный job (You can ignore stage ordering and run some jobs without waiting for others to complete. Jobs in multiple stages can run concurrently.)</li>
 <li><code>tags</code> - позволяет указать метки runners на которых будет запускаться job</li>
 <li><code>when: manual</code> - позволяет запустить job вручную, через интерфейс
-<img src="/_images/IMG_0548.jpg.md" alt=""></li>
+<img src="/00-images/IMG_0548.jpg.md" alt=""></li>
 <li><code>default</code> - You can set global defaults for some keywords. Each default keyword is copied to every job that doesn&rsquo;t already have it defined. If the job already has a keyword defined, that default is not used.
-<img src="/_images/PI-20240503180922.png" alt=""></li>
+<img src="/00-images/PI-20240503180922.png" alt=""></li>
 <li><code>include</code> + rules позволяют определить, когда проводить включение файлов
-<img src="/_images/PI-20240503180750.png" alt=""></li>
+<img src="/00-images/PI-20240503180750.png" alt=""></li>
 <li><code>workflow</code> - позволяет указать запускать ли в целом pipeline
-<img src="/_images/S-2024-04-16_07.42.11.png" alt=""></li>
+<img src="/00-images/S-2024-04-16_07.42.11.png" alt=""></li>
 <li><code>extends</code> to reuse configuration sections. Входные аргументы - имя job, массив имен jobs
-<img src="/_images/S-2024-04-16_07.25.29.png" alt=""></li>
+<img src="/00-images/S-2024-04-16_07.25.29.png" alt=""></li>
 <li><strong>hidden jobs.</strong>
-<img src="/_images/PI-20240426122607.png" alt=""></li>
+<img src="/00-images/PI-20240426122607.png" alt=""></li>
 <li>YAML has a feature called ‘anchors’ that you can use to duplicate content across your document. Use anchors to duplicate or inherit properties. Use anchors with <a href="https://docs.gitlab.com/ee/ci/jobs/index.html#hide-jobs">hidden jobs</a> to provide templates for your jobs. When there are duplicate keys, the latest included key wins, overriding the other keys.
-<img src="/_images/PI-20240426122946.png" alt=""></li>
+<img src="/00-images/PI-20240426122946.png" alt=""></li>
 <li>YAML anchors позволяют через выражение <code>!reference</code> добавлять только часть данных из якоря
-<img src="/_images/PI-20240503182429.png" alt=""></li>
+<img src="/00-images/PI-20240503182429.png" alt=""></li>
 <li>To ensure that a <code>deploy</code> job runs once at a time, you can specify <a href="https://docs.gitlab.com/ee/ci/yaml/index.html#resource_group"><code>resource_group</code> keyword</a> to the concurrency sensitive job:
-<img src="/_images/PI-20240514192727.png" alt=""></li>
+<img src="/00-images/PI-20240514192727.png" alt=""></li>
 </ul>
 <h2 id="настройка-ssh-ключей-для-деплоя">Настройка SSH ключей для деплоя<a class="anchor" href="#%d0%bd%d0%b0%d1%81%d1%82%d1%80%d0%be%d0%b9%d0%ba%d0%b0-ssh-%d0%ba%d0%bb%d1%8e%d1%87%d0%b5%d0%b9-%d0%b4%d0%bb%d1%8f-%d0%b4%d0%b5%d0%bf%d0%bb%d0%be%d1%8f">#</a></h2>
 <ol>
@@ -1595,7 +1595,7 @@ GitLab:</p>
 <ul>
 <li>Provides a full history of deployments to each environment.</li>
 <li>Tracks your deployments, so you always know what is deployed on your servers.
-<img src="/_images/PI-20240419135659.png" alt="">
+<img src="/00-images/PI-20240419135659.png" alt="">
 An environment is either static or dynamic:</li>
 <li>Static environment
 <ul>
@@ -1609,15 +1609,15 @@ An environment is either static or dynamic:</li>
 <li>Usually created in a CI/CD pipeline and used by only a single deployment, then either stopped or deleted.</li>
 <li>Has a dynamic name, usually based on the value of a CI/CD variable.
 Пример статического окружения
-<img src="/_images/PI-20240419135829.png" alt="">
+<img src="/00-images/PI-20240419135829.png" alt="">
 Пример динамического окружения
-<img src="/_images/PI-20240425154931.png" alt="">
+<img src="/00-images/PI-20240425154931.png" alt="">
 Пример задания job для выполнения в момент удаления environment
-<img src="/_images/S-2024-05-14_19.18.01.png" alt=""></li>
+<img src="/00-images/S-2024-05-14_19.18.01.png" alt=""></li>
 </ul>
 </li>
 <li>Удаление environment вручную
-<img src="/_images/S-2024-05-14_19.29.30.png" alt=""></li>
+<img src="/00-images/S-2024-05-14_19.29.30.png" alt=""></li>
 </ul>
 <h3 id="дополнительные-возможности-gitlab">Дополнительные возможности GitLab<a class="anchor" href="#%d0%b4%d0%be%d0%bf%d0%be%d0%bb%d0%bd%d0%b8%d1%82%d0%b5%d0%bb%d1%8c%d0%bd%d1%8b%d0%b5-%d0%b2%d0%be%d0%b7%d0%bc%d0%be%d0%b6%d0%bd%d0%be%d1%81%d1%82%d0%b8-gitlab">#</a></h3>
 <ul>
@@ -1632,7 +1632,7 @@ An environment is either static or dynamic:</li>
   </thead>
   <tbody>
       <tr>
-          <td><img src="/_images/S-2024-05-14_19.09.23_1.png" alt=""></td>
+          <td><img src="/00-images/S-2024-05-14_19.09.23_1.png" alt=""></td>
           <td></td>
       </tr>
   </tbody>
@@ -1641,7 +1641,7 @@ An environment is either static or dynamic:</li>
 <ul>
 <li><code>CI_DEBUG_TRACE: &quot;true&quot;</code> - подробный вывод работы job</li>
 <li>Задание значений переменных
-<img src="/_images/S-2024-05-14_19.13.29.png" alt=""></li>
+<img src="/00-images/S-2024-05-14_19.13.29.png" alt=""></li>
 <li></li>
 </ul>
 <h3 id="справочные-материалы">Справочные материалы<a class="anchor" href="#%d1%81%d0%bf%d1%80%d0%b0%d0%b2%d0%be%d1%87%d0%bd%d1%8b%d0%b5-%d0%bc%d0%b0%d1%82%d0%b5%d1%80%d0%b8%d0%b0%d0%bb%d1%8b">#</a></h3>
@@ -1654,9 +1654,9 @@ An environment is either static or dynamic:</li>
 <li>отступы из пробелов (символы табуляции не допускаются) используются для обозначения структуры</li>
 <li>комментарии начинаются с символа  (<strong>#</strong>), могут начинаться в любом месте строки и продолжаются до конца строки</li>
 <li>списки обозначаются начальным дефисом (<strong>-</strong>) с одним членом списка на строку, либо члены списка заключаются в квадратные скобки (<strong>[ ]</strong>) и разделяются запятой и пробелом (<strong>,</strong> )
-<img src="/_images/PI-20240316195528.png" alt=""></li>
+<img src="/00-images/PI-20240316195528.png" alt=""></li>
 <li>ассоциативные массивы представлены двоеточием с пробелом (<strong>:</strong> ) в виде ключ: значение, по одной паре <em>ключ-значение</em> на строку, либо в виде пар, заключённых в фигурные скобки и разделенных запятой и пробелом (<strong>,</strong> )
-<img src="/_images/PI-20240316195501.png" alt=""></li>
+<img src="/00-images/PI-20240316195501.png" alt=""></li>
 <li>строки записываются без кавычек, однако могут быть заключены в одиночные или двойные кавычки</li>
 <li>внутри двойных кавычек могут быть использованы экранированные символы в C-стиле, начинающиеся с обратной косой (****)</li>
 </ul>
@@ -1664,9 +1664,9 @@ An environment is either static or dynamic:</li>
 <ul>
 <li>Экранирование символов - <a href="https://docs.gitlab.com/ee/ci/yaml/script.html">https://docs.gitlab.com/ee/ci/yaml/script.html</a></li>
 <li>чтобы экранировать внутри скрипта символы : (используемые в yml), нужно использовать одинарные кавычки
-<img src="/_images/S-2024-03-18_07.49.43.png" alt=""></li>
+<img src="/00-images/S-2024-03-18_07.49.43.png" alt=""></li>
 <li>чтобы внутри одинарных кавычек вызвать переменную, нужно ее выделить двойными кавычками
-<img src="/_images/S-2024-03-18_07.51.22.png" alt=""></li>
+<img src="/00-images/S-2024-03-18_07.51.22.png" alt=""></li>
 </ul>
 </article>
  

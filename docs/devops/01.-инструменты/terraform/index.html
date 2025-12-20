@@ -1540,7 +1540,7 @@ Terraform работает с сервисами через провайдеро
 </ol>
 <h2 id="основные-понятия">Основные понятия<a class="anchor" href="#%d0%be%d1%81%d0%bd%d0%be%d0%b2%d0%bd%d1%8b%d0%b5-%d0%bf%d0%be%d0%bd%d1%8f%d1%82%d0%b8%d1%8f">#</a></h2>
 <p><strong>Провайдер</strong> — это плагин для работы с каким-либо сервисом. Для популярных сервисов (облачных и не очень) уже написаны плагины-провайдеры (<a href="https://github.com/hashicorp/terraform-provider-template">Шаблон</a>).
-<img src="/_images/PI-20240501202638.png" alt="">
+<img src="/00-images/PI-20240501202638.png" alt="">
 <strong>Ресурс</strong> — это описание сущности, которую можно создать в API сервиса (с ним общается провайдер).
 <strong>Datasource</strong> — это дополнительный, подключаемый источник данных. Например, с помощью <code>datasource</code> мы можем получить список подсетей в сервисе</p>
 <h2 id="список-команд-terraform">Список команд Terraform<a class="anchor" href="#%d1%81%d0%bf%d0%b8%d1%81%d0%be%d0%ba-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4-terraform">#</a></h2>
@@ -1560,14 +1560,14 @@ Terraform работает с сервисами через провайдеро
 <h2 id="описание-tf-файлов">Описание tf файлов<a class="anchor" href="#%d0%be%d0%bf%d0%b8%d1%81%d0%b0%d0%bd%d0%b8%d0%b5-tf-%d1%84%d0%b0%d0%b9%d0%bb%d0%be%d0%b2">#</a></h2>
 <ul>
 <li>Пример файла. Описание <a href="https://developer.hashicorp.com/terraform/language/syntax/configuration">синтаксиса</a>
-<img src="/_images/PI-20240501120652.png" alt=""></li>
+<img src="/00-images/PI-20240501120652.png" alt=""></li>
 <li><code>terraform validate</code> - валидация tf файла</li>
 <li>Полный <a href="https://terraform-provider.yandexcloud.net//index">справочник</a> resources и datasources от Яндекс  (<a href="https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/compute_instance">ссылка на terraform (VPN)</a>)</li>
 <li>Provisioning в Яндекс.Облаке <a href="https://yandex.cloud/en/docs/compute/concepts/vm-metadata">ссылка</a></li>
 <li>После создания ВМ будут доступны следующие переменные
-<img src="/_images/S-2024-05-01_11.32.34.png" alt=""></li>
+<img src="/00-images/S-2024-05-01_11.32.34.png" alt=""></li>
 <li>ключи SSH для аутентификации
-<img src="/_images/PI-20240501113745.png" alt=""></li>
+<img src="/00-images/PI-20240501113745.png" alt=""></li>
 </ul>
 <h2 id="команды-яндексоблака-yandex-cloud">Команды Яндекс.Облака (Yandex Cloud)<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-%d1%8f%d0%bd%d0%b4%d0%b5%d0%ba%d1%81%d0%be%d0%b1%d0%bb%d0%b0%d0%ba%d0%b0-yandex-cloud">#</a></h2>
 <ul>
@@ -1617,7 +1617,7 @@ Terraform работает с сервисами через провайдеро
 <h3 id="output-variables">Output variables<a class="anchor" href="#output-variables">#</a></h3>
 <p>Определяются в файле <code>output.ff</code></p>
 <h3 id="local-variables">Local variables<a class="anchor" href="#local-variables">#</a></h3>
-<p><img src="/_images/PI-20240502142655.png" alt=""><br>
+<p><img src="/00-images/PI-20240502142655.png" alt=""><br>
 Обращение к переменной <code>local.&lt;имя переменной&gt;</code></p>
 <h3 id="значения-переменных">Значения переменных<a class="anchor" href="#%d0%b7%d0%bd%d0%b0%d1%87%d0%b5%d0%bd%d0%b8%d1%8f-%d0%bf%d0%b5%d1%80%d0%b5%d0%bc%d0%b5%d0%bd%d0%bd%d1%8b%d1%85">#</a></h3>
 <p>Значения переменных можно задать несколькими способами:</p>
@@ -1629,16 +1629,16 @@ Terraform работает с сервисами через провайдеро
 </ul>
 <h2 id="модули">Модули<a class="anchor" href="#%d0%bc%d0%be%d0%b4%d1%83%d0%bb%d0%b8">#</a></h2>
 <p>Структура проекта<br>
-<img src="/_images/PI-20240502143449.png" alt=""><br>
+<img src="/00-images/PI-20240502143449.png" alt=""><br>
 Дочерние модули можно хранить локально, положить в папку <code>modules</code> в рутовом модуле, или брать с удалённых registry (GitLab, HTTP URL, Terraform Registry).<br>
 <em>Пример подключения модуля</em><br>
-<img src="/_images/PI-20240507130230.png" alt=""></p>
+<img src="/00-images/PI-20240507130230.png" alt=""></p>
 <h2 id="мета-аргументы">Мета-аргументы<a class="anchor" href="#%d0%bc%d0%b5%d1%82%d0%b0-%d0%b0%d1%80%d0%b3%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d1%8b">#</a></h2>
 <ul>
 <li><strong>depends_on</strong> — для указания скрытых зависимостей.</li>
 <li><strong>count</strong> — для создания нескольких экземпляров ресурсов, количество экземпляров = count. Подробности <a href="https://www.terraform.io/language/meta-arguments/count">тут</a>.</li>
 <li><strong>for_each</strong> создаёт несколько экземпляров модуля из одного блока модуля. За подробностями <a href="https://www.terraform.io/language/meta-arguments/for_each">сюда</a>. Внутри конфига можно использовать <code>each.key</code>, чтобы получить ключ текущего элемента коллекции, или <code>each.value</code> — для получения текущего значения элемента коллекции.
-<img src="/_images/PI-20240502143729.png" alt=""></li>
+<img src="/00-images/PI-20240502143729.png" alt=""></li>
 <li><strong>provider</strong> — для выбора конфигурации провайдера. Дополнительно читать <a href="https://www.terraform.io/language/meta-arguments/module-providers">тут</a>.</li>
 <li><strong>lifecycle</strong> — для настройки жизненного цикла. Сейчас не используется, но зарезервирован на будущее.</li>
 </ul>

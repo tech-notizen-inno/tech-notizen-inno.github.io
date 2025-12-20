@@ -1499,13 +1499,13 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown book-article"><p><img src="/_images/S_2024-03-31-18-05-25-474_com.kmp.video.jpg" alt="">
-<img src="/_images/S_2024-03-31-18-09-18-504_com.kmp.video_1.jpg" alt=""></p>
+  <article class="markdown book-article"><p><img src="/00-images/S_2024-03-31-18-05-25-474_com.kmp.video.jpg" alt="">
+<img src="/00-images/S_2024-03-31-18-09-18-504_com.kmp.video_1.jpg" alt=""></p>
 <ul>
 <li><code>chown (chown -R frontend:frontend /run/frontend/)</code> - смена прав на файл или директорию</li>
 </ul>
 <h2 id="suid-sgid-stikybit">SUID, SGID, Stikybit<a class="anchor" href="#suid-sgid-stikybit">#</a></h2>
-<p><img src="/_images/S_2024-03-31-18-11-46-228_com.kmp.video.jpg" alt=""></p>
+<p><img src="/00-images/S_2024-03-31-18-11-46-228_com.kmp.video.jpg" alt=""></p>
 <ul>
 <li><strong>SUID</strong> позволяет запустить процесс непривилегированному пользователю с правами владельца файла.
 <ul>
@@ -1513,7 +1513,7 @@ https://github.com/alex-shpak/hugo-book
 <li><code>chmod u+s,a+rx &lt;command&gt;</code> - назначить права с SUID</li>
 <li>при создании/записи файла будут использованы права владельца файла</li>
 <li><strong>RUID</strong> — это настоящий идентификатор пользователя, который не меняется. Когда пользователь входит в систему, оболочка запускается с его реальным идентификатором, и все процессы, запускающиеся из оболочки, наследуют реальный идентификатор.
-<img src="/_images/PI-20240330202751.png" alt=""></li>
+<img src="/00-images/PI-20240330202751.png" alt=""></li>
 </ul>
 </li>
 <li><strong>SGID</strong> аналогичен SUID, но устанавливаются права <strong>группы владельца файла</strong>. Если SGID назначен директории, то создаваемые в директории объекты получат идентификатор группы владельца
@@ -1530,7 +1530,7 @@ https://github.com/alex-shpak/hugo-book
 </ul>
 <h1 id="access-list-acl">Access List (ACL)<a class="anchor" href="#access-list-acl">#</a></h1>
 <p>Каждый файл в любой файловой системе будет иметь владельца, группу и права. Когда нескольким пользователям нужен доступ к одному и тому же файлу, а принадлежат они к разным группам, нам помогут расширенные права доступа или <strong>Access List (ACL)</strong>
-<img src="/_images/S-2024-03-30_20.37.18.png" alt=""></p>
+<img src="/00-images/S-2024-03-30_20.37.18.png" alt=""></p>
 <ul>
 <li><code>getfacl</code> - просмотр  дополнительных разрешений
 <ul>
@@ -1544,7 +1544,7 @@ https://github.com/alex-shpak/hugo-book
 <li><code>setfacl --restore=my_acl.txt</code> - восттановить дополнительные права из файла</li>
 <li><code>setfacl -x u:frontend &lt;file&gt;</code> - удаление расширенных прав</li>
 <li><code>setfacl -b &lt;file&gt;</code> удаление всех расширенных прав
-<img src="/_images/PI-20240330204106.png" alt=""></li>
+<img src="/00-images/PI-20240330204106.png" alt=""></li>
 </ul>
 </li>
 </ul>
