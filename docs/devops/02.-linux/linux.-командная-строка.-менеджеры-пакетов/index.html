@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="Командная оболочка# Переменные bash# Мультиплексоры# Мультиплексоры здорово упрощают работу в условиях нестабильной связи или в случае необходимости запуска процесса в шелле, но с возможностью отключения от него. Существуют и другие механизмы запуска процессов в фоне: nohup , jobs , fg , bg , disown , reptyr . Например, если на сервере нет screen или если не нужно возвращаться к исполняемому процессу - можно использовать nohup Screen, tmux. Сначала запускается screen, потом команда, которую нужно запустить. screen -ls - посмотреть запущенные сессии screen -r &lt;id session&gt; - вернуться к сессии screen -S &lt;session name&gt; - запустить именованную сессию Hotkeys для работы с окнами ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
   <meta property="og:description" content="Командная оболочка# Переменные bash# Мультиплексоры# Мультиплексоры здорово упрощают работу в условиях нестабильной связи или в случае необходимости запуска процесса в шелле, но с возможностью отключения от него. Существуют и другие механизмы запуска процессов в фоне: nohup , jobs , fg , bg , disown , reptyr . Например, если на сервере нет screen или если не нужно возвращаться к исполняемому процессу - можно использовать nohup Screen, tmux. Сначала запускается screen, потом команда, которую нужно запустить. screen -ls - посмотреть запущенные сессии screen -r &lt;id session&gt; - вернуться к сессии screen -S &lt;session name&gt; - запустить именованную сессию Hotkeys для работы с окнами">
@@ -27,7 +27,7 @@ https://github.com/alex-shpak/hugo-book
 <title>Linux. Командная Строка. Менеджеры Пакетов | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/">
+<link rel="canonical" href="https://example.com/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -12,7 +12,7 @@ https://github.com/alex-shpak/hugo-book
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Quarkus">
   <meta property="og:description" content="Quarkus - фреймворк базируется на GraalVM и OpenJDK HotSpot и предназначен для Kubernetes. Стек Quarkus включает в себя: JPA/Hibernate, JAX-RS/RESTEasy, Eclipse Vert.x, Netty, Apache Camel, Kafka, Prometheus и другие. JAX-RS# @ApplicationScoped public class GreetingService { public String greeting(String name) { return &#34;Hello &#34; &#43; name &#43; &#34;!&#34;; } } @Path(&#34;/hello&#34;) public class GreetingResource { @Inject GreetingService service; @GET @Produces(MediaType.TEXT_PLAIN) @Path(&#34;/{name}&#34;) public String greeting(@PathParam(&#34;name&#34;) String name) { return service.greeting(name); } } Any class annotated with a @Path annotation can have its methods exposed as REST endpoints, provided they have an HTTP method annotation You can set the root path for all rest endpoints using the @ApplicationPath annotation, as shown below. You can also set the quarkus.rest.path build time property to set the root path if you don’t want to use an annotation. To handle HTTP requests that have multipart/form-data as their content type, you can use the regular @RestForm annotation, but we have special types that allow you to access the parts as files or as entities. Let us look at an example of its use. Работа с конфигурацией# @ConfigMapping @ConfigProp">
@@ -32,7 +32,7 @@ https://github.com/alex-shpak/hugo-book
 <title>Quarkus | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/">
+<link rel="canonical" href="https://example.com/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 

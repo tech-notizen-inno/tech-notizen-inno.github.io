@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -11,7 +11,7 @@ https://github.com/alex-shpak/hugo-book
 <meta name="description" content="Контейнер Spring IOC / Dependency Injection# Схема работы приложения Spring getBean, getResource, getEnvironment - получение внедренных сущностей Метод, который возвращает бин аннотируется @Bean для Spring. @Configuration is the annotation of Configuratin annotated on top of a class &#43; @Bean annotation that’s annotated on top of a method signaling to the Spring Framework that this method contains a definition of Java Bean Объект аннотируется @Component → Spring создаст его Объект имеет аргумент конструктора @Autowired → Spring автоматически внедрит источник данных, настроенный с помощью вашего метода @Bean (В новых версиях достаточно конструктора с параметром, который является Bean) Если в ваших конфигурациях Spring не было настроено ни одного источника данных, вы получите исключение NoSuchBeanDefinition во время выполнения. Объявление конфигурации контекста с использованием области аннотирования Scope(“singleton”) → Ваш бин будет синглтоном, т.е. будет только один экземпляр. Scope(“prototype”) → Каждый раз, когда кому-то нужна ссылка на ваш компонент, Spring создает новый. Scope(“session”) → Для каждого сеанса HTTP пользователя будет создан один компонент. @EnableAutoConfiguration - конфигурация на основании добавленных jar-зависимостях @Autowired, @Qualifier, @Component -dependancy ingection Spring AOP# Использует proxy для аннотаций. Пример - @Transactional Spring MVC# Uber-контроллер в среде Spring MVC Spring представляет собой сервлет, который называется DispatcherServlet. Объявление контроллера. Все что проаннотировано @Controller сообщает Spring: этот класс хочет реагировать на HTTP-запросы и ответы ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
   <meta property="og:description" content="Контейнер Spring IOC / Dependency Injection# Схема работы приложения Spring getBean, getResource, getEnvironment - получение внедренных сущностей Метод, который возвращает бин аннотируется @Bean для Spring. @Configuration is the annotation of Configuratin annotated on top of a class &#43; @Bean annotation that’s annotated on top of a method signaling to the Spring Framework that this method contains a definition of Java Bean Объект аннотируется @Component → Spring создаст его Объект имеет аргумент конструктора @Autowired → Spring автоматически внедрит источник данных, настроенный с помощью вашего метода @Bean (В новых версиях достаточно конструктора с параметром, который является Bean) Если в ваших конфигурациях Spring не было настроено ни одного источника данных, вы получите исключение NoSuchBeanDefinition во время выполнения. Объявление конфигурации контекста с использованием области аннотирования Scope(“singleton”) → Ваш бин будет синглтоном, т.е. будет только один экземпляр. Scope(“prototype”) → Каждый раз, когда кому-то нужна ссылка на ваш компонент, Spring создает новый. Scope(“session”) → Для каждого сеанса HTTP пользователя будет создан один компонент. @EnableAutoConfiguration - конфигурация на основании добавленных jar-зависимостях @Autowired, @Qualifier, @Component -dependancy ingection Spring AOP# Использует proxy для аннотаций. Пример - @Transactional Spring MVC# Uber-контроллер в среде Spring MVC Spring представляет собой сервлет, который называется DispatcherServlet. Объявление контроллера. Все что проаннотировано @Controller сообщает Spring: этот класс хочет реагировать на HTTP-запросы и ответы">
@@ -27,7 +27,7 @@ https://github.com/alex-shpak/hugo-book
 <title>Spring Framework | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/">
+<link rel="canonical" href="https://example.com/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 

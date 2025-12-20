@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -12,7 +12,7 @@ https://github.com/alex-shpak/hugo-book
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
   <meta property="og:description" content="Архитектура# Формат метрик# Виды метрик# # HELP http_secs_bucket # Histogram of latencies for HTTP requests. # TYPE http_secs_bucket histogram http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.039146836&#34;,} 1.0 http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.044739241&#34;,} 33.0 http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.050331646&#34;,} 85.0 http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.055924051&#34;,} 149.0 http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.061516456&#34;,} 176.0 http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.067108864&#34;,} 199.0 http_secs_bucket{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/&#34;,le=&#34;0.089478485&#34;,} 235.0 http_server_secs_count{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/orders&#34;,} 250.0 http_server_secs_sum{method=&#34;POST&#34;,status=&#34;201&#34;,uri=&#34;/api/orders&#34;,} 15.340843123В метрике гистограммы также экспортируются два счётчика: сумма всех измерений (sum) и общее количество измерений (count), что позволяет посчитать простое среднее. # HELP prometheus_interval_length_seconds Actual intervals between scrapes. # TYPE prometheus_interval_length_seconds summary prometheus_interval_length_seconds{interval=&#34;10s&#34;,quantile=&#34;0.01&#34;} 9.999061507 prometheus_interval_length_seconds{interval=&#34;10s&#34;,quantile=&#34;0.05&#34;} 9.999117538 prometheus_interval_length_seconds{interval=&#34;10s&#34;,quantile=&#34;0.5&#34;} 10.000008905 prometheus_interval_length_seconds{interval=&#34;10s&#34;,quantile=&#34;0.9&#34;} 10.000665665 prometheus_interval_length_seconds{interval=&#34;10s&#34;,quantile=&#34;0.99&#34;} 10.000897368 prometheus_interval_length_seconds_sum{interval=&#34;10s&#34;} 3180.004061973001 prometheus_interval_length_seconds_count{interval=&#34;10s&#34;} 318">
@@ -28,7 +28,7 @@ https://github.com/alex-shpak/hugo-book
 <title>Prometheus | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/">
+<link rel="canonical" href="https://example.com/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 

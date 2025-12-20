@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Технологии on Я.Практикум</title>
-    <link>http://localhost:1313/categories/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/</link>
+    <link>https://example.com/categories/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/</link>
     <description>Recent content in Технологии on Я.Практикум</description>
     <generator>Hugo</generator>
     <language>ru</language>
     <lastBuildDate>Thu, 09 Oct 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://example.com/categories/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Jq</title>
-      <link>http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/</link>
+      <link>https://example.com/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/</link>
       <pubDate>Thu, 09 Oct 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/</guid>
+      <guid>https://example.com/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/</guid>
       <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;jq &#39;.age 1/ 18&#39; input. json&lt;/code&gt; - использование default значения&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;jq &#39;if has(&amp;quot;age&amp;quot;) then ‚age else 18 end&#39; input.json&lt;/code&gt; - проверка на наличии значения узла&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;jq &#39;.user?.details?.age // 18&#39; input. json&lt;/code&gt; - дефолтное значение для вложенного элемента. user, details, age  - могут быть null&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
   </channel>

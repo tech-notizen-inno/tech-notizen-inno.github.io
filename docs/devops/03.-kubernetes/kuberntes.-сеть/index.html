@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -12,7 +12,7 @@ https://github.com/alex-shpak/hugo-book
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://example.com/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
   <meta property="og:description" content="Основное# Node Network - сеть, к которой подключены серверы кластера Service Network - сеть длясервисов Pod Network - IP-адреса Pod приложений. Каждая Worker-нода имеет своё выделенное адресное пространство для Pod’ов. Требования Pod’ы на определённой Worker-ноде умели взаимодействовать по сети со всеми Pod’ами на любых Worker-нодах напрямую и без NAT Сервисы на Worker-ноде (такие как kubelet) умели взаимодействовать с Pod’ами на этой Worker-ноде так же напрямую и без NAT CNI или «Container Network Interface» — это спецификация правил сетевого взаимодействия контейнеров, а также правил создания и удаления сетевых интерфейсов для контейнеров. CNI-плагин kubenet — встроенный в kubelet плагин с самой базовой функциональностью. Service Network# Для работоспособности сервисов созданется dns-service, позволяющий маршрутизировать трафик. Тип сервиса определяет способ доставки трафика до Pod’ов. По умолчанию создаётся сервис типа ClusterIP. Адрес такого сервиса выделяется из диапазона Service Network. На Worker-ноде сервис реализован с помощью технологий балансировки iptables или IP Virtual Server (IPVS) — встроенного в ядро Linux балансировщика для протоколов TCP и UDP. Компонент kube-proxy на каждой Worker-ноде отслеживает события создания сервисов и добавляет соответствующие iptables-правила в NAT-таблицу для трансляции адреса сервиса на адреса Pod’ов или создаёт IPVS балансировщик адреса сервиса на адреса Pod’ов. Другие два типа сервисов NodePort и LoadBalancer решают задачу доступа внешних пользователей к приложениям внутри кластера Kubernetes. Сервис типа NodePort позволяет подключиться к приложению через IP-адрес Worker-ноды. При запуске кластера Kubernetes определяется диапазон портов (30000-32767 по умолчанию), из которого выделяется очередной номер порта для нового сервиса.">
@@ -28,7 +28,7 @@ https://github.com/alex-shpak/hugo-book
 <title>Kuberntes. Сеть | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="http://localhost:1313/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/">
+<link rel="canonical" href="https://example.com/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 
