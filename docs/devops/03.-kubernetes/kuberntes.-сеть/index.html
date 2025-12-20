@@ -1559,7 +1559,7 @@ https://github.com/alex-shpak/hugo-book
 <p>Основное назначение <code>Ingress</code> состоит в обеспечении внешнего доступа к HTTP/HTTPS-приложениям
 <img src="/_images/PI-20241215002433.png" alt="">
 Пример Ingress Controller - <code>NGINX Ingress Controller</code>, который запускает сам контроллер, Pod&rsquo;ы с Nginx и создаёт сервис типа <code>LoadBalancer</code> для этих Pod&rsquo;ов и протоколов HTTP и HTTPS. Контроллер отслеживает события запросов на создание или изменение <code>Ingress</code>-ресурсов и добавляет конфигурацию в Nginx для маршрутизации траффика к приложению.
-<a href="/_samples/Ingress.txt">Ingress Manifest</a></p>
+<a href="Ingress.txt">Ingress Manifest</a></p>
 <h3 id="kube-proxy">Kube Proxy<a class="anchor" href="#kube-proxy">#</a></h3>
 <p>Запускаем прокси-сервер Kubernetes: <code>kubectl proxy --port=8080</code>
 Теперь можно выполнять навигацию по API Kubernetes Для доступа к этому сервису, используя схему:
