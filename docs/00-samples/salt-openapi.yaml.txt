@@ -1,0 +1,2334 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: lcm-atlas@inno.tech
+    name: Atlas team
+    url: https://confluence.inno.tech/x/pz4_Cg
+  description: "API управления настройками Salt (расписания, файлы, формулы), скри\
+    птами"
+  title: "Admin Console Salt, Scripts API"
+  version: 1.0.0
+servers:
+- url: /
+security:
+- bearerAuth: []
+tags:
+- description: Операции по настройке расписаний для Salt
+  name: SaltScheduleSettings
+- description: "Операции с пользовательскими Salt файлами (grains, states, execution\
+    \ modules)"
+  name: SaltFiles
+- description: API для управления формулами SaltStack
+  name: Formulas
+- description: API для управления скриптами
+  name: Scripts
+paths:
+  /v1/app/settings/salt/schedules/{scheduleType}:
+    get:
+      description: Получение настроек расписаний для Salt
+      operationId: getSaltScheduleSettings
+      parameters:
+      - in: path
+        name: scheduleType
+        required: true
+        schema:
+          $ref: "#/components/schemas/SaltScheduleType"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaltScheduleSettingsResponse"
+          description: Текущие настройки расписаний для Salt
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      summary: Получение настроек расписаний для Salt
+      tags:
+      - SaltScheduleSettings
+      x-permissions:
+      - salt_schedules:view
+      - user_sessions:view
+      - software_inventory:view
+    put:
+      description: Изменение настроек расписаний для Salt
+      operationId: updateSaltScheduleSettings
+      parameters:
+      - in: path
+        name: scheduleType
+        required: true
+        schema:
+          $ref: "#/components/schemas/SaltScheduleType"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaltUpdateScheduleSettingsRequest"
+        required: true
+      responses:
+        "204":
+          description: Успешное применение настроек
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      summary: Изменение настроек расписаний для Salt
+      tags:
+      - SaltScheduleSettings
+      x-permissions:
+      - salt_schedules:update
+      - user_sessions:update
+      - software_inventory:update
+  /v1/app/settings/salt/files:
+    post:
+      description: Загрузка Salt файла
+      operationId: createSaltFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/SaltFileCreateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaltFileResponse"
+          description: Сформированная запись справочника Salt файлов
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Невозможно обработать запрос
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Загрузка Salt файла
+      tags:
+      - SaltFiles
+      x-permissions:
+      - salt_files:create
+  /v1/app/settings/salt/files/{saltFileId}:
+    delete:
+      description: Удаление Salt файла
+      operationId: deleteSaltFile
+      parameters:
+      - description: Внутренний идентификатор Salt файла
+        example: d40d3b11-1778-4fe0-9d7c-b73f13dd6efd
+        in: path
+        name: saltFileId
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/S3ObjectDeleteResult"
+          description: Результат удаления файла
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Удаление Salt файла
+      tags:
+      - SaltFiles
+      x-permissions:
+      - salt_files:delete
+    get:
+      description: Получение Salt файла
+      operationId: getSaltFile
+      parameters:
+      - description: Внутренний идентификатор Salt файла
+        example: d40d3b11-1778-4fe0-9d7c-b73f13dd6efd
+        in: path
+        name: saltFileId
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaltFileWithFileContentResponse"
+          description: "Запись справочника grain файлов с содержимым файла. Если ф\
+            айл отсутствует на удаленном хранилище, то возвращается null в поле со\
+            держимого файла."
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение Salt файла
+      tags:
+      - SaltFiles
+      x-permissions:
+      - salt_files:view
+    put:
+      description: Обновление Salt файла
+      operationId: updateSaltFile
+      parameters:
+      - description: Внутренний идентификатор Salt файла
+        example: d40d3b11-1778-4fe0-9d7c-b73f13dd6efd
+        in: path
+        name: saltFileId
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/SaltFileUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaltFileResponse"
+          description: Обновленная запись справочника Salt файлов
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Невозможно обработать запрос
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Обновление Salt файла
+      tags:
+      - SaltFiles
+      x-permissions:
+      - salt_files:update
+  /v1/app/settings/salt/files/search:
+    post:
+      description: Получение списка записей справочника Salt файлов
+      operationId: getSaltFiles
+      parameters:
+      - in: query
+        name: page
+        required: false
+        schema:
+          description: Номер запрашиваемой страницы
+          example: 2
+          minimum: 1
+          type: integer
+      - in: query
+        name: pageSize
+        required: false
+        schema:
+          description: Размер страницы
+          example: 20
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaltFilesGetRequest"
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaltFilesPagedResponse"
+          description: Список записей справочника Salt файлов согласно примененным
+            фильтрам
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение списка записей справочника Salt файлов
+      tags:
+      - SaltFiles
+      x-permissions:
+      - salt_files:view
+  /v2/formulas:
+    post:
+      description: Импорт salt-формулы в S3. Формула должна быть в виде архива.
+      operationId: createFormula
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/FormulaCreateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FormulaResponse"
+          description: Формула добавлена в S3
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportFormulaErrorResponseSchema"
+          description: Ошибка импорта формулы
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Импорт salt-формулы в S3
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:create
+  /v2/formulas/{formulaName}:
+    delete:
+      description: Удаление salt-формулы из S3
+      operationId: deleteFormula
+      parameters:
+      - description: Имя формулы
+        in: path
+        name: formulaName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/S3ObjectDeleteResult"
+          description: Результат удаления формулы
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActiveVersionsRelatedEntityEditError"
+          description: Ошибка операции над сущностью из-за связи с активными версиями
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Удаление salt-формулы из S3
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:delete
+    get:
+      description: Получение информации о salt-формуле по имени
+      operationId: getFormulaByName
+      parameters:
+      - description: Имя формулы
+        in: path
+        name: formulaName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FormulaWithVersionsResponse"
+          description: Представление формулы
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение информации о salt-формуле по имени
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:view
+    put:
+      description: Обновление мета-данных salt-формулы
+      operationId: updateFormula
+      parameters:
+      - description: Имя формулы
+        in: path
+        name: formulaName
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FormulaUpdateRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FormulaResponse"
+          description: Формула обновлена
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActiveVersionsRelatedEntityEditError"
+          description: Ошибка операции над сущностью из-за связи с активными версиями
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Обновление мета-данных salt-формулы
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:update
+  /v2/formulas/{formulaName}/file:
+    get:
+      description: Скачивание архива с salt-формулой по имени
+      operationId: getFormulaArchiveByName
+      parameters:
+      - description: Имя формулы
+        in: path
+        name: formulaName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: файл архива формулы
+          headers:
+            Content-Disposition:
+              description: "Имя файла, должно иметь суффикс `-formula.tar.gz`."
+              example: ark-formula.tar.gz
+              schema:
+                type: string
+        "401":
+          description: Ошибка аутентификации
+        "403":
+          description: Ошибка авторизации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Невозможно обработать запрос
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Скачивание архива с salt-формулой по имени
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:view
+  /v2/formulas/{formulaName}/versions:
+    get:
+      description: "Получение версий конфигураций, в которых используется формула\
+        , по имени формулы"
+      operationId: getVersionsByFormulaName
+      parameters:
+      - description: Имя формулы
+        in: path
+        name: formulaName
+        required: true
+        schema:
+          type: string
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          description: Номер запрашиваемой страницы
+          example: 2
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          description: Размер страницы
+          example: 20
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelatedActiveVersionsPagedResponse"
+          description: Список версий конфигурации
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: "Получение версий конфигураций, в которых используется формула, по\
+        \ имени формулы"
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:view
+  /v2/formulas/search:
+    post:
+      description: Получение списка формул
+      operationId: getFormulasList
+      parameters:
+      - in: query
+        name: page
+        required: false
+        schema:
+          description: Номер запрашиваемой страницы
+          example: 2
+          minimum: 1
+          type: integer
+      - in: query
+        name: pageSize
+        required: false
+        schema:
+          description: Размер страницы
+          example: 20
+          minimum: 1
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FormulasGetRequest"
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FormulasPagedResponse"
+          description: Список записей справочника формул согласно примененным фильтрам
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение списка формул
+      tags:
+      - Formulas
+      x-permissions:
+      - salt_formulas:view
+  /v1/scripts:
+    post:
+      description: Создание скрипта
+      operationId: createScript
+      requestBody:
+        content:
+          multipart/form-data:
+            encoding:
+              displayName:
+                contentType: text/plain
+                style: form
+              isDefault:
+                contentType: text/plain
+                style: form
+              description:
+                contentType: text/plain
+                style: form
+            schema:
+              $ref: "#/components/schemas/createScript_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Script"
+          description: Представление скрипта
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Создание скрипта
+      tags:
+      - Scripts
+      x-permissions:
+      - scripts:create
+  /v1/scripts/search:
+    post:
+      description: Получение списка существующих скриптов
+      operationId: getScriptsList
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          description: Номер запрашиваемой страницы
+          example: 2
+          minimum: 1
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          description: Размер страницы
+          example: 20
+          minimum: 1
+          type: integer
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetScriptsListRequest"
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScriptsListResponse"
+          description: Список скриптов
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение списка существующих скриптов
+      tags:
+      - Scripts
+      x-permissions:
+      - scripts:view
+  /v1/scripts/{scriptId}:
+    delete:
+      description: Удаление скрипта по идентификатору
+      operationId: deleteScriptById
+      parameters:
+      - description: Идентификатор скрипта
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "204":
+          description: Скрипт удален
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Удаление скрипта по идентификатору
+      tags:
+      - Scripts
+      x-permissions:
+      - scripts:delete
+    get:
+      description: Получение скрипта по идентификатору
+      operationId: getScriptById
+      parameters:
+      - description: Идентификатор скрипта
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Script"
+          description: Информация о скрипте
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение скрипта по идентификатору
+      tags:
+      - Scripts
+      x-permissions:
+      - scripts:view
+  /v1/scripts/{scriptId}/content:
+    get:
+      description: Получение содержимого скрипта по идентификатору
+      operationId: downloadScriptContentById
+      parameters:
+      - description: Идентификатор скрипта
+        in: path
+        name: scriptId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: Содержимое файла
+        "401":
+          description: Ошибка аутентификации
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundError"
+          description: Объект не найден
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Получение содержимого скрипта по идентификатору
+      tags:
+      - Scripts
+      x-permissions:
+      - scripts:view
+  /v1/script_configs/validation:
+    post:
+      description: Валидация содержимого файла с основной конфигурацией скрипта. Используется
+        для валидации конфигурации Salt-агента в режиме multi-master.
+      operationId: validateScriptConfig
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/validateScriptConfig_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScriptConfigValidationResponse"
+          description: "Объект, содержащий обработанную конфигурацию Salt-агента в\
+            \ формате json"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Некорректные параметры запроса
+        "401":
+          description: Ошибка аутентификации
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasicError"
+          description: Внутренняя ошибка
+      security:
+      - bearerAuth: []
+      summary: Валидация содержимого файла с основной конфигурацией скрипта. Используется
+        для валидации конфигурации Salt-агента в режиме multi-master.
+      tags:
+      - Scripts
+      x-permissions:
+      - scripts:view
+components:
+  parameters:
+    scheduleType:
+      in: path
+      name: scheduleType
+      required: true
+      schema:
+        $ref: "#/components/schemas/SaltScheduleType"
+    saltFileId:
+      description: Внутренний идентификатор Salt файла
+      example: d40d3b11-1778-4fe0-9d7c-b73f13dd6efd
+      in: path
+      name: saltFileId
+      required: true
+      schema:
+        format: uuid
+        type: string
+    pageNumberParam:
+      in: query
+      name: page
+      required: false
+      schema:
+        description: Номер запрашиваемой страницы
+        example: 2
+        minimum: 1
+        type: integer
+    pageSizeParam:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        description: Размер страницы
+        example: 20
+        minimum: 1
+        type: integer
+    formulaNameParam:
+      description: Имя формулы
+      in: path
+      name: formulaName
+      required: true
+      schema:
+        type: string
+    scriptIdParam:
+      description: Идентификатор скрипта
+      in: path
+      name: scriptId
+      required: true
+      schema:
+        format: int64
+        type: integer
+  responses:
+    Unauthorized:
+      description: Ошибка аутентификации
+    DefaultError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BasicError"
+      description: Внутренняя ошибка
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BasicError"
+      description: Некорректные параметры запроса
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/NotFoundError"
+      description: Объект не найден
+    UnprocessableEntity:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/BasicError"
+      description: Невозможно обработать запрос
+    ImportFormulaErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ImportFormulaErrorResponseSchema"
+      description: Ошибка импорта формулы
+    ActiveVersionRelatedErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ActiveVersionsRelatedEntityEditError"
+      description: Ошибка операции над сущностью из-за связи с активными версиями
+    FormulaArchiveFileResponse:
+      content:
+        '*/*':
+          schema:
+            type: object
+      description: файл архива формулы
+      headers:
+        Content-Disposition:
+          description: "Имя файла, должно иметь суффикс `-formula.tar.gz`."
+          example: ark-formula.tar.gz
+          schema:
+            type: string
+    Forbidden:
+      description: Ошибка авторизации
+  schemas:
+    SaltScheduleType:
+      description: Тип настраиваемого Salt расписания
+      enum:
+      - highstate
+      - grains
+      - grains_sync
+      - refresh_pillar
+      - user_session_history
+      - agent_installation
+      - software_inventory_sync
+      - software_inventory_full_sync
+      type: string
+    SaltScheduleSettingsResponse:
+      additionalProperties: false
+      allOf:
+      - $ref: "#/components/schemas/SaltScheduleSettings"
+      - $ref: "#/components/schemas/AppConfigMetadata"
+      description: Текущие настройки расписания для Salt
+      example:
+        cron: '*/5 * * * *'
+        createdAt: 2023-08-27T09:37:40Z
+        seconds: 3600
+        hours: 24
+        updatedBy: author
+        minutes: 60
+        days: 14
+        range: "{}"
+        until: 2025-11-27T09:37:40Z
+        after: 2025-01-27T09:37:40Z
+        splay: 10
+        updatedAt: 2023-08-27T09:37:40Z
+      type: object
+    SaltScheduleSettings:
+      additionalProperties: false
+      description: Конфигурация планировщика Salt
+      properties:
+        seconds:
+          description: "Определяет временной промежуток в секундах, через который\
+            \ будет выполняться операция"
+          example: 3600
+          minimum: 1
+          type: integer
+        minutes:
+          description: "Определяет временной промежуток в минутах, через который б\
+            удет выполняться операция"
+          example: 60
+          minimum: 1
+          type: integer
+        hours:
+          description: "Определяет временной промежуток в часах, через который буд\
+            ет выполняться операция"
+          example: 24
+          minimum: 1
+          type: integer
+        days:
+          description: "Определяет временной промежуток в днях, через который буде\
+            т выполняться операция"
+          example: 14
+          minimum: 1
+          type: integer
+        range:
+          additionalProperties: false
+          allOf:
+          - $ref: "#/components/schemas/TimeRange"
+          description: "Временной интервал от 00:00 до 23:59, в рамках которого бу\
+            дет выполняться операция согласно расписанию"
+          type: object
+        cron:
+          description: Cron выражение
+          example: '*/5 * * * *'
+          type: string
+        splay:
+          description: "Определяет верхнюю границу случайной задержки перед заплан\
+            ированным выполнением в секундах. \nНапример, при splay=10 ко времени\
+            \ следующего выполнения операции будет добавлен случайный промежуток\n\
+            от 0 до 10 секунд\n"
+          example: 10
+          minimum: 0
+          type: integer
+        after:
+          description: "Определяет дату и время, начиная с которого начнется выпол\
+            нение"
+          example: 2025-01-27T09:37:40Z
+          format: date-time
+          type: string
+        until:
+          description: "Определяет дату и время, после которого выполнение прекрат\
+            ится"
+          example: 2025-11-27T09:37:40Z
+          format: date-time
+          type: string
+      type: object
+    TimeRange:
+      additionalProperties: false
+      description: Временной интервал от 00:00 до 23:59
+      properties:
+        start:
+          description: Начало временного интервала в формате HH:MM (24 часа)
+          example: 09:00
+          pattern: "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+          type: string
+        end:
+          description: Окончание временного интервала в формате HH:MM (24 часа)
+          example: 18:00
+          pattern: "^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"
+          type: string
+      required:
+      - end
+      - start
+      type: object
+    SaltScheduleSplay:
+      description: "Определяет верхнюю границу случайной задержки перед запланиров\
+        анным выполнением в секундах. \nНапример, при splay=10 ко времени следующе\
+        го выполнения операции будет добавлен случайный промежуток\nот 0 до 10 сек\
+        унд\n"
+      example: 10
+      minimum: 0
+      type: integer
+    SaltScheduleAfter:
+      description: "Определяет дату и время, начиная с которого начнется выполнени\
+        е"
+      example: 2025-01-27T09:37:40Z
+      format: date-time
+      type: string
+    SaltScheduleUntil:
+      description: "Определяет дату и время, после которого выполнение прекратится"
+      example: 2025-11-27T09:37:40Z
+      format: date-time
+      type: string
+    AppConfigMetadata:
+      additionalProperties: false
+      description: Метаданные конфигурационного параметра приложения
+      properties:
+        createdAt:
+          description: Дата и время создания параметра
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedAt:
+          description: Дата и время последнего обновления параметра
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedBy:
+          description: Автор последнего изменения параметра
+          example: author
+          type: string
+      required:
+      - createdAt
+      - updatedAt
+      type: object
+    BasicError:
+      description: Описание ошибки
+      example:
+        code: internal_error
+        message: some message
+      format: error
+      type: object
+    SaltUpdateScheduleSettingsRequest:
+      additionalProperties: false
+      allOf:
+      - $ref: "#/components/schemas/SaltScheduleSettings"
+      description: Запрос на изменение настроек расписания для Salt
+      example:
+        cron: '*/5 * * * *'
+        seconds: 3600
+        hours: 24
+        minutes: 60
+        days: 14
+        range: "{}"
+        until: 2025-11-27T09:37:40Z
+        after: 2025-01-27T09:37:40Z
+        splay: 10
+      type: object
+    SaltFileCreateRequest:
+      additionalProperties: false
+      properties:
+        id:
+          description: "Идентификатор Salt файла, если передан - операция повторно\
+            й загрузки файла"
+          format: uuid
+          type: string
+        file:
+          description: "Salt файл (python скрипт). Имя файла должно иметь расширен\
+            ие '.py', \nсостоять из латинских букв нижнего регистра, цифр, нижнего\
+            \ подчеркивания \nи быть менее 255 символов в длину.\n"
+          format: binary
+          type: string
+        description:
+          description: Описание файла
+          type: string
+        type:
+          $ref: "#/components/schemas/SaltFileType"
+      required:
+      - file
+      - type
+      type: object
+    SaltFileType:
+      description: "Тип Salt файла - grain, state или execution module"
+      enum:
+      - grain
+      - state_module
+      - execution_module
+      - reactor_sls
+      example: state_module
+      type: string
+    SaltFileResponse:
+      description: Представление Salt файла
+      example:
+        createdAt: 2023-08-27T09:37:40Z
+        updatedBy: vivanov@domain.local
+        importResult:
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        createdBy: vivanov@domain.local
+        name: custom_exc_module.py
+        description: description of python file
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        type: state_module
+        status: imported
+        updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        id:
+          description: Идентификатор Salt файла
+          example: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          format: uuid
+          type: string
+        name:
+          description: Имя файла
+          example: custom_exc_module.py
+          type: string
+        type:
+          $ref: "#/components/schemas/SaltFileType"
+        status:
+          $ref: "#/components/schemas/S3ObjectImportStatus"
+        description:
+          description: Описание файла
+          example: description of python file
+          type: string
+        importResult:
+          description: Список результатов загрузки файла
+          items:
+            $ref: "#/components/schemas/S3ObjectImportResult"
+          type: array
+        createdAt:
+          description: Дата создания
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedAt:
+          description: Дата последнего изменения
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        createdBy:
+          description: Автор создания
+          example: vivanov@domain.local
+          minLength: 3
+          type: string
+        updatedBy:
+          description: Автор последнего изменения
+          example: vivanov@domain.local
+          minLength: 3
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - status
+      - type
+      - updatedAt
+      type: object
+    NotFoundError:
+      description: Описание ошибки
+      example:
+        code: object_not_found
+        message: some 'object not found' message
+      format: error
+      type: object
+    SaltFileWithFileContentResponse:
+      additionalProperties: false
+      description: Запись из справочника Salt файлов и содержимое соответствующего
+        файла
+      example:
+        createdAt: 2023-08-27T09:37:40Z
+        updatedBy: vivanov@domain.local
+        importResult:
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        createdBy: vivanov@domain.local
+        name: custom_exc_module.py
+        description: description of python file
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        type: state_module
+        fileContent: Содержимое python файла одной строкой
+        status: imported
+        updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        id:
+          description: Идентификатор Salt файла
+          example: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          format: uuid
+          type: string
+        name:
+          description: Имя файла
+          example: custom_exc_module.py
+          type: string
+        type:
+          $ref: "#/components/schemas/SaltFileType"
+        status:
+          $ref: "#/components/schemas/S3ObjectImportStatus"
+        description:
+          description: Описание файла
+          example: description of python file
+          type: string
+        importResult:
+          description: Список результатов загрузки файла
+          items:
+            $ref: "#/components/schemas/S3ObjectImportResult"
+          type: array
+        createdAt:
+          description: Дата создания
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedAt:
+          description: Дата последнего изменения
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        createdBy:
+          description: Автор создания
+          example: vivanov@domain.local
+          minLength: 3
+          type: string
+        updatedBy:
+          description: Автор последнего изменения
+          example: vivanov@domain.local
+          minLength: 3
+          type: string
+        fileContent:
+          description: "Содержимое Salt файла. Если файл отсутствует в файловом хр\
+            анилище, то null."
+          example: Содержимое python файла одной строкой
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - status
+      - type
+      - updatedAt
+      type: object
+    SaltFileUpdateRequest:
+      additionalProperties: false
+      properties:
+        file:
+          description: "Salt файл (python скрипт). Имя файла должно совпадать с ис\
+            ходным именем, \nпереименовать нельзя.\n"
+          format: binary
+          type: string
+        description:
+          description: Описание файла
+          type: string
+      required:
+      - file
+      type: object
+    S3ObjectDeleteResult:
+      description: Результат удаления объекта
+      example:
+        importResult:
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        status: imported
+      properties:
+        status:
+          $ref: "#/components/schemas/S3ObjectImportStatus"
+        importResult:
+          description: Список результатов загрузки/удаления объекта
+          items:
+            $ref: "#/components/schemas/S3ObjectImportResult"
+          type: array
+      required:
+      - status
+      type: object
+    S3ObjectImportStatus:
+      description: "Статус нахождения объекта в хранилище \n(failed - не загружен\
+        , imported - успешно загружен, \npartially_imported - частично загружен, deleted\
+        \ - удален)\n"
+      enum:
+      - failed
+      - imported
+      - partially_imported
+      - deleted
+      example: imported
+      type: string
+    S3ObjectImportResult:
+      description: Результат загрузки/удаления объекта
+      example:
+        server: http://localhost:9000
+        description: Сообщение о результате выполнения операции
+        status: imported
+      properties:
+        server:
+          description: Имя/uri сервера
+          example: http://localhost:9000
+          type: string
+        description:
+          description: Сообщение о результате выполнения операции
+          example: Сообщение о результате выполнения операции
+          type: string
+        status:
+          $ref: "#/components/schemas/S3ServerObjectImportStatus"
+      type: object
+    S3ServerObjectImportStatus:
+      description: |
+        Статус нахождения объекта на сервере
+        (error - ошибка выполнения операции, imported - успешно загружен, deleted - удален)
+      enum:
+      - error
+      - imported
+      - deleted
+      example: imported
+      type: string
+    SaltFilesGetRequest:
+      additionalProperties: false
+      description: Набор фильтров для поиска Salt файлов
+      example:
+        name: free_space
+        type: state_module
+        status: imported
+      properties:
+        name:
+          description: "Имя файла, контекстный поиск"
+          example: free_space
+          maxLength: 255
+          minLength: 3
+          type: string
+        type:
+          $ref: "#/components/schemas/SaltFileType"
+        status:
+          $ref: "#/components/schemas/S3ObjectImportStatus"
+      type: object
+    SaltFilesPagedResponse:
+      additionalProperties: false
+      description: Список Salt файлов и метаинформации для пагинации
+      example:
+        meta:
+          totalRecords: 1
+          pageSize: 20
+          totalPages: 1
+          currentPage: 1
+          hasNext: false
+          hasPrev: false
+        files:
+        - createdAt: 2023-08-27T09:37:40Z
+          updatedBy: vivanov@domain.local
+          importResult:
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          createdBy: vivanov@domain.local
+          name: custom_exc_module.py
+          description: description of python file
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          type: state_module
+          status: imported
+          updatedAt: 2023-08-27T09:37:40Z
+        - createdAt: 2023-08-27T09:37:40Z
+          updatedBy: vivanov@domain.local
+          importResult:
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          createdBy: vivanov@domain.local
+          name: custom_exc_module.py
+          description: description of python file
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          type: state_module
+          status: imported
+          updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        files:
+          description: Список Salt файлов
+          items:
+            $ref: "#/components/schemas/SaltFileResponse"
+          type: array
+        meta:
+          description: Метаданные постраничной навигации
+          example:
+            totalRecords: 1
+            pageSize: 20
+            totalPages: 1
+            currentPage: 1
+            hasNext: false
+            hasPrev: false
+          format: pageable
+          type: object
+      required:
+      - files
+      - meta
+      type: object
+    FormulaCreateRequest:
+      additionalProperties: false
+      properties:
+        name:
+          description: "Уникальное имя формулы, если передано - операция повторной\
+            \ загрузки формулы"
+          format: text
+          type: string
+        formula:
+          description: Формула должна быть в виде архива. Имя файла должно иметь суффикс
+            `-formula.tar.gz`.
+          format: binary
+          type: string
+        types:
+          description: "Список типов конфигураций, задаваемый при создании, с верс\
+            иями которых может быть связана формула. \nМогут быть доступны типы: application\
+            \ - ПО, default - обычная конфигурация, reinstallOs - переустановка ОС\
+            \n"
+          items:
+            $ref: "#/components/schemas/ConfigurationType"
+          type: array
+        description:
+          description: Описание формулы
+          example: Формула для приложения Ark
+          type: string
+        lastUpdatedAt:
+          $ref: "#/components/schemas/UpdatedAt"
+      required:
+      - formula
+      - types
+      type: object
+    FormulaResponse:
+      description: Представление формулы
+      example:
+        refersConfiguration:
+          configurationDisplayName: configurationDisplayName
+          configurationId: 123
+        createdAt: 2023-08-27T09:37:40Z
+        types:
+        - application
+        - application
+        updatedBy: vivanov@domain.local
+        importResult:
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        createdBy: vivanov@domain.local
+        name: ark-formula
+        description: Формула для приложения Ark
+        status: imported
+        updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        name:
+          description: Уникальное имя формулы
+          example: ark-formula
+          type: string
+        types:
+          description: "Список типов конфигураций, с версиями которых может быть с\
+            вязана формула. \nМогут быть доступны типы: application - ПО, default\
+            \ - обычная конфигурация, \npackage - пакет, reinstallOs - переустанов\
+            ка ОС\n"
+          items:
+            $ref: "#/components/schemas/ConfigurationType"
+          type: array
+        status:
+          $ref: "#/components/schemas/S3ObjectImportStatus"
+        importResult:
+          description: Список результатов загрузки формулы
+          items:
+            $ref: "#/components/schemas/S3ObjectImportResult"
+          type: array
+        refersConfiguration:
+          $ref: "#/components/schemas/FormulaConfigurationReference"
+        description:
+          description: Описание формулы
+          example: Формула для приложения Ark
+          type: string
+        createdAt:
+          description: Дата создания
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedAt:
+          description: Дата последнего изменения
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        createdBy:
+          description: Автор создания
+          example: vivanov@domain.local
+          minLength: 3
+          type: string
+        updatedBy:
+          description: Автор последнего изменения
+          example: vivanov@domain.local
+          minLength: 3
+          type: string
+      required:
+      - createdAt
+      - name
+      - status
+      - updatedAt
+      type: object
+    ImportFormulaErrorResponseSchema:
+      oneOf:
+      - $ref: "#/components/schemas/ActiveVersionsRelatedEntityEditError"
+      - $ref: "#/components/schemas/BasicError"
+    ActiveVersionsRelatedEntityEditError:
+      additionalProperties: false
+      description: Ошибка обновления сущности из-за наличия связанных активных версий
+      example:
+        code: validation_failed
+        versions:
+        - configurationDisplayName: Яндекс браузер
+          versionId: 1234
+          configurationId: 5467
+          versionDisplayName: 23.5.0
+        - configurationDisplayName: Яндекс браузер
+          versionId: 1234
+          configurationId: 5467
+          versionDisplayName: 23.5.0
+        message: Cannot reload formula with name ark since it is used by active versions
+      properties:
+        code:
+          description: Код ошибки
+          example: validation_failed
+          format: error
+          type: string
+        message:
+          description: Описание ошибки
+          example: Cannot reload formula with name ark since it is used by active
+            versions
+          type: string
+        versions:
+          description: Список связанных активных версий
+          items:
+            $ref: "#/components/schemas/RelatedActiveVersionsInfo"
+          type: array
+      required:
+      - code
+      - message
+      - versions
+      type: object
+    RelatedActiveVersionsInfo:
+      example:
+        configurationDisplayName: Яндекс браузер
+        versionId: 1234
+        configurationId: 5467
+        versionDisplayName: 23.5.0
+      properties:
+        versionId:
+          description: Идентификатор версии конфигурации
+          example: 1234
+          format: int64
+          type: integer
+        versionDisplayName:
+          description: "Имя версии, отображаемое на UI"
+          example: 23.5.0
+          maxLength: 256
+          minLength: 3
+          type: string
+        configurationId:
+          description: Идентификатор конфигурации
+          example: 5467
+          format: int64
+          maxLength: 256
+          type: integer
+        configurationDisplayName:
+          description: "Имя конфигурации, отображаемое на UI"
+          example: Яндекс браузер
+          maxLength: 256
+          minLength: 3
+          type: string
+      required:
+      - configurationDisplayName
+      - configurationId
+      - versionDisplayName
+      - versionId
+      type: object
+    FormulaWithVersionsResponse:
+      additionalProperties: false
+      allOf:
+      - $ref: "#/components/schemas/FormulaResponse"
+      - properties:
+          versions:
+            description: "Активные версии, к которым привязана формула"
+            items:
+              $ref: "#/components/schemas/RelatedActiveVersionsInfo"
+            type: array
+      description: Представление формулы с информацией о привязанных активных версиях
+        конфигураций
+      example:
+        refersConfiguration:
+          configurationDisplayName: configurationDisplayName
+          configurationId: 123
+        createdAt: 2023-08-27T09:37:40Z
+        types:
+        - application
+        - application
+        updatedBy: vivanov@domain.local
+        importResult:
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        - server: http://localhost:9000
+          description: Сообщение о результате выполнения операции
+          status: imported
+        createdBy: vivanov@domain.local
+        versions:
+        - configurationDisplayName: Яндекс браузер
+          versionId: 1234
+          configurationId: 5467
+          versionDisplayName: 23.5.0
+        - configurationDisplayName: Яндекс браузер
+          versionId: 1234
+          configurationId: 5467
+          versionDisplayName: 23.5.0
+        name: ark-formula
+        description: Формула для приложения Ark
+        status: imported
+        updatedAt: 2023-08-27T09:37:40Z
+      required:
+      - createdAt
+      - name
+      - status
+      - updatedAt
+      - versions
+      type: object
+    FormulaUpdateRequest:
+      additionalProperties: false
+      example:
+        types:
+        - application
+        - application
+        lastUpdatedAt: 2023-08-27T09:37:40Z
+        description: Формула для приложения Ark
+      properties:
+        types:
+          description: "Список типов конфигураций, задаваемый при создании, с верс\
+            иями которых может быть связана формула. \nМогут быть доступны типы: application\
+            \ - ПО, default - обычная конфигурация, reinstallOs - переустановка ОС\
+            \n"
+          items:
+            $ref: "#/components/schemas/ConfigurationType"
+          type: array
+        description:
+          description: Описание формулы
+          example: Формула для приложения Ark
+          type: string
+        lastUpdatedAt:
+          description: Дата последнего изменения
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+      required:
+      - lastUpdatedAt
+      - types
+      type: object
+    RelatedActiveVersionsPagedResponse:
+      additionalProperties: false
+      description: Список версий привязанных к формуле и метаинформация для пагинации
+      example:
+        versions:
+        - configurationDisplayName: Яндекс браузер
+          versionId: 1234
+          configurationId: 5467
+          versionDisplayName: 23.5.0
+        - configurationDisplayName: Яндекс браузер
+          versionId: 1234
+          configurationId: 5467
+          versionDisplayName: 23.5.0
+        meta:
+          totalRecords: 1
+          pageSize: 20
+          totalPages: 1
+          currentPage: 1
+          hasNext: false
+          hasPrev: false
+      properties:
+        versions:
+          description: Список привязанных к формуле версий
+          items:
+            $ref: "#/components/schemas/RelatedActiveVersionsInfo"
+          type: array
+        meta:
+          description: Метаданные постраничной навигации
+          example:
+            totalRecords: 1
+            pageSize: 20
+            totalPages: 1
+            currentPage: 1
+            hasNext: false
+            hasPrev: false
+          format: pageable
+          type: object
+      required:
+      - meta
+      - versions
+      type: object
+    FormulasGetRequest:
+      additionalProperties: false
+      description: Набор фильтров для поиска формул
+      example:
+        types:
+        - application
+        - application
+        name: free_space
+        statuses:
+        - imported
+        - imported
+      properties:
+        name:
+          description: "Имя формулы, контекстный поиск"
+          example: free_space
+          maxLength: 192
+          minLength: 3
+          type: string
+        types:
+          items:
+            $ref: "#/components/schemas/ConfigurationType"
+          type: array
+        statuses:
+          items:
+            $ref: "#/components/schemas/S3ObjectImportStatus"
+          type: array
+      type: object
+    FormulasPagedResponse:
+      additionalProperties: false
+      description: Список формул и метаинформации для пагинации
+      example:
+        meta:
+          totalRecords: 1
+          pageSize: 20
+          totalPages: 1
+          currentPage: 1
+          hasNext: false
+          hasPrev: false
+        formulas:
+        - refersConfiguration:
+            configurationDisplayName: configurationDisplayName
+            configurationId: 123
+          createdAt: 2023-08-27T09:37:40Z
+          types:
+          - application
+          - application
+          updatedBy: vivanov@domain.local
+          importResult:
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          createdBy: vivanov@domain.local
+          name: ark-formula
+          description: Формула для приложения Ark
+          status: imported
+          updatedAt: 2023-08-27T09:37:40Z
+        - refersConfiguration:
+            configurationDisplayName: configurationDisplayName
+            configurationId: 123
+          createdAt: 2023-08-27T09:37:40Z
+          types:
+          - application
+          - application
+          updatedBy: vivanov@domain.local
+          importResult:
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          - server: http://localhost:9000
+            description: Сообщение о результате выполнения операции
+            status: imported
+          createdBy: vivanov@domain.local
+          name: ark-formula
+          description: Формула для приложения Ark
+          status: imported
+          updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        formulas:
+          description: Список формул
+          items:
+            $ref: "#/components/schemas/FormulaResponse"
+          type: array
+        meta:
+          description: Метаданные постраничной навигации
+          example:
+            totalRecords: 1
+            pageSize: 20
+            totalPages: 1
+            currentPage: 1
+            hasNext: false
+            hasPrev: false
+          format: pageable
+          type: object
+      required:
+      - formulas
+      - meta
+      type: object
+    Script:
+      example:
+        createdAt: 2023-08-27T09:37:40Z
+        fileLink: fileLink
+        isDefault: true
+        updatedBy: bobmarley
+        isDeleted: true
+        displayName: Скрипт установки агента Salt 3.6.0 для Astra Linux
+        description: Описание скрипта
+        id: 0
+        updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        id:
+          description: Внутренний идентификатор скрипта
+          format: int64
+          type: integer
+        displayName:
+          description: Имя скрипта для отображения в UI
+          example: Скрипт установки агента Salt 3.6.0 для Astra Linux
+          type: string
+        fileLink:
+          description: Ссылка на скачивание скрипта из внутреннего репозитория
+          type: string
+        description:
+          description: Краткое описание скрипта
+          example: Описание скрипта
+          type: string
+        createdAt:
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedAt:
+          example: 2023-08-27T09:37:40Z
+          format: date-time
+          type: string
+        updatedBy:
+          description: Автор последнего обновления скрипта
+          example: bobmarley
+          type: string
+        isDeleted:
+          description: Признак активности скрипта (активен / удален)
+          type: boolean
+        isDefault:
+          description: "Признак того, является ли данный скрипт скриптом по умолча\
+            нию"
+          type: boolean
+      required:
+      - createdAt
+      - displayName
+      - fileLink
+      - updatedAt
+      type: object
+    GetScriptsListRequest:
+      additionalProperties: false
+      description: Запрос с фильтрами на получение списка скриптов
+      example:
+        isDeleted: true
+      properties:
+        isDeleted:
+          description: Признак активности скрипта (активен / удален)
+          type: boolean
+      type: object
+    ScriptsListResponse:
+      additionalProperties: false
+      description: Список скриптов
+      example:
+        meta:
+          totalRecords: 1
+          pageSize: 20
+          totalPages: 1
+          currentPage: 1
+          hasNext: false
+          hasPrev: false
+        scripts:
+        - createdAt: 2023-08-27T09:37:40Z
+          fileLink: fileLink
+          isDefault: true
+          updatedBy: bobmarley
+          isDeleted: true
+          displayName: Скрипт установки агента Salt 3.6.0 для Astra Linux
+          description: Описание скрипта
+          id: 0
+          updatedAt: 2023-08-27T09:37:40Z
+        - createdAt: 2023-08-27T09:37:40Z
+          fileLink: fileLink
+          isDefault: true
+          updatedBy: bobmarley
+          isDeleted: true
+          displayName: Скрипт установки агента Salt 3.6.0 для Astra Linux
+          description: Описание скрипта
+          id: 0
+          updatedAt: 2023-08-27T09:37:40Z
+      properties:
+        scripts:
+          description: Список скриптов
+          items:
+            $ref: "#/components/schemas/Script"
+          type: array
+        meta:
+          description: Метаданные постраничной навигации
+          example:
+            totalRecords: 1
+            pageSize: 20
+            totalPages: 1
+            currentPage: 1
+            hasNext: false
+            hasPrev: false
+          format: pageable
+          type: object
+      required:
+      - meta
+      - scripts
+      type: object
+    ScriptConfigValidationResponse:
+      additionalProperties: false
+      description: Результат валидации конфигурации для установки Salt-агента
+      example:
+        agentMasters:
+        - agentMasters
+        - agentMasters
+        agentFailoverSettings:
+        - value: value
+          key: master_type
+        - value: value
+          key: master_type
+        agentSettings:
+        - value: value
+          key: key
+        - value: value
+          key: key
+      properties:
+        agentMasters:
+          description: "Список fqdn мастеров, который требуется установить для кон\
+            фигурации миньона при установке агента данной версии"
+          items:
+            type: string
+          type: array
+        agentFailoverSettings:
+          description: "Список failover настроек, который требуется установить для\
+            \ конфигурации миньона при установке агента данной версии"
+          items:
+            $ref: "#/components/schemas/AgentInstallationFailoverParameter"
+          type: array
+        agentSettings:
+          description: "Список настроек агента, который требуется установить для к\
+            онфигурации миньона при установке агента данной версии"
+          items:
+            $ref: "#/components/schemas/AgentInstallationParameter"
+          type: array
+      required:
+      - agentFailoverSettings
+      - agentMasters
+      - agentSettings
+      type: object
+    ConfigVersionAgentMasters:
+      description: "Список fqdn мастеров, который требуется установить для конфигу\
+        рации миньона при установке агента данной версии"
+      items:
+        type: string
+      type: array
+    ConfigVersionAgentFailoverSettings:
+      description: "Список failover настроек, который требуется установить для кон\
+        фигурации миньона при установке агента данной версии"
+      items:
+        $ref: "#/components/schemas/AgentInstallationFailoverParameter"
+      type: array
+    AgentInstallationFailoverParameter:
+      additionalProperties: false
+      description: Параметр failover конфигурации Salt
+      example:
+        value: value
+        key: master_type
+      properties:
+        key:
+          $ref: "#/components/schemas/AgentFailoverKey"
+        value:
+          type: string
+      type: object
+    AgentFailoverKey:
+      description: Список типов конфигураций для соответственных скриптов
+      enum:
+      - master_type
+      - random_master
+      - master_alive_interval
+      - master_failback
+      - master_failback_interval
+      - verify_master_pubkey_sign
+      type: string
+    ConfigVersionAgentSettings:
+      description: "Список настроек агента, который требуется установить для конфи\
+        гурации миньона при установке агента данной версии"
+      items:
+        $ref: "#/components/schemas/AgentInstallationParameter"
+      type: array
+    AgentInstallationParameter:
+      additionalProperties: false
+      description: Параметр конфигурации агента Salt
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      type: object
+    CreatedAt:
+      description: Дата создания
+      example: 2023-08-27T09:37:40Z
+      format: date-time
+      type: string
+    UpdatedAt:
+      description: Дата последнего изменения
+      example: 2023-08-27T09:37:40Z
+      format: date-time
+      type: string
+    CreatedBy:
+      description: Автор создания
+      example: vivanov@domain.local
+      minLength: 3
+      type: string
+    UpdatedBy:
+      description: Автор последнего изменения
+      example: vivanov@domain.local
+      minLength: 3
+      type: string
+    PaginationMetadata:
+      description: Метаданные постраничной навигации
+      example:
+        totalRecords: 1
+        pageSize: 20
+        totalPages: 1
+        currentPage: 1
+        hasNext: false
+        hasPrev: false
+      format: pageable
+      type: object
+    ConfigurationType:
+      description: "Тип конфигурации: application - ПО, package - пакет, default -\
+        \ обычная конфигурация, \ninstallAgent - установка агента, reinstallOs - п\
+        ереустановка ОС, \nsyncRemoteAccessRights - синхронизация прав удаленного\
+        \ доступа\n"
+      enum:
+      - application
+      - package
+      - default
+      - installAgent
+      - reinstallOs
+      - syncRemoteAccessRights
+      type: string
+    FormulaConfigurationReference:
+      additionalProperties: false
+      description: "Объект конфигурации, активные версии которой ссылаются на форм\
+        улу в родительском объекте"
+      example:
+        configurationDisplayName: configurationDisplayName
+        configurationId: 123
+      properties:
+        configurationId:
+          description: Идентификатор конфигурации
+          example: 123
+          format: int64
+          type: integer
+        configurationDisplayName:
+          description: Имя конфигурации
+          type: string
+      required:
+      - configurationDisplayName
+      - configurationId
+      type: object
+    ErrorCode:
+      description: Код ошибки
+      example: validation_failed
+      format: error
+      type: string
+    ConfigVersionId:
+      description: Идентификатор версии конфигурации
+      example: 1234
+      format: int64
+      type: integer
+    ConfigVersionDisplayName:
+      description: "Имя версии, отображаемое на UI"
+      example: 23.5.0
+      maxLength: 256
+      minLength: 3
+      type: string
+    ConfigurationId:
+      description: Идентификатор конфигурации
+      example: 5467
+      format: int64
+      maxLength: 256
+      type: integer
+    ConfigurationDisplayName:
+      description: "Имя конфигурации, отображаемое на UI"
+      example: Яндекс браузер
+      maxLength: 256
+      minLength: 3
+      type: string
+    createScript_request:
+      additionalProperties: false
+      properties:
+        displayName:
+          description: Имя скрипта для отображения в UI. Имя скрипта должно совпадать
+            c названием файла fileData.
+          example: astra-os-bootstrap.sh
+          type: string
+        isDefault:
+          description: "Флаг того, следует ли считать объект скриптом по умолчанию"
+          type: boolean
+        fileData:
+          description: Salt script файл (исполняемый скрипт). Имя файла должно совпадать
+            c displayName.
+          format: binary
+          type: string
+        description:
+          description: Краткое описание скрипта
+          example: Описание скрипта
+          type: string
+      required:
+      - displayName
+      - fileData
+      - isDefault
+      type: object
+    validateScriptConfig_request:
+      properties:
+        sourceFile:
+          description: Основной файл конфигурации Salt-агента в режиме multi-master
+          format: binary
+          type: string
+      required:
+      - sourceFile
+      type: object
