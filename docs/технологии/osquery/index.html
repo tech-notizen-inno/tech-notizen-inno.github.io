@@ -1,0 +1,1728 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Общие данные# Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов# SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды# to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер# Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="OSquery">
+  <meta property="og:description" content="Общие данные# Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов# SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды# to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер# Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="технологии">
+    <meta property="article:published_time" content="2025-10-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-12T00:00:00+00:00">
+
+
+  <meta itemprop="name" content="OSquery">
+  <meta itemprop="description" content="Общие данные# Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов# SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды# to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер# Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).">
+  <meta itemprop="datePublished" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="wordCount" content="502">
+
+<title>OSquery | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-технологии">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle" checked />
+    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+      <a role="button" class="">
+        Технологии</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B0%D0%B2%D1%82%D0%BE%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-bash/" class="">
+      Автодополнение В Bash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
+      Интервью По System Design.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BE%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0/" class="">
+      Отладка</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="">
+      Процессы. Agile, Scrum, Kanban</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/" class="">
+      Процессы. Managment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="">
+      Реактивное Программирование В Java ( Flux, Web Flux)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-go/" class="">
+      Технологии. Язык Go</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-redis/" class="">
+      Технологии. Redis</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/giga-ide-intellij/" class="">
+      Giga ID E ( Intelli J)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jooq/" class="">
+      JOOQ</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/" class="">
+      Jq</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/kerberos/" class="">
+      Kerberos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/klogging/" class="">
+      KLogging</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/ldap/" class="">
+      Ldap</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="">
+      Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/" class="active">
+      OSquery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="">
+      Quarkus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/" class="">
+      Salt Stack</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="">
+      Spring Framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="">
+      Static Site Generator Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/" class="">
+      WebSocket</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle"  />
+    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+      <a role="button" class="">
+        Dev Ops</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
+    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+      <a role="button" class="">
+        00. Теория</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="">
+      Путь Dev Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/" class="">
+      Безопасность</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BB%D0%B8%D0%B2%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-lean/" class="">
+      Бережливое Производство ( Lean)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BB%D0%BE%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Логирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8/" class="">
+      Метрики</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/continuous-delivery--continuous-deployment/" class="">
+      Continuous Delivery &amp; Continuous Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/gitops/" class="">
+      Git Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/infrastructure-as-code/" class="">
+      Infrastructure as Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/twelve-factor-app/" class="">
+      Twelve Factor App</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/value-stream-map/" class="">
+      Value Stream Map</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B0%D0%BB%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0/" class="">
+      Балансировка. Кластера</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle"  />
+    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+      <a role="button" class="">
+        01. Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F/" class="">
+      Виртуализация</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B/" class="">
+      Нагрузка системы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="">
+      Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="">
+      Dbops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="">
+      Docker</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="">
+      Fluent Bit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/git/" class="">
+      Git</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gitlab/" class="">
+      Git Lab</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/grafana/" class="">
+      Grafana</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/" class="">
+      Java. Certificates</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nexus/" class="">
+      Nexus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nginx/" class="">
+      NGinx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/" class="">
+      Prometheus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/s3/" class="">
+      S3</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ssh/" class="">
+      SSH</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/terraform/" class="">
+      Terraform</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
+    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+      <a role="button" class="">
+        02. Linux</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Linux. Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Дисковая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/" class="">
+      Linux. Командная Строка. Менеджеры Пакетов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BB%D0%BE%D0%B3%D0%B8/" class="">
+      Linux. Логи</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%B0%D0%B2%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9/" class="">
+      Linux. Права Пользователей</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Linux. Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8/" class="">
+      Linux. Работа с пользователями</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Сетевая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-systemd/" class="">
+      Linux. Система Инициализации Systemd</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
+    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+      <a role="button" class="">
+        03. Kubernetes</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
+      Оркестрация Контейнеров.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubectl/" class="">
+      Kubectl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/" class="">
+      Kubernetes. Архитектура</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-argocd/" class="">
+      Kubernetes. Argo Cd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-helm/" class="">
+      Kubernetes. Helm</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Базовые Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Расширенные Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/" class="">
+      Kuberntes. Сеть</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC/" class="">
+      Диплом</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D1%8F.%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC.-devops/" class="">
+      Я. Практикум. Dev Ops</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
+    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+      <a role="button" class="">
+        Otus. Kotlin</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
+    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+      <a role="button" class="">
+        Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/spring-&#43;-kotlin/" class="">
+      Spring &#43; Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gradle/" class="">
+      Gradle</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/jackson.-kotlin/" class="">
+      Jackson. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/openapi/" class="">
+      Open API</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/security.-kotlin/" class="">
+      Security. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0/" class="">
+      Мультиплатформа</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BF%D0%B0%D1%82%D1%82%D0%B5%D1%80%D0%BD%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/" class="">
+      Паттерны Проектирования</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
+    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+      <a role="button" class="">
+        Язык</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/coroutines/" class="">
+      Coroutines</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/dsl/" class="">
+      DSL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
+      Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D0%BE%D0%BF-%D0%B2-kotlin/" class="">
+      Ооп В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-%D0%B2-kotlin/" class="">
+      Особенности Типов В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-kotlin/" class="">
+      Технологии. Язык Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/otus.-kotlin/" class="">
+      Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>OSquery</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#общие-данные">Общие данные</a></li>
+    <li><a href="#примеры-запросов">Примеры запросов</a></li>
+    <li><a href="#дополнительные-команды">Дополнительные команды</a></li>
+    <li><a href="#передача-данных-на-сервер">Передача данных на сервер</a></li>
+    <li><a href="#материалы">Материалы</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="общие-данные">Общие данные<a class="anchor" href="#%d0%be%d0%b1%d1%89%d0%b8%d0%b5-%d0%b4%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5">#</a></h2>
+<ul>
+<li>Состоит из 2-х частей
+<ul>
+<li><code>osqueryd</code> is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more.
+<ul>
+<li>The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration</li>
+</ul>
+</li>
+<li><code>osqueryi</code> lets you run meta-commands and query osquery tables.
+<ul>
+<li>The shell accepts a single positional argument and one of the several output modes.
+<img src="/_images/PI-20251012113650.png" alt=""></li>
+<li>You may also pipe a query as stdin.
+<img src="/_images/PI-20251012113746.png" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="примеры-запросов">Примеры запросов<a class="anchor" href="#%d0%bf%d1%80%d0%b8%d0%bc%d0%b5%d1%80%d1%8b-%d0%b7%d0%b0%d0%bf%d1%80%d0%be%d1%81%d0%be%d0%b2">#</a></h2>
+<ul>
+<li><code>SELECT vendor, model FROM usb_devices;</code> - получение USB устройств</li>
+<li><code>SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = '0.0.0.0';</code> - получение сокетов в привязке к процессам</li>
+<li><code>SELECT * FROM routes WHERE destination = '::1'</code> - получить рауты</li>
+<li><code>SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1</code> - получить процессы</li>
+<li><code>SELECT * FROM osquery_info;</code> - look at a &ldquo;meta&rdquo; table that provides details to osquery about itself. These tables are prefixed with osquery_</li>
+<li><code>SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE '/dev/%'</code> - открытые файлы процессом osquery</li>
+<li><code>SELECT * FROM file;</code>, <code>SELECT * FROM file WHERE path = '/dev/zero'</code> - работа с файлами</li>
+<li><code>SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = '/etc' ORDER BY mtime DESC LIMIT 1;</code> - получить хэш для файла</li>
+</ul>
+<h2 id="дополнительные-команды">Дополнительные команды<a class="anchor" href="#%d0%b4%d0%be%d0%bf%d0%be%d0%bb%d0%bd%d0%b8%d1%82%d0%b5%d0%bb%d1%8c%d0%bd%d1%8b%d0%b5-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h2>
+<ul>
+<li>to list all tables: <code>.tables</code></li>
+<li>to list the schema (columns, types) of a specific table: <code>.schema table_nam</code>e or <code>pragma table_info(table_name);</code> for more details</li>
+<li>to list all available commands: <code>.help</code></li>
+<li>to exit the console: <code>.exit</code> or <code>^D</code></li>
+<li>select all from a table: <code>.all [TABLE]</code></li>
+<li>stop after hitting an error: <code>.bail ON|OFF</code></li>
+<li>connect to an osquery extension socket: <code>.connect PATH</code></li>
+<li>disconnect from a connected extension socket: <code>.disconnect</code></li>
+<li>turn command echo on or off: <code>.echo ON|OFF</code></li>
+<li>построчная выдача результата: <code>.mode line</code></li>
+</ul>
+<h2 id="передача-данных-на-сервер">Передача данных на сервер<a class="anchor" href="#%d0%bf%d0%b5%d1%80%d0%b5%d0%b4%d0%b0%d1%87%d0%b0-%d0%b4%d0%b0%d0%bd%d0%bd%d1%8b%d1%85-%d0%bd%d0%b0-%d1%81%d0%b5%d1%80%d0%b2%d0%b5%d1%80">#</a></h2>
+<p>Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger + TLS config).</p>
+<ul>
+<li>Базовая архитектура
+<ul>
+<li>TLS Config: osquery периодически тянет конфигурацию из endpoint’а.</li>
+<li>TLS Logger: osquery отправляет результаты scheduled queries и события на endpoint.</li>
+</ul>
+</li>
+<li>Основные эндпоинты (пути можно менять):
+<ul>
+<li>/api/v1/osquery/enroll — регистрация (возврат node_key)
+<code>Вход: {&quot;enroll_secret&quot;:&quot;...&quot;, &quot;host_identifier&quot;:&quot;...&quot;}.</code><br>
+<code>Ответ: {&quot;node_key&quot;:&quot;&lt;random_token&gt;&quot;}.</code></li>
+<li>/api/v1/osquery/config — выдача конфигурации агенту
+<code>Вход: {&quot;node_key&quot;:&quot;...&quot;}.</code><br>
+<code>Ответ: {&quot;options&quot;:{...}, &quot;schedule&quot;:{...}, &quot;packs&quot;:{...}}.</code></li>
+<li>/api/v1/osquery/log — прием логов (results + status)
+<code>Вход: {&quot;node_key&quot;:&quot;...&quot;, &quot;log_type&quot;:&quot;result&quot;,&quot;data&quot;:&quot;&lt;jsonl&gt;&quot;}</code><br>
+<code>и/или для status-логов: log_type=&quot;status&quot;.</code><br>
+<code>Ответ: {&quot;success&quot;: true}.</code></li>
+<li>/api/v1/osquery/certs — (опционально) выдача корневого сертификата</li>
+</ul>
+</li>
+<li>Конфигурация osqueryd
+<ul>
+<li>
+<p>файл флагов <code>/etc/osquery/osquery.flags</code>
+<img src="/_images/PI-20251017114446.png" alt=""></p>
+</li>
+<li>
+<p>базовый <code>osquery.conf</code> (может забираться из endpoint (в таком случае не нужен))
+<img src="/_images/PI-20251017114721.png" alt=""></p>
+</li>
+<li>
+<p>Запуск <code>sudo osqueryd --flagfile=/etc/osquery/osquery.flags --config_path=/etc/osquery/osquery.conf --verbose --tls_dump=true</code> (2-а последних аргумента для отладки)</p>
+</li>
+<li>
+<p>Пример сервера приема данных
+<img src="/_images/PI-20251017115323.png" alt=""></p>
+<ul>
+<li>дополнительные endpoints для заданий (POST /distributed/read и /distributed/write (опционально): Read: выдает задания; Write: принимает результаты.)
+<img src="/_images/Pasted_image_20251017115817.png" alt=""></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="материалы">Материалы<a class="anchor" href="#%d0%bc%d0%b0%d1%82%d0%b5%d1%80%d0%b8%d0%b0%d0%bb%d1%8b">#</a></h2>
+<ul>
+<li><a href="https://osquery.io/schema/5.19.0/?__readwiseLocation=">Описание всех таблиц для получения данных</a></li>
+<li><a href="https://osquery.readthedocs.io/en/stable/introduction/sql/?__readwiseLocation=">Everything in SQL</a></li>
+<li><a href="https://osquery.readthedocs.io/en/stable/deployment/configuration/">Конфигурирование daemon</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Maven</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="flex align-center">
+        <span>Quarkus</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#общие-данные">Общие данные</a></li>
+    <li><a href="#примеры-запросов">Примеры запросов</a></li>
+    <li><a href="#дополнительные-команды">Дополнительные команды</a></li>
+    <li><a href="#передача-данных-на-сервер">Передача данных на сервер</a></li>
+    <li><a href="#материалы">Материалы</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

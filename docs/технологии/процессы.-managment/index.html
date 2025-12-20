@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Основы менеджмента для технорей# Ссылка на доклад Александра Поломодова Книга “Digital Transformation Game Plan”# В книге 3-и части
+Перепрофилирование бизнеса и операционной архитектуры для фокусировки на ценности для клиентов Создание адаптивной организации ( agile and responsive ) Мобилизация технологий как ключевых компетенций компании и того, что отличает компанию от ее конкурентов Основные мысли ориентация на ценность клиентов использовать thin-slice (complete piece of value) подход измерения и опора на данные использование кросс-функциональных команд, исключить влияние структуры компании на результат метод эксперимента - Explore, Exploit, Sustain 34 принципа цифровой трансформации [[Краткий обзор книги “Digital Transfo.pdf]] Книга “Accelerate”# Способы улучшить работу компании Метрики, которые НЕ работают (не стоит их использовать) Метрики, которые следует использовать Типы культур в организации по Westrum Важнейшим критерием характеристики организации является поток информации (information flow) Инженерные практики (Continuous Delivery &#43; Architecture) Набор практик для реализации в организации Лидерство и трансформация [[Обзор книги Accelerate (part I).pdf]] [[Обзор книги Accelerate (part II).pdf]] [[Обзор книги Accelerate (part III).pdf]]
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="Я.Практикум">
+  <meta property="og:description" content="Основы менеджмента для технорей# Ссылка на доклад Александра Поломодова Книга “Digital Transformation Game Plan”# В книге 3-и части
+Перепрофилирование бизнеса и операционной архитектуры для фокусировки на ценности для клиентов Создание адаптивной организации ( agile and responsive ) Мобилизация технологий как ключевых компетенций компании и того, что отличает компанию от ее конкурентов Основные мысли ориентация на ценность клиентов использовать thin-slice (complete piece of value) подход измерения и опора на данные использование кросс-функциональных команд, исключить влияние структуры компании на результат метод эксперимента - Explore, Exploit, Sustain 34 принципа цифровой трансформации [[Краткий обзор книги “Digital Transfo.pdf]] Книга “Accelerate”# Способы улучшить работу компании Метрики, которые НЕ работают (не стоит их использовать) Метрики, которые следует использовать Типы культур в организации по Westrum Важнейшим критерием характеристики организации является поток информации (information flow) Инженерные практики (Continuous Delivery &#43; Architecture) Набор практик для реализации в организации Лидерство и трансформация [[Обзор книги Accelerate (part I).pdf]] [[Обзор книги Accelerate (part II).pdf]] [[Обзор книги Accelerate (part III).pdf]]">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="технологии">
+
+
+  <meta itemprop="name" content="Я.Практикум">
+  <meta itemprop="description" content="Основы менеджмента для технорей# Ссылка на доклад Александра Поломодова Книга “Digital Transformation Game Plan”# В книге 3-и части
+Перепрофилирование бизнеса и операционной архитектуры для фокусировки на ценности для клиентов Создание адаптивной организации ( agile and responsive ) Мобилизация технологий как ключевых компетенций компании и того, что отличает компанию от ее конкурентов Основные мысли ориентация на ценность клиентов использовать thin-slice (complete piece of value) подход измерения и опора на данные использование кросс-функциональных команд, исключить влияние структуры компании на результат метод эксперимента - Explore, Exploit, Sustain 34 принципа цифровой трансформации [[Краткий обзор книги “Digital Transfo.pdf]] Книга “Accelerate”# Способы улучшить работу компании Метрики, которые НЕ работают (не стоит их использовать) Метрики, которые следует использовать Типы культур в организации по Westrum Важнейшим критерием характеристики организации является поток информации (information flow) Инженерные практики (Continuous Delivery &#43; Architecture) Набор практик для реализации в организации Лидерство и трансформация [[Обзор книги Accelerate (part I).pdf]] [[Обзор книги Accelerate (part II).pdf]] [[Обзор книги Accelerate (part III).pdf]]">
+  <meta itemprop="wordCount" content="336">
+
+<title>Процессы. Managment | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-технологии">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle" checked />
+    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+      <a role="button" class="">
+        Технологии</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B0%D0%B2%D1%82%D0%BE%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-bash/" class="">
+      Автодополнение В Bash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
+      Интервью По System Design.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BE%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0/" class="">
+      Отладка</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="">
+      Процессы. Agile, Scrum, Kanban</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/" class="active">
+      Процессы. Managment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="">
+      Реактивное Программирование В Java ( Flux, Web Flux)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-go/" class="">
+      Технологии. Язык Go</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-redis/" class="">
+      Технологии. Redis</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/giga-ide-intellij/" class="">
+      Giga ID E ( Intelli J)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jooq/" class="">
+      JOOQ</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/" class="">
+      Jq</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/kerberos/" class="">
+      Kerberos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/klogging/" class="">
+      KLogging</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/ldap/" class="">
+      Ldap</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="">
+      Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/" class="">
+      OSquery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="">
+      Quarkus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/" class="">
+      Salt Stack</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="">
+      Spring Framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="">
+      Static Site Generator Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/" class="">
+      WebSocket</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle"  />
+    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+      <a role="button" class="">
+        Dev Ops</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
+    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+      <a role="button" class="">
+        00. Теория</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="">
+      Путь Dev Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/" class="">
+      Безопасность</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BB%D0%B8%D0%B2%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-lean/" class="">
+      Бережливое Производство ( Lean)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BB%D0%BE%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Логирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8/" class="">
+      Метрики</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/continuous-delivery--continuous-deployment/" class="">
+      Continuous Delivery &amp; Continuous Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/gitops/" class="">
+      Git Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/infrastructure-as-code/" class="">
+      Infrastructure as Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/twelve-factor-app/" class="">
+      Twelve Factor App</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/value-stream-map/" class="">
+      Value Stream Map</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B0%D0%BB%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0/" class="">
+      Балансировка. Кластера</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle"  />
+    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+      <a role="button" class="">
+        01. Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F/" class="">
+      Виртуализация</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B/" class="">
+      Нагрузка системы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="">
+      Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="">
+      Dbops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="">
+      Docker</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="">
+      Fluent Bit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/git/" class="">
+      Git</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gitlab/" class="">
+      Git Lab</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/grafana/" class="">
+      Grafana</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/" class="">
+      Java. Certificates</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nexus/" class="">
+      Nexus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nginx/" class="">
+      NGinx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/" class="">
+      Prometheus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/s3/" class="">
+      S3</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ssh/" class="">
+      SSH</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/terraform/" class="">
+      Terraform</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
+    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+      <a role="button" class="">
+        02. Linux</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Linux. Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Дисковая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/" class="">
+      Linux. Командная Строка. Менеджеры Пакетов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BB%D0%BE%D0%B3%D0%B8/" class="">
+      Linux. Логи</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%B0%D0%B2%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9/" class="">
+      Linux. Права Пользователей</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Linux. Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8/" class="">
+      Linux. Работа с пользователями</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Сетевая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-systemd/" class="">
+      Linux. Система Инициализации Systemd</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
+    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+      <a role="button" class="">
+        03. Kubernetes</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
+      Оркестрация Контейнеров.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubectl/" class="">
+      Kubectl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/" class="">
+      Kubernetes. Архитектура</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-argocd/" class="">
+      Kubernetes. Argo Cd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-helm/" class="">
+      Kubernetes. Helm</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Базовые Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Расширенные Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/" class="">
+      Kuberntes. Сеть</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC/" class="">
+      Диплом</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D1%8F.%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC.-devops/" class="">
+      Я. Практикум. Dev Ops</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
+    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+      <a role="button" class="">
+        Otus. Kotlin</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
+    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+      <a role="button" class="">
+        Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/spring-&#43;-kotlin/" class="">
+      Spring &#43; Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gradle/" class="">
+      Gradle</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/jackson.-kotlin/" class="">
+      Jackson. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/openapi/" class="">
+      Open API</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/security.-kotlin/" class="">
+      Security. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0/" class="">
+      Мультиплатформа</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BF%D0%B0%D1%82%D1%82%D0%B5%D1%80%D0%BD%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/" class="">
+      Паттерны Проектирования</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
+    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+      <a role="button" class="">
+        Язык</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/coroutines/" class="">
+      Coroutines</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/dsl/" class="">
+      DSL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
+      Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D0%BE%D0%BF-%D0%B2-kotlin/" class="">
+      Ооп В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-%D0%B2-kotlin/" class="">
+      Особенности Типов В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-kotlin/" class="">
+      Технологии. Язык Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/otus.-kotlin/" class="">
+      Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Процессы. Managment</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#основы-менеджмента-для-технорей">Основы менеджмента для технорей</a></li>
+    <li><a href="#книга-digital-transformation-game-plan">Книга “Digital Transformation Game Plan”</a></li>
+    <li><a href="#книга-accelerate">Книга “Accelerate”</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h2 id="основы-менеджмента-для-технорей">Основы менеджмента для технорей<a class="anchor" href="#%d0%be%d1%81%d0%bd%d0%be%d0%b2%d1%8b-%d0%bc%d0%b5%d0%bd%d0%b5%d0%b4%d0%b6%d0%bc%d0%b5%d0%bd%d1%82%d0%b0-%d0%b4%d0%bb%d1%8f-%d1%82%d0%b5%d1%85%d0%bd%d0%be%d1%80%d0%b5%d0%b9">#</a></h2>
+<ul>
+<li><a href="6.SOLID%27%D0%BD%D1%8B%D0%B9%20%D1%82%D0%B8%D0%BC%D0%BB%D0%B8%D0%B4,%20%D0%B8%D0%BB%D0%B8%20%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B%20%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%20%D0%B4%D0%BB%D1%8F%20%D1%82%D0%B5%D1%85%D0%BD%D0%B0%D1%80%D0%B5%D0%B9_%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80%20%D0%9F%D0%BE%D0%BB%D0%BE%D0%BC%D0%BE%D0%B4%D0%BE%D0%B2%20%28Tinkoff%29_%D0%B2%D0%B5%D1%80.3.pdf">Ссылка на доклад Александра Поломодова</a></li>
+</ul>
+<h2 id="книга-digital-transformation-game-plan">Книга “Digital Transformation Game Plan”<a class="anchor" href="#%d0%ba%d0%bd%d0%b8%d0%b3%d0%b0-digital-transformation-game-plan">#</a></h2>
+<p>В книге 3-и части</p>
+<ul>
+<li>Перепрофилирование бизнеса и операционной архитектуры для фокусировки на ценности для клиентов</li>
+<li>Создание адаптивной организации ( agile and responsive )</li>
+<li>Мобилизация технологий как ключевых компетенций компании и того, что отличает компанию от ее конкурентов
+<img src="/_images/S-2024-01-29_07.52.31.png" alt="">
+Основные мысли</li>
+<li>ориентация на ценность клиентов</li>
+<li>использовать thin-slice (complete piece of value) подход</li>
+<li>измерения и опора на данные</li>
+<li>использование кросс-функциональных команд, исключить влияние структуры компании на результат</li>
+<li>метод эксперимента - Explore, Exploit, Sustain</li>
+<li>34 принципа цифровой трансформации
+[[Краткий обзор книги “Digital Transfo.pdf]]</li>
+</ul>
+<h2 id="книга-accelerate">Книга “Accelerate”<a class="anchor" href="#%d0%ba%d0%bd%d0%b8%d0%b3%d0%b0-accelerate">#</a></h2>
+<p>Способы улучшить работу компании
+<img src="/_images/S-2024-02-04_13.37.24.png" alt="">
+Метрики, которые НЕ работают (не стоит их использовать)
+<img src="/_images/S-2024-02-04_13.50.41.png" alt="">
+Метрики, которые следует использовать
+<img src="/_images/S-2024-02-04_13.52.26.png" alt="">
+Типы культур в организации по Westrum
+<img src="/_images/S-2024-02-04_17.52.02.png" alt="">
+Важнейшим критерием характеристики организации является поток информации (information flow)
+<img src="/_images/S-2024-02-04_17.57.10.png" alt="">
+Инженерные практики (Continuous Delivery + Architecture)
+<img src="/_images/S-2024-02-04_18.00.51.png" alt="">
+<img src="/_images/S-2024-02-04_18.04.58.png" alt="">
+Набор практик для реализации в организации
+<img src="/_images/S-2024-02-04_18.07.41.png" alt="">
+<img src="/_images/S-2024-02-04_18.08.57.png" alt="">
+Лидерство и трансформация
+<img src="/_images/S-2024-02-04_18.20.26.png" alt="">
+<img src="/_images/S-2024-02-04_18.21.20.png" alt="">
+[[Обзор книги <em>Accelerate</em> (part I).pdf]]
+[[Обзор книги <em>Accelerate</em> (part II).pdf]]
+[[Обзор книги <em>Accelerate</em> (part III).pdf]]</p>
+<h1 id="реальная-инженерная-трансформация-moex">Реальная инженерная трансформация (MOEX)<a class="anchor" href="#%d1%80%d0%b5%d0%b0%d0%bb%d1%8c%d0%bd%d0%b0%d1%8f-%d0%b8%d0%bd%d0%b6%d0%b5%d0%bd%d0%b5%d1%80%d0%bd%d0%b0%d1%8f-%d1%82%d1%80%d0%b0%d0%bd%d1%81%d1%84%d0%be%d1%80%d0%bc%d0%b0%d1%86%d0%b8%d1%8f-moex">#</a></h1>
+<p>Метрики, по которым оценивалась
+<img src="/_images/S-2024-02-04_18.52.17.png" alt="">
+<img src="/_images/S-2024-02-04_18.53.08.png" alt="">
+<img src="/_images/S-2024-02-04_18.53.16.png" alt="">
+<strong>Изменения делались, через изменения команды</strong></p>
+<ul>
+<li>Центром вселенной стала продуктовая/потокоцентричная команда, а роль менеджера изменилась - от позиции командования и контроля к лидеру и «слуге». Такие команды мы укомплектовали всеми необходимыми ролями, чтобы они могли независимо работать.</li>
+<li>Создание сообществ по направлениям (архитектура, тестирование, разработка, DevOps)</li>
+<li>Введение технических спринтов. Для перехода были организованы технические спринты. Это были итерации, направленные только на технологические задачи, связанные с изменением ветвления и конвейера. В этих спринтах мы сначала наращивали покрытие тестами. После проставляли quality gates (QGs) в нужных местах конвейера, неспеша переходили на новые рельсы и стабилизировали все последующие процессы.</li>
+<li>Инвестирование в ресурсы на автотестирование, и этот процесс должен быть прозрачен бизнесу</li>
+<li>В конвейер внедрили обязательные <strong>Qs и SGs (quality and security gates)</strong>. - Проверки и тесты на различных этапах. Такие как SAST, юнит, UI, API, регрессионные, контрактные, ручные, интеграционные, агентские и т.д. Несоответствие значения  QGs/SGs эталонному блокирует конвейер до исправления ошибок.
+<img src="/_images/S-2024-02-04_18.57.36.png" alt="">
+<strong>Основные принципы Deploy</strong>
+<img src="/_images/S-2024-02-04_18.57.09.png" alt="">
+<strong>Подход к архитектуре (микросервис как база + trunk-based подход)</strong>
+<img src="/_images/S-2024-02-04_18.58.52.png" alt="">
+<a href="/_resources/%D0%A0%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F%20%D0%B8%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D0%B0%D1%8F%20%D1%82%D1%80%D0%B0%D0%BD%D1%81%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D1%8F_%20%D0%BE%D1%82%20%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%20%D0%B8%20%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%20%D0%B4%D0%BE%20%D0%BA%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D1%8B,%20%D0%BA%D0%BE%D0%BD%D0%B2%D0%B5%D0%B9%D0%B5%D1%80%D0%BE%D0%B2%20%D0%B8%20%D0%B8%D0%BD%D1%84%D1%80%D0%B0%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D1%8B%20_%20%D0%A5%D0%B0%D0%B1%D1%80.pdf">Реальная инженерная трансформация_ от команд и метрик до культуры, конвейеров и инфраструктуры _ Хабр</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Процессы. Agile, Scrum, Kanban</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="flex align-center">
+        <span>Реактивное Программирование В Java ( Flux, Web Flux)</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#основы-менеджмента-для-технорей">Основы менеджмента для технорей</a></li>
+    <li><a href="#книга-digital-transformation-game-plan">Книга “Digital Transformation Game Plan”</a></li>
+    <li><a href="#книга-accelerate">Книга “Accelerate”</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

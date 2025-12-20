@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" Для работы с cgroups используют отдельную, псевдофайловую систему (всё в Linux — файл) cgroupfs, а за управление ресурсами отвечают модули ядра, которые называются контроллерами ресурсов (отдельно для памяти, диска и т.д.). /sys/fs/cgroup/ - расположение файловой системы cgroupfs Каталог user.slice содержит настройки для пользователей, в то время как system.slice управляет системными сервисами. IPC namespace — для изоляции межпроцессорных взаимодействий и общей памяти; NET namespace — для изоляции сети; USR namespace — для изоляции имён пользователей; PID namespace — для изоляции pid-ов и capabilities (права на системные вызовы процесса); UTC namespace — для изоляции имени хоста и доменного имени; MNT namespace — для изоляции файловой системы и файловых доступов; chroot — для контроля корня файловой системы, которую будет видеть изолированный процесс; cgroups — для изоляции ресурсов: сколько процессора, памяти и других мощностей будет доступно изолированному процессу; CAP drop — для сброса лишних прав на системные вызовы (набор таких прав на capabilities)
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="Docker">
+  <meta property="og:description" content="Для работы с cgroups используют отдельную, псевдофайловую систему (всё в Linux — файл) cgroupfs, а за управление ресурсами отвечают модули ядра, которые называются контроллерами ресурсов (отдельно для памяти, диска и т.д.). /sys/fs/cgroup/ - расположение файловой системы cgroupfs Каталог user.slice содержит настройки для пользователей, в то время как system.slice управляет системными сервисами. IPC namespace — для изоляции межпроцессорных взаимодействий и общей памяти; NET namespace — для изоляции сети; USR namespace — для изоляции имён пользователей; PID namespace — для изоляции pid-ов и capabilities (права на системные вызовы процесса); UTC namespace — для изоляции имени хоста и доменного имени; MNT namespace — для изоляции файловой системы и файловых доступов; chroot — для контроля корня файловой системы, которую будет видеть изолированный процесс; cgroups — для изоляции ресурсов: сколько процессора, памяти и других мощностей будет доступно изолированному процессу; CAP drop — для сброса лишних прав на системные вызовы (набор таких прав на capabilities)">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="devops">
+    <meta property="article:published_time" content="2025-10-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-12T00:00:00+00:00">
+
+
+  <meta itemprop="name" content="Docker">
+  <meta itemprop="description" content="Для работы с cgroups используют отдельную, псевдофайловую систему (всё в Linux — файл) cgroupfs, а за управление ресурсами отвечают модули ядра, которые называются контроллерами ресурсов (отдельно для памяти, диска и т.д.). /sys/fs/cgroup/ - расположение файловой системы cgroupfs Каталог user.slice содержит настройки для пользователей, в то время как system.slice управляет системными сервисами. IPC namespace — для изоляции межпроцессорных взаимодействий и общей памяти; NET namespace — для изоляции сети; USR namespace — для изоляции имён пользователей; PID namespace — для изоляции pid-ов и capabilities (права на системные вызовы процесса); UTC namespace — для изоляции имени хоста и доменного имени; MNT namespace — для изоляции файловой системы и файловых доступов; chroot — для контроля корня файловой системы, которую будет видеть изолированный процесс; cgroups — для изоляции ресурсов: сколько процессора, памяти и других мощностей будет доступно изолированному процессу; CAP drop — для сброса лишних прав на системные вызовы (набор таких прав на capabilities)">
+  <meta itemprop="datePublished" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1127">
+
+<title>Docker | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-devops">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle"  />
+    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+      <a role="button" class="">
+        Технологии</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B0%D0%B2%D1%82%D0%BE%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-bash/" class="">
+      Автодополнение В Bash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
+      Интервью По System Design.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BE%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0/" class="">
+      Отладка</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="">
+      Процессы. Agile, Scrum, Kanban</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/" class="">
+      Процессы. Managment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="">
+      Реактивное Программирование В Java ( Flux, Web Flux)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-go/" class="">
+      Технологии. Язык Go</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-redis/" class="">
+      Технологии. Redis</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/giga-ide-intellij/" class="">
+      Giga ID E ( Intelli J)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jooq/" class="">
+      JOOQ</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/" class="">
+      Jq</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/kerberos/" class="">
+      Kerberos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/klogging/" class="">
+      KLogging</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/ldap/" class="">
+      Ldap</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="">
+      Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/" class="">
+      OSquery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="">
+      Quarkus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/" class="">
+      Salt Stack</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="">
+      Spring Framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="">
+      Static Site Generator Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/" class="">
+      WebSocket</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle" checked />
+    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+      <a role="button" class="">
+        Dev Ops</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
+    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+      <a role="button" class="">
+        00. Теория</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="">
+      Путь Dev Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/" class="">
+      Безопасность</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BB%D0%B8%D0%B2%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-lean/" class="">
+      Бережливое Производство ( Lean)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BB%D0%BE%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Логирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8/" class="">
+      Метрики</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/continuous-delivery--continuous-deployment/" class="">
+      Continuous Delivery &amp; Continuous Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/gitops/" class="">
+      Git Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/infrastructure-as-code/" class="">
+      Infrastructure as Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/twelve-factor-app/" class="">
+      Twelve Factor App</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/value-stream-map/" class="">
+      Value Stream Map</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B0%D0%BB%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0/" class="">
+      Балансировка. Кластера</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle" checked />
+    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+      <a role="button" class="">
+        01. Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F/" class="">
+      Виртуализация</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B/" class="">
+      Нагрузка системы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="">
+      Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="">
+      Dbops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="active">
+      Docker</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="">
+      Fluent Bit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/git/" class="">
+      Git</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gitlab/" class="">
+      Git Lab</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/grafana/" class="">
+      Grafana</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/" class="">
+      Java. Certificates</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nexus/" class="">
+      Nexus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nginx/" class="">
+      NGinx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/" class="">
+      Prometheus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/s3/" class="">
+      S3</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ssh/" class="">
+      SSH</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/terraform/" class="">
+      Terraform</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
+    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+      <a role="button" class="">
+        02. Linux</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Linux. Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Дисковая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/" class="">
+      Linux. Командная Строка. Менеджеры Пакетов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BB%D0%BE%D0%B3%D0%B8/" class="">
+      Linux. Логи</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%B0%D0%B2%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9/" class="">
+      Linux. Права Пользователей</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Linux. Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8/" class="">
+      Linux. Работа с пользователями</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Сетевая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-systemd/" class="">
+      Linux. Система Инициализации Systemd</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
+    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+      <a role="button" class="">
+        03. Kubernetes</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
+      Оркестрация Контейнеров.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubectl/" class="">
+      Kubectl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/" class="">
+      Kubernetes. Архитектура</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-argocd/" class="">
+      Kubernetes. Argo Cd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-helm/" class="">
+      Kubernetes. Helm</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Базовые Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Расширенные Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/" class="">
+      Kuberntes. Сеть</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC/" class="">
+      Диплом</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D1%8F.%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC.-devops/" class="">
+      Я. Практикум. Dev Ops</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
+    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+      <a role="button" class="">
+        Otus. Kotlin</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
+    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+      <a role="button" class="">
+        Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/spring-&#43;-kotlin/" class="">
+      Spring &#43; Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gradle/" class="">
+      Gradle</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/jackson.-kotlin/" class="">
+      Jackson. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/openapi/" class="">
+      Open API</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/security.-kotlin/" class="">
+      Security. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0/" class="">
+      Мультиплатформа</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BF%D0%B0%D1%82%D1%82%D0%B5%D1%80%D0%BD%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/" class="">
+      Паттерны Проектирования</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
+    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+      <a role="button" class="">
+        Язык</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/coroutines/" class="">
+      Coroutines</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/dsl/" class="">
+      DSL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
+      Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D0%BE%D0%BF-%D0%B2-kotlin/" class="">
+      Ооп В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-%D0%B2-kotlin/" class="">
+      Особенности Типов В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-kotlin/" class="">
+      Технологии. Язык Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/otus.-kotlin/" class="">
+      Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Docker</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#образы">Образы</a>
+      <ul>
+        <li><a href="#ключевые-слова-dockerfile">Ключевые слова Dockerfile</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker-в-cicd">Docker в CI/CD</a></li>
+    <li><a href="#команды">Команды</a></li>
+    <li><a href="#docker-compose">Docker Compose</a>
+      <ul>
+        <li><a href="#docker-compose-command">Docker Compose Command</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker-in-docker">Docker-in-Docker</a></li>
+    <li><a href="#health-check">Health Check</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><ul>
+<li>Для работы с <strong>cgroups</strong> используют отдельную, псевдофайловую систему (всё в Linux — файл) <strong>cgroupfs</strong>, а за управление ресурсами отвечают модули ядра, которые называются <strong>контроллерами ресурсов</strong> (отдельно для памяти, диска и т.д.).</li>
+<li>/sys/fs/cgroup/ - расположение файловой системы cgroupfs</li>
+<li>Каталог <code>user.slice</code> содержит настройки для пользователей, в то время как <code>system.slice</code> управляет системными сервисами.</li>
+</ul>
+<p><code>IPC namespace</code> — для изоляции межпроцессорных взаимодействий и общей памяти;
+<code>NET namespace</code> — для изоляции сети;
+<code>USR namespace</code> — для изоляции имён пользователей;
+<code>PID namespace</code> — для изоляции pid-ов и capabilities (права на системные вызовы процесса);
+<code>UTC namespace</code> — для изоляции имени хоста и доменного имени;
+<code>MNT namespace</code> — для изоляции файловой системы и файловых доступов;
+<code>chroot</code> — для контроля корня файловой системы, которую будет видеть изолированный процесс;
+<code>cgroups</code> — для изоляции ресурсов: сколько процессора, памяти и других мощностей будет доступно изолированному процессу;
+<code>CAP drop</code> — для сброса лишних прав на системные вызовы (набор таких прав на capabilities)</p>
+<p><strong>Runc</strong> — это движок для работы с контейнерами. Нужно создать папку, внести в неё <code>config.json</code> файлик, прописать там ограничения, а рядом сложить все файлы, которые нужны процессу. При выполнении <code>runc run</code>
+<img src="/_images/PI-20241012104135.png" alt="">
+<img src="/_images/PI-20241012110624.png" alt=""></p>
+<p>Приложени должны писать свои логи в <code>stdout</code> и <code>stderr</code>, чтобы докер мог их собрать.
+Контейнеры имеют свои директории на хостовой машине и пишут в неё логи и другую информацию. Обычно директория контейнеров распологается по адресу <code>/var/lib/docker/containers/&lt;container_id&gt;</code></p>
+<p>Логи из контейнера настраиваются через <code>docker daemon</code></p>
+<table>
+  <thead>
+      <tr>
+          <th>вывод локально в json-file</th>
+          <th>GELF</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><img src="/_images/PI-20250118201023.png" alt=""></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="образы">Образы<a class="anchor" href="#%d0%be%d0%b1%d1%80%d0%b0%d0%b7%d1%8b">#</a></h2>
+<p>Docker очень рационально использует место. Образ состоит из слоёв, каждый из которых представляет неизменяемую файловую систему, то есть набор файлов и папок. В целом образ является <strong>объединенной файловой системой (Union File System, или Union FS)</strong>.
+<code>Каждый слой в Docker может быть только для чтения, за исключением верхнего, который поддерживает изменения.</code>
+<img src="/_images/PI-20241103180223.png" alt="">
+В <code>.dockerignore</code> можно задавать шаблоны каталогов и файлов, которые попадут в образ.
+<img src="/_images/S-2024-11-03_18.56.05.png" alt="">
+<strong>многоэтапная (multi-stage) сборка</strong></p>
+<h3 id="ключевые-слова-dockerfile">Ключевые слова Dockerfile<a class="anchor" href="#%d0%ba%d0%bb%d1%8e%d1%87%d0%b5%d0%b2%d1%8b%d0%b5-%d1%81%d0%bb%d0%be%d0%b2%d0%b0-dockerfile">#</a></h3>
+<p><img src="/_images/PI-20241103182347.png" alt="">
+Для запуска процесса в контейнере обычно используют <code>RUN</code>, <code>ENTRYPOINT</code> или <code>CMD</code>. <code>RUN</code> хорош для служебных действий вроде установки пакетов или смены каталога. Чтобы запустить основной процесс контейнера, используют <code>ENTRYPOINT</code> или <code>CMD</code>, без них контейнер не взлетит. Основная разница между ними в том, что при использовании <code>CMD</code> параметры командной строки, которые вы передаёте в момент запуска контейнера в командной строке, могут перезаписать параметры, указанные в Dockerfile. В случае с <code>ENTRYPOINT</code>, параметры из командной строки не могут перезаписать значения из Dockerfile</p>
+<h2 id="docker-в-cicd">Docker в CI/CD<a class="anchor" href="#docker-%d0%b2-cicd">#</a></h2>
+<p>Kaniko — поможет нам создать образ, а Crane — поставить на нём теги</p>
+<p>в build добавить Kaniko
+<img src="/_images/PI-20241104015912.png" alt=""></p>
+<p>в release добавить crane</p>
+<p><code>image:</code>
+<code>name: gcr.io/go-containerregistry/crane:debug</code>
+<code>entrypoint: [ &quot;&quot; ]</code>
+<code>before_script:</code></p>
+<ul>
+<li><code>crane auth login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY</code>
+<code>script:</code></li>
+<li><code>crane tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $VERSION</code></li>
+</ul>
+<h2 id="команды">Команды<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h2>
+<p>!!! ==Пользователь, который применяет команды должен быть в группе docker==</p>
+<ul>
+<li><code>docker run &lt;адрес репозитория&gt;/&lt;имя репозитория&gt;/&lt;имя образа&gt;:&lt;тег образа&gt; &lt;команда, которую нужно выполнить внутри контенера&gt;</code> - запустить контейнер
+<ul>
+<li><code>docker run --rm -d --name sausage-backend --env-file .env --network=docker_network (название образа):(tag)</code></li>
+<li><code>-d</code> - запуск в <strong>detached</strong> режиме</li>
+<li><code>-rm</code> - автоматическое удаление контейнера после запуска</li>
+<li><code>-p 9999:8080</code> - проброс портов</li>
+<li><code>-v ~/caddy/conf:/caddy</code> - подмантировать <code>~/caddy/conf</code> папку в образ</li>
+<li><code>--env-file</code> - запуск с переменными окружения из файла</li>
+<li><code>--network=sausage_network</code> - указать при запуске сеть</li>
+<li><code>--restart=on-failure:10</code> - рестартовать при падении</li>
+<li><code>docker run -it --log-driver json-file --log-opt max-size=10m --log-opt max-file=3</code> - задать опции файлов логов</li>
+</ul>
+</li>
+<li><code>docker ps -a</code> - посмотреть работающие и остановленные контейнеры</li>
+<li><code>docker images</code> - посмотреть список образов в локальном репозитории</li>
+<li><code>docker rm</code> - удалить контейнер, опция <code>-f</code> - принудительное удалениие</li>
+<li><code>docker exec -it hello bash</code> - выполнить команду bash в контейнере hello; i -  interactive, t - terminal</li>
+<li><code>docker commit (название контейнера) (название комита)</code> - создает новый образ на основе изменений в контейнере</li>
+<li><code>docker start (id контейнера)</code> - стартануть контейнер</li>
+<li><code>docker stop (id контейнера)</code> - остановить контейнер</li>
+<li><code>docker version</code> - узнать версию Docker</li>
+<li><code>docker pull</code> , <code>docker pull tennyy/postman</code> - обновить образ (или создать новый), скачивание своего образа с DockerHub</li>
+<li><code>docker push &lt;dockerhub username&gt;/(название образа)</code> - загрузить образ в репозиторий</li>
+<li><code>docker login</code> - авторизация в DockerHub</li>
+<li><code>docker logout</code> - выйти из авторизованного пользователя</li>
+<li><code>docker attach (id контейнера)</code> - выйти из интерактивного режима</li>
+<li><code>docker build -t (название образа) .</code> - собрать образ в текущей директории,
+<ul>
+<li><code>docker bild -t (название образа):version</code> - добавить тег образу</li>
+<li><code>docker build --no-cache</code> - чтобы образ пересобрался полностью, так как Docker кэширует слои при сборке</li>
+<li><code>docker build -t sausage-backend:$VERSION --build-arg VERSION=$VERSION</code> . - сборка и передача аргумента</li>
+</ul>
+</li>
+<li><code>docker logs (id/name контейнера)</code> - посмотреть логи контейнера, опция <code>-f</code> показывать логи в реальном времени</li>
+<li><code>docker tag (старое название образа) (новое название)</code> - смена названия образа, посредством создания нового</li>
+<li><code>docker cp (название файла) (название контейнера):(путь в контейнере)</code> - добавить файлы в контейнер</li>
+<li><code>docker inspect (id контейнера)</code> - Return low-level information on Docker objects.</li>
+<li><code>docker rmi (image)</code> - удалить образ</li>
+<li><code>docker network create -d bridge sausage_network</code> - создать сеть для взаимодействия контейнеров</li>
+<li><code>docker container ls --filter health=healthy</code> - вывести список &ldquo;здоровых&rdquo; контейнеров</li>
+<li><code>docker --context remote compose --env-file deploy.env up backend -d --pull &quot;always&quot; --force-recreate</code> - запуск контейнеров при помощи context на удаленном сервере
+<ul>
+<li><code>--context remote</code>: указывает на удалённый контекст Docker, который определён заранее. Контекст представляет собой среду, в которой выполняются команды Docker.</li>
+<li><code>up &lt;service&gt;</code>: запускает сервис, указанные в файле <code>docker-compose.yml</code></li>
+<li><code>--pull &quot;always&quot;</code>: указывает Docker Compose всегда обновлять образы контейнеров до последней версии при запуске.</li>
+<li><code>--force-recreate</code>: принудительно пересоздаёт контейнеры, даже если они уже существуют.</li>
+</ul>
+</li>
+<li><code>docker context ls</code> - посмотреть все контексты</li>
+<li><code>docker inspect</code> - можно использовать, чтобы посмотреть переменные среды
+<img src="/_images/PI-20241124121239.png" alt=""></li>
+<li><code>docker exec &lt;container&gt; env</code> - посмотреть переменные внутри контейнера
+<img src="/_images/PI-20241124121541.png" alt=""></li>
+<li><code>docker network ls</code> - посмотреть сети</li>
+<li><code>docker volumes ls</code> - посмотреть подключаемые тома</li>
+<li>удалить ненужные образы (в примере по ключу praktikum) - `docker rmi -f <code>docker images | grep praktikum | awk '{ print $3}' | tr '\n' ' ' </code></li>
+</ul>
+<h2 id="docker-compose">Docker Compose<a class="anchor" href="#docker-compose">#</a></h2>
+<ul>
+<li><a href="https://docs.docker.com/reference/compose-file/build/">Описание build секции. Compose build Specification</a>
+<img src="/_images/PI-20241110102237.png" alt=""></li>
+<li><a href="https://docs.docker.com/reference/compose-file/">Описание формата файла. Compose file reference</a>
+<img src="/_images/PI-20241110102303.png" alt=""></li>
+<li>подключение томов
+<img src="/_images/PI-20241110102402.png" alt=""></li>
+</ul>
+<ul>
+<li><code>docker context inspect &lt;container-name&gt;</code> - посмотреть тома
+<img src="/_images/PI-20241124122428.png" alt=""></li>
+</ul>
+<ul>
+<li>использование профилей
+<img src="/_images/S-2024-11-24_12.16.37.png" alt=""></li>
+<li>Дерево процессов containerd
+<img src="/_images/PI-20241124122704.png" alt=""></li>
+<li>указание зависимости
+<img src="/_images/PI-20241124122102.png" alt=""></li>
+<li>включение другого файла в текущий compose файл
+<img src="/_images/PI-20241124122122.png" alt=""></li>
+<li>Примеры compose файлов
+<img src="/_images/PI-20241124122554.png" alt=""></li>
+<li>Пример задания логов
+<img src="/_images/PI-20250118201829.png" alt=""></li>
+</ul>
+<h3 id="docker-compose-command">Docker Compose Command<a class="anchor" href="#docker-compose-command">#</a></h3>
+<ul>
+<li><code>docker compose up -d --scale web=5</code> - запуск со скалированием контейнеров</li>
+<li><code>docker compose top</code> - top для контейнерова в docker-compose</li>
+<li><code>docker compose events</code> - отображение событий в контейнерах</li>
+<li><code>docker compose -f docker-compose-minio.yml up -d</code> - запуск с именем файла</li>
+<li><code>docker compose --profile &lt;profile-name&gt; up</code> - запуск контейнеров с указанным профайлом
+<ul>
+<li><code>docker compose --profile &quot;*&quot; up</code> - запуск со всеми указанными профайлами</li>
+</ul>
+</li>
+</ul>
+<h2 id="docker-in-docker">Docker-in-Docker<a class="anchor" href="#docker-in-docker">#</a></h2>
+<p><code>deploy:</code>
+<code>stage: deploy</code>
+** # Docker-in-Docker image**
+<code>image: docker:24.0.7-alpine3.19</code>
+<code>before_script:</code>
+** # Docker-in-Docker cli**
+<code>- apk add docker-cli-compose openssh-client</code>
+** # create remote context**
+<code>- docker context create remote --description &quot;remote ssh&quot; --docker &quot;host=ssh://${DEV_USER}@${DEV_HOST}&quot;</code>
+<code>script:</code>
+** # execute remote context action**
+<code>- docker --context remote compose --env-file deploy.env up backend -d --pull &quot;always&quot; --force-recreate</code></p>
+<h2 id="health-check">Health Check<a class="anchor" href="#health-check">#</a></h2>
+<p>В Dockerfile
+<code>HEALTHCHECK CMD curl --fail -s http://localhost:8080/&lt;health check endpoint&gt;</code></p>
+<p>В docker compose
+<code>healthcheck:</code>
+<code>test: curl --fail -s http://localhost:8080/&lt;health check endpoint&gt;</code>
+<code>interval: 30s</code>
+<code>timeout: 10s</code>
+<code>start_period: 20s</code>
+<code>retries: 6</code></p>
+<p><img src="/_images/PI-20241116210138.png" alt="">
+Статус для контейнеров с healthcheck отображает состояние &ldquo;здоровья&rdquo;
+<img src="/_images/PI-20241116210421.png" alt=""></p>
+<p>curl может быть заменен на <code>wget --no-verbose --tries=1 --spider http://localhost || exit 1</code></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Dbops</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="flex align-center">
+        <span>Fluent Bit</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#образы">Образы</a>
+      <ul>
+        <li><a href="#ключевые-слова-dockerfile">Ключевые слова Dockerfile</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker-в-cicd">Docker в CI/CD</a></li>
+    <li><a href="#команды">Команды</a></li>
+    <li><a href="#docker-compose">Docker Compose</a>
+      <ul>
+        <li><a href="#docker-compose-command">Docker Compose Command</a></li>
+      </ul>
+    </li>
+    <li><a href="#docker-in-docker">Docker-in-Docker</a></li>
+    <li><a href="#health-check">Health Check</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PostgreSQL# psql &#34;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&#34; - подключение к БД локальным клиентом
+Основные командыp
+\dt - показать таблицы \d product - просмотреть структуру таблицы product \timing - запуск тайминга запросов Чистка коннектов к БД# Подключениия храняться в таблице pg_stat_activity. Посмотреть подключения SELECT * from pg_stat_activity WHERE datname=&#39;std-028-50&#39; Комманда DISCONNECT SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = ‘std-028-50’ AND state = ‘idle’ AND pid &lt;&gt; pg_backend_pid(); Создание dump# создание backup - pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir восстановление backup - pg_restore -d &#34;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&#34; --format=d /tmp/dump.dir/ DML# INSERT INTO product (id, name, picture_url, price) values (1, &#39;Сливочная&#39;, &#39;https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg&#39;, 320.00); - внести данные SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product); - использование функций JOIN &#43; функции-агрегаторы &#43; работа с датами DDL# DROP TABLE product; - удалить таблицу CREATE SCHEMA dw; - создание схемы CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) ); - создание таблицы CREATE INDEX idx_order_product_order_id ON order_product (order_id) - создание индекса Транзакции# ">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="Я.Практикум">
+  <meta property="og:description" content="PostgreSQL# psql &#34;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&#34; - подключение к БД локальным клиентом
+Основные командыp
+\dt - показать таблицы \d product - просмотреть структуру таблицы product \timing - запуск тайминга запросов Чистка коннектов к БД# Подключениия храняться в таблице pg_stat_activity. Посмотреть подключения SELECT * from pg_stat_activity WHERE datname=&#39;std-028-50&#39; Комманда DISCONNECT SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = ‘std-028-50’ AND state = ‘idle’ AND pid &lt;&gt; pg_backend_pid(); Создание dump# создание backup - pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir восстановление backup - pg_restore -d &#34;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&#34; --format=d /tmp/dump.dir/ DML# INSERT INTO product (id, name, picture_url, price) values (1, &#39;Сливочная&#39;, &#39;https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg&#39;, 320.00); - внести данные SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product); - использование функций JOIN &#43; функции-агрегаторы &#43; работа с датами DDL# DROP TABLE product; - удалить таблицу CREATE SCHEMA dw; - создание схемы CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) ); - создание таблицы CREATE INDEX idx_order_product_order_id ON order_product (order_id) - создание индекса Транзакции#">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="devops">
+
+
+  <meta itemprop="name" content="Я.Практикум">
+  <meta itemprop="description" content="PostgreSQL# psql &#34;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&#34; - подключение к БД локальным клиентом
+Основные командыp
+\dt - показать таблицы \d product - просмотреть структуру таблицы product \timing - запуск тайминга запросов Чистка коннектов к БД# Подключениия храняться в таблице pg_stat_activity. Посмотреть подключения SELECT * from pg_stat_activity WHERE datname=&#39;std-028-50&#39; Комманда DISCONNECT SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = ‘std-028-50’ AND state = ‘idle’ AND pid &lt;&gt; pg_backend_pid(); Создание dump# создание backup - pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir восстановление backup - pg_restore -d &#34;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&#34; --format=d /tmp/dump.dir/ DML# INSERT INTO product (id, name, picture_url, price) values (1, &#39;Сливочная&#39;, &#39;https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg&#39;, 320.00); - внести данные SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product); - использование функций JOIN &#43; функции-агрегаторы &#43; работа с датами DDL# DROP TABLE product; - удалить таблицу CREATE SCHEMA dw; - создание схемы CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) ); - создание таблицы CREATE INDEX idx_order_product_order_id ON order_product (order_id) - создание индекса Транзакции#">
+  <meta itemprop="wordCount" content="476">
+
+<title>Dbops | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-devops">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle"  />
+    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+      <a role="button" class="">
+        Технологии</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B0%D0%B2%D1%82%D0%BE%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-bash/" class="">
+      Автодополнение В Bash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
+      Интервью По System Design.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BE%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0/" class="">
+      Отладка</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="">
+      Процессы. Agile, Scrum, Kanban</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/" class="">
+      Процессы. Managment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="">
+      Реактивное Программирование В Java ( Flux, Web Flux)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-go/" class="">
+      Технологии. Язык Go</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-redis/" class="">
+      Технологии. Redis</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/giga-ide-intellij/" class="">
+      Giga ID E ( Intelli J)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jooq/" class="">
+      JOOQ</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/" class="">
+      Jq</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/kerberos/" class="">
+      Kerberos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/klogging/" class="">
+      KLogging</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/ldap/" class="">
+      Ldap</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="">
+      Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/" class="">
+      OSquery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="">
+      Quarkus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/" class="">
+      Salt Stack</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="">
+      Spring Framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="">
+      Static Site Generator Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/" class="">
+      WebSocket</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle" checked />
+    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+      <a role="button" class="">
+        Dev Ops</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
+    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+      <a role="button" class="">
+        00. Теория</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="">
+      Путь Dev Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/" class="">
+      Безопасность</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BB%D0%B8%D0%B2%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-lean/" class="">
+      Бережливое Производство ( Lean)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BB%D0%BE%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Логирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8/" class="">
+      Метрики</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/continuous-delivery--continuous-deployment/" class="">
+      Continuous Delivery &amp; Continuous Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/gitops/" class="">
+      Git Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/infrastructure-as-code/" class="">
+      Infrastructure as Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/twelve-factor-app/" class="">
+      Twelve Factor App</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/value-stream-map/" class="">
+      Value Stream Map</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B0%D0%BB%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0/" class="">
+      Балансировка. Кластера</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle" checked />
+    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+      <a role="button" class="">
+        01. Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F/" class="">
+      Виртуализация</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B/" class="">
+      Нагрузка системы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="">
+      Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="active">
+      Dbops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="">
+      Docker</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="">
+      Fluent Bit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/git/" class="">
+      Git</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gitlab/" class="">
+      Git Lab</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/grafana/" class="">
+      Grafana</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/" class="">
+      Java. Certificates</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nexus/" class="">
+      Nexus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nginx/" class="">
+      NGinx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/" class="">
+      Prometheus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/s3/" class="">
+      S3</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ssh/" class="">
+      SSH</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/terraform/" class="">
+      Terraform</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
+    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+      <a role="button" class="">
+        02. Linux</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Linux. Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Дисковая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/" class="">
+      Linux. Командная Строка. Менеджеры Пакетов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BB%D0%BE%D0%B3%D0%B8/" class="">
+      Linux. Логи</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%B0%D0%B2%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9/" class="">
+      Linux. Права Пользователей</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Linux. Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8/" class="">
+      Linux. Работа с пользователями</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Сетевая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-systemd/" class="">
+      Linux. Система Инициализации Systemd</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
+    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+      <a role="button" class="">
+        03. Kubernetes</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
+      Оркестрация Контейнеров.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubectl/" class="">
+      Kubectl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/" class="">
+      Kubernetes. Архитектура</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-argocd/" class="">
+      Kubernetes. Argo Cd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-helm/" class="">
+      Kubernetes. Helm</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Базовые Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Расширенные Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/" class="">
+      Kuberntes. Сеть</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC/" class="">
+      Диплом</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D1%8F.%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC.-devops/" class="">
+      Я. Практикум. Dev Ops</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
+    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+      <a role="button" class="">
+        Otus. Kotlin</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
+    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+      <a role="button" class="">
+        Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/spring-&#43;-kotlin/" class="">
+      Spring &#43; Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gradle/" class="">
+      Gradle</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/jackson.-kotlin/" class="">
+      Jackson. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/openapi/" class="">
+      Open API</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/security.-kotlin/" class="">
+      Security. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0/" class="">
+      Мультиплатформа</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BF%D0%B0%D1%82%D1%82%D0%B5%D1%80%D0%BD%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/" class="">
+      Паттерны Проектирования</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
+    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+      <a role="button" class="">
+        Язык</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/coroutines/" class="">
+      Coroutines</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/dsl/" class="">
+      DSL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
+      Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D0%BE%D0%BF-%D0%B2-kotlin/" class="">
+      Ооп В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-%D0%B2-kotlin/" class="">
+      Особенности Типов В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-kotlin/" class="">
+      Технологии. Язык Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/otus.-kotlin/" class="">
+      Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Dbops</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#чистка-коннектов-к-бд">Чистка коннектов к БД</a></li>
+      </ul>
+    </li>
+    <li><a href="#создание-dump">Создание dump</a></li>
+    <li><a href="#dml">DML</a></li>
+    <li><a href="#ddl">DDL</a></li>
+    <li><a href="#транзакции">Транзакции</a></li>
+    <li><a href="#миграции">Миграции</a>
+      <ul>
+        <li><a href="#flyway">Flyway</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="postgresql">PostgreSQL<a class="anchor" href="#postgresql">#</a></h1>
+<p><code>psql &quot;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&quot;</code> - подключение к БД локальным клиентом</p>
+<p>Основные командыp</p>
+<ul>
+<li><code>\dt</code> - показать таблицы</li>
+<li><code>\d product</code> - просмотреть структуру таблицы product</li>
+<li><code>\timing</code> - запуск тайминга запросов</li>
+</ul>
+<h3 id="чистка-коннектов-к-бд">Чистка коннектов к БД<a class="anchor" href="#%d1%87%d0%b8%d1%81%d1%82%d0%ba%d0%b0-%d0%ba%d0%be%d0%bd%d0%bd%d0%b5%d0%ba%d1%82%d0%be%d0%b2-%d0%ba-%d0%b1%d0%b4">#</a></h3>
+<ul>
+<li>Подключениия храняться в таблице <code>pg_stat_activity</code>. Посмотреть подключения <code>SELECT * from pg_stat_activity WHERE datname='std-028-50'</code></li>
+<li>Комманда <a href="https://www.postgresql.org/docs/current/ecpg-sql-disconnect.html">DISCONNECT</a></li>
+<li>SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = &lsquo;std-028-50&rsquo; AND state = &lsquo;idle&rsquo; AND pid &lt;&gt; pg_backend_pid();</li>
+</ul>
+<h2 id="создание-dump">Создание dump<a class="anchor" href="#%d1%81%d0%be%d0%b7%d0%b4%d0%b0%d0%bd%d0%b8%d0%b5-dump">#</a></h2>
+<ul>
+<li>создание backup - <code>pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir</code></li>
+<li>восстановление backup - <code>pg_restore -d &quot;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&quot; --format=d /tmp/dump.dir/</code></li>
+</ul>
+<h2 id="dml">DML<a class="anchor" href="#dml">#</a></h2>
+<ul>
+<li><code>INSERT INTO product (id, name, picture_url, price) values (1, 'Сливочная', 'https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg', 320.00);</code> - внести данные</li>
+<li><code>SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product);</code> - использование функций</li>
+<li>JOIN + функции-агрегаторы + работа с датами
+<img src="/_images/S-2024-10-06_10.55.47.png" alt=""></li>
+<li></li>
+</ul>
+<h2 id="ddl">DDL<a class="anchor" href="#ddl">#</a></h2>
+<ul>
+<li><code>DROP TABLE product;</code> - удалить таблицу</li>
+<li><code>CREATE SCHEMA dw;</code> - создание схемы</li>
+<li><code>CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) );</code> - создание таблицы</li>
+<li><code>CREATE INDEX idx_order_product_order_id ON order_product (order_id)</code> - создание индекса
+<img src="/_images/PI-20241001210414.png" alt=""></li>
+</ul>
+<h2 id="транзакции">Транзакции<a class="anchor" href="#%d1%82%d1%80%d0%b0%d0%bd%d0%b7%d0%b0%d0%ba%d1%86%d0%b8%d0%b8">#</a></h2>
+<p><img src="/_images/PI-20241006110213.png" alt="">
+<img src="/_images/S-2024-09-30_21.04.52.png" alt=""></p>
+<h2 id="миграции">Миграции<a class="anchor" href="#%d0%bc%d0%b8%d0%b3%d1%80%d0%b0%d1%86%d0%b8%d0%b8">#</a></h2>
+<p>Инструменты миграции - Flyway или Liquibase.</p>
+<h3 id="flyway">Flyway<a class="anchor" href="#flyway">#</a></h3>
+<ul>
+<li><code>migrate</code> — старт миграции, запустятся все скрипты миграции которые находятся в папке <code>migration</code></li>
+<li><code>clean</code> — запустятся скрипты очистки базы (которые надо самостоятельно прописать)</li>
+<li><code>info</code> — даст информацию о статусе об уже прошедших миграциях и тех, что можно провести сейчас базируясь на таблице <code>flyway_schema_history</code></li>
+<li><code>validate</code> — запустится встроенная проверка на корректность синтаксиса SQL-скриптов</li>
+</ul>
+<p>Миграционные скрипты подразделяются на типы:</p>
+<p><img src="/_images/PI-20241001084703.png" alt=""></p>
+<ul>
+<li><strong>Versioned Migrations</strong> — основные скрипты миграции, в которых создаются таблицы, схемы, пользователи, вносятся тестовые данные. Начинаются с <code>V001__</code>.</li>
+<li><strong>Undo Migrations</strong> — скрипты, предназначенные для отмены миграции. Начинаются с <code>U01__</code>.</li>
+<li><strong>Repeatable Migrations</strong> — скрипты, предназначенные для повтора и выполняемые каждый раз при запуске приложения. Используются для выдачи прав пользователям, создание VIEW-шек, функций и много другого. Запускаются последними, после того как отработали скрипты миграции. Начинаются с <code>R__</code>.</li>
+</ul>
+<p>Адрес подключения к базе данных и расположение скриптов миграции указываются в конфигурационном файле <code>flyway.conf</code>.</p>
+<p><img src="/_images/PI-20241001085033.png" alt=""></p>
+<h4 id="способы-использования">Способы использования<a class="anchor" href="#%d1%81%d0%bf%d0%be%d1%81%d0%be%d0%b1%d1%8b-%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d1%8f">#</a></h4>
+<ul>
+<li>Независимая утилита. Пример запуска flyway <code>flyway -user=my_sql -password=23e2f345f3 -locations='filesystem:db/migration' -url=&quot;jdbc:sqlserver://192.168.1.30;database=test&quot; -target=4  migrate</code></li>
+<li>Встраивается через pom.xml.  <a href="/_samples/flyway.pom.xml.example.txt">пример</a></li>
+<li>Запуск из Java приложения
+<code>import org.flywaydb.core.Flyway;</code></li>
+</ul>
+<p><code>public class App {</code>
+<code>public static void main(String[] args) {</code>
+<code>Flyway flyway = Flyway.configure().dataSource(&quot;jdbc:h2:file:./target/foobar&quot;, &quot;sa&quot;, null).load();</code>
+<code>flyway.migrate(); // Здесь запускается миграция</code>
+<code>}</code>
+<code>}</code></p>
+<ul>
+<li>Отключение миграции через переменную среды в Spring приложениии <code>SPRING_FLYWAY_ENABLED=false</code></li>
+</ul>
+<h1 id="mongo">Mongo<a class="anchor" href="#mongo">#</a></h1>
+<p>Основные команды mongosh</p>
+<ul>
+<li><code>mongosh --norc --tls --tlsCAFile /home/student/.mongodb/root.crt --host 'rs01/rc1a-gck90cwqmi3ls3y5.mdb.yandexcloud.net:27018' --username std-028-50 --password Testusr1234 std-028-50</code> - подключение к БД <em>std-028-50</em> по TLS с сертификатом</li>
+<li><code>db</code> - посмотреть базы</li>
+<li><code>show collections</code> - список коллекций</li>
+<li><code>db.stats()</code> - статистика базы</li>
+<li><code>db.xxxx</code> - команды для работы с БД
+<img src="/_images/PI-20241006003207.png" alt="">
+<ul>
+<li><code>db.products.find()</code> - посмотреть значение коллекции products (имя соответствует названию коллекции)</li>
+<li><code>db.products.find({price: {$lt: 60}})</code> - поиск конкретного значения</li>
+<li><code>db.products.insertOne({name: &quot;Hot Dog&quot;, price: 70.00});</code> - вставить запись (JSON) в колелкцию products</li>
+</ul>
+</li>
+</ul>
+<p>Добавить mongo в проект с Java (pom.xml)
+<img src="/_images/PI-20241006004037.png" alt=""></p>
+<p>Spring Boot позволяет все переменные, заданные в <code>src/main/resources/application.properties</code>, переопределить с помощью переменных окружения, используя заглавные буквы и заменив точки на символ подчёркивания.</p>
+<p>Например, параметр <code>spring.data.mongodb.uri</code> можно переопределить используя переменную окружения: <code>SPRING_DATA_MONGODB_URI={строка подключения}</code>.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Ansible</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="flex align-center">
+        <span>Docker</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#чистка-коннектов-к-бд">Чистка коннектов к БД</a></li>
+      </ul>
+    </li>
+    <li><a href="#создание-dump">Создание dump</a></li>
+    <li><a href="#dml">DML</a></li>
+    <li><a href="#ddl">DDL</a></li>
+    <li><a href="#транзакции">Транзакции</a></li>
+    <li><a href="#миграции">Миграции</a>
+      <ul>
+        <li><a href="#flyway">Flyway</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

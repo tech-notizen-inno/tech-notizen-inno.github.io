@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" обозначается протоколами WS и WSS (WS &#43; TLS) [RFC6455] (https://datatracker.ietf.org/doc/html/rfc6455) Cоздание Websocket# Код на JS let socket = new WebSocket``(``&#34;wss://javascript.info/chat&#34;``, [``&#34;soap&#34;``, &#34;wamp&#34;``]``)``;
+Connection: Upgrade – сигнализирует, что клиент хотел бы изменить протокол. Upgrade: websocket – запрошен протокол «websocket». Sec-WebSocket-Key – случайный ключ, созданный браузером для обеспечения безопасности. Sec-WebSocket-Version – версия протокола WebSocket, текущая версия 13. Здесь Sec-WebSocket-Accept – это Sec-WebSocket-Key, перекодированный с помощью специального алгоритма. Браузер использует его, чтобы убедиться, что ответ соответствует запросу.
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="WebSocket">
+  <meta property="og:description" content="обозначается протоколами WS и WSS (WS &#43; TLS) [RFC6455] (https://datatracker.ietf.org/doc/html/rfc6455) Cоздание Websocket# Код на JS let socket = new WebSocket``(``&#34;wss://javascript.info/chat&#34;``, [``&#34;soap&#34;``, &#34;wamp&#34;``]``)``;
+Connection: Upgrade – сигнализирует, что клиент хотел бы изменить протокол. Upgrade: websocket – запрошен протокол «websocket». Sec-WebSocket-Key – случайный ключ, созданный браузером для обеспечения безопасности. Sec-WebSocket-Version – версия протокола WebSocket, текущая версия 13. Здесь Sec-WebSocket-Accept – это Sec-WebSocket-Key, перекодированный с помощью специального алгоритма. Браузер использует его, чтобы убедиться, что ответ соответствует запросу.">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="технологии">
+    <meta property="article:published_time" content="2025-10-12T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-10-12T00:00:00+00:00">
+
+
+  <meta itemprop="name" content="WebSocket">
+  <meta itemprop="description" content="обозначается протоколами WS и WSS (WS &#43; TLS) [RFC6455] (https://datatracker.ietf.org/doc/html/rfc6455) Cоздание Websocket# Код на JS let socket = new WebSocket``(``&#34;wss://javascript.info/chat&#34;``, [``&#34;soap&#34;``, &#34;wamp&#34;``]``)``;
+Connection: Upgrade – сигнализирует, что клиент хотел бы изменить протокол. Upgrade: websocket – запрошен протокол «websocket». Sec-WebSocket-Key – случайный ключ, созданный браузером для обеспечения безопасности. Sec-WebSocket-Version – версия протокола WebSocket, текущая версия 13. Здесь Sec-WebSocket-Accept – это Sec-WebSocket-Key, перекодированный с помощью специального алгоритма. Браузер использует его, чтобы убедиться, что ответ соответствует запросу.">
+  <meta itemprop="datePublished" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-12T00:00:00+00:00">
+  <meta itemprop="wordCount" content="338">
+
+<title>WebSocket | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-технологии">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle" checked />
+    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+      <a role="button" class="">
+        Технологии</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B0%D0%B2%D1%82%D0%BE%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-bash/" class="">
+      Автодополнение В Bash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
+      Интервью По System Design.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BE%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0/" class="">
+      Отладка</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="">
+      Процессы. Agile, Scrum, Kanban</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/" class="">
+      Процессы. Managment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="">
+      Реактивное Программирование В Java ( Flux, Web Flux)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-go/" class="">
+      Технологии. Язык Go</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-redis/" class="">
+      Технологии. Redis</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/giga-ide-intellij/" class="">
+      Giga ID E ( Intelli J)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jooq/" class="">
+      JOOQ</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/" class="">
+      Jq</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/kerberos/" class="">
+      Kerberos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/klogging/" class="">
+      KLogging</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/ldap/" class="">
+      Ldap</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="">
+      Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/" class="">
+      OSquery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="">
+      Quarkus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/" class="">
+      Salt Stack</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="">
+      Spring Framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="">
+      Static Site Generator Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/" class="active">
+      WebSocket</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle"  />
+    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+      <a role="button" class="">
+        Dev Ops</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
+    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+      <a role="button" class="">
+        00. Теория</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="">
+      Путь Dev Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/" class="">
+      Безопасность</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BB%D0%B8%D0%B2%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-lean/" class="">
+      Бережливое Производство ( Lean)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BB%D0%BE%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Логирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8/" class="">
+      Метрики</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/continuous-delivery--continuous-deployment/" class="">
+      Continuous Delivery &amp; Continuous Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/gitops/" class="">
+      Git Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/infrastructure-as-code/" class="">
+      Infrastructure as Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/twelve-factor-app/" class="">
+      Twelve Factor App</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/value-stream-map/" class="">
+      Value Stream Map</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B0%D0%BB%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0/" class="">
+      Балансировка. Кластера</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle"  />
+    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+      <a role="button" class="">
+        01. Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F/" class="">
+      Виртуализация</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B/" class="">
+      Нагрузка системы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="">
+      Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="">
+      Dbops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="">
+      Docker</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="">
+      Fluent Bit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/git/" class="">
+      Git</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gitlab/" class="">
+      Git Lab</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/grafana/" class="">
+      Grafana</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/" class="">
+      Java. Certificates</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nexus/" class="">
+      Nexus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nginx/" class="">
+      NGinx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/" class="">
+      Prometheus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/s3/" class="">
+      S3</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ssh/" class="">
+      SSH</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/terraform/" class="">
+      Terraform</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
+    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+      <a role="button" class="">
+        02. Linux</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Linux. Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Дисковая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/" class="">
+      Linux. Командная Строка. Менеджеры Пакетов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BB%D0%BE%D0%B3%D0%B8/" class="">
+      Linux. Логи</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%B0%D0%B2%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9/" class="">
+      Linux. Права Пользователей</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Linux. Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8/" class="">
+      Linux. Работа с пользователями</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Сетевая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-systemd/" class="">
+      Linux. Система Инициализации Systemd</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
+    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+      <a role="button" class="">
+        03. Kubernetes</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
+      Оркестрация Контейнеров.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubectl/" class="">
+      Kubectl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/" class="">
+      Kubernetes. Архитектура</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-argocd/" class="">
+      Kubernetes. Argo Cd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-helm/" class="">
+      Kubernetes. Helm</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Базовые Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Расширенные Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/" class="">
+      Kuberntes. Сеть</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC/" class="">
+      Диплом</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D1%8F.%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC.-devops/" class="">
+      Я. Практикум. Dev Ops</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
+    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+      <a role="button" class="">
+        Otus. Kotlin</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
+    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+      <a role="button" class="">
+        Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/spring-&#43;-kotlin/" class="">
+      Spring &#43; Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gradle/" class="">
+      Gradle</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/jackson.-kotlin/" class="">
+      Jackson. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/openapi/" class="">
+      Open API</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/security.-kotlin/" class="">
+      Security. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0/" class="">
+      Мультиплатформа</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BF%D0%B0%D1%82%D1%82%D0%B5%D1%80%D0%BD%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/" class="">
+      Паттерны Проектирования</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
+    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+      <a role="button" class="">
+        Язык</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/coroutines/" class="">
+      Coroutines</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/dsl/" class="">
+      DSL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
+      Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D0%BE%D0%BF-%D0%B2-kotlin/" class="">
+      Ооп В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-%D0%B2-kotlin/" class="">
+      Особенности Типов В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-kotlin/" class="">
+      Технологии. Язык Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/otus.-kotlin/" class="">
+      Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>WebSocket</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#cоздание-websocket">Cоздание Websocket</a>
+      <ul>
+        <li><a href="#расширенные-заголовки">Расширенные заголовки</a></li>
+      </ul>
+    </li>
+    <li><a href="#передача-данных">Передача данных</a></li>
+    <li><a href="#внутренняя-структура-фреймов">Внутренняя структура фреймов</a></li>
+    <li><a href="#инструменты-разработчика">Инструменты разработчика</a></li>
+    <li><a href="#websocket-в-kotlin">WebSocket в Kotlin</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><ul>
+<li>обозначается протоколами WS и WSS (WS + TLS)</li>
+<li>[RFC6455] (<a href="https://datatracker.ietf.org/doc/html/rfc6455">https://datatracker.ietf.org/doc/html/rfc6455</a>)</li>
+</ul>
+<h2 id="cоздание-websocket">Cоздание Websocket<a class="anchor" href="#c%d0%be%d0%b7%d0%b4%d0%b0%d0%bd%d0%b8%d0%b5-websocket">#</a></h2>
+<p>Код на JS
+<code>let</code> socket <code>=</code> <code>new</code> <code>WebSocket``(``&quot;wss://javascript.info/chat&quot;``,</code> <code>[``&quot;soap&quot;``,</code> <code>&quot;wamp&quot;``]``)``;</code></p>
+<p><img src="/_images/WS.Console.1.png" alt="WS.Console.1.png"></p>
+<ul>
+<li><code>Connection: Upgrade</code> – сигнализирует, что клиент хотел бы изменить протокол.</li>
+<li><code>Upgrade: websocket</code> – запрошен протокол «websocket».</li>
+<li><code>Sec-WebSocket-Key</code> – случайный ключ, созданный браузером для обеспечения безопасности.</li>
+<li><code>Sec-WebSocket-Version</code> – версия протокола WebSocket, текущая версия 13.</li>
+</ul>
+<p><img src="/_images/WS.Console.2.png" alt="WS.Console.2.png">
+Здесь <code>Sec-WebSocket-Accept</code> – это <code>Sec-WebSocket-Key</code>, перекодированный с помощью специального алгоритма. Браузер использует его, чтобы убедиться, что ответ соответствует запросу.</p>
+<h3 id="расширенные-заголовки">Расширенные заголовки<a class="anchor" href="#%d1%80%d0%b0%d1%81%d1%88%d0%b8%d1%80%d0%b5%d0%bd%d0%bd%d1%8b%d0%b5-%d0%b7%d0%b0%d0%b3%d0%be%d0%bb%d0%be%d0%b2%d0%ba%d0%b8">#</a></h3>
+<ul>
+<li><code>Sec-WebSocket-Extensions: deflate-frame</code> означает, что браузер поддерживает сжатие данных.</li>
+<li><code>Sec-WebSocket-Protocol: soap, wamp</code> означает, что мы будем передавать не только произвольные данные, но и данные в протоколах <a href="https://en.wikipedia.org/wiki/SOAP">SOAP</a> или WAMP (The WebSocket Application Messaging Protocol&quot; – «протокол обмена сообщениями WebSocket приложений»).</li>
+</ul>
+<h2 id="передача-данных">Передача данных<a class="anchor" href="#%d0%bf%d0%b5%d1%80%d0%b5%d0%b4%d0%b0%d1%87%d0%b0-%d0%b4%d0%b0%d0%bd%d0%bd%d1%8b%d1%85">#</a></h2>
+<ul>
+<li>имеет 4 вида событий
+<ul>
+<li><strong><code>open</code></strong> – соединение установлено,</li>
+<li><strong><code>message</code></strong> – получены данные,</li>
+<li><strong><code>error</code></strong> – ошибка,</li>
+<li><strong><code>close</code></strong> – соединение закрыто</li>
+</ul>
+</li>
+<li>Поток данных в WebSocket состоит из «фреймов»,  следующих видов:
+<ul>
+<li>«текстовые фреймы» – содержат текстовые данные, которые стороны отправляют друг другу.</li>
+<li>«бинарные фреймы» – содержат бинарные данные, которые стороны отправляют друг другу.</li>
+<li>«пинг-понг фреймы» используется для проверки соединения; отправляется с сервера, браузер реагирует на них автоматически.
+<img src="/_images/WS.PingPong.png" alt="WS.PingPong.png"></li>
+<li>также есть «фрейм закрытия соединения» и некоторые другие служебные фреймы.</li>
+</ul>
+</li>
+</ul>
+<h2 id="внутренняя-структура-фреймов">Внутренняя структура фреймов<a class="anchor" href="#%d0%b2%d0%bd%d1%83%d1%82%d1%80%d0%b5%d0%bd%d0%bd%d1%8f%d1%8f-%d1%81%d1%82%d1%80%d1%83%d0%ba%d1%82%d1%83%d1%80%d0%b0-%d1%84%d1%80%d0%b5%d0%b9%d0%bc%d0%be%d0%b2">#</a></h2>
+<p><img src="/_images/WS.Frame.png" alt="WS.Frame.png"></p>
+<p><strong>Fin Bit</strong> - The first bit of the WebSocket header is the Fin bit. This bit is set if this frame is the last data to complete this message.
+<strong>Mask</strong> - Setting this bit to 1 enables <em>masking</em>. WebSockets require that all payload be obfuscated using a random key (the mask) chosen by the client.
+<strong>Payload len</strong> - The <code>Payload len</code> field and <code>Extended payload length</code> field are used to encode the total length of the payload data for this frame.
+<strong>Masking-key</strong> - As discussed with the MASK bit, all frames sent from the client to the server are masked by a 32-bit value that is contained within the frame. This field is present if the mask bit is set to 1 and is absent if the mask bit is set to 0.
+<img src="/_images/WS.Bits.png" alt="WS.Bits.png"></p>
+<h2 id="инструменты-разработчика">Инструменты разработчика<a class="anchor" href="#%d0%b8%d0%bd%d1%81%d1%82%d1%80%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d1%8b-%d1%80%d0%b0%d0%b7%d1%80%d0%b0%d0%b1%d0%be%d1%82%d1%87%d0%b8%d0%ba%d0%b0">#</a></h2>
+<p>Запрос WebSocket
+<img src="/_images/WS.Request.png" alt="WS.Request.png">
+Просмотр сообщений
+<img src="/_images/WS.ShowMsg.png" alt="WS.ShowMsg.png"></p>
+<h2 id="websocket-в-kotlin">WebSocket в Kotlin<a class="anchor" href="#websocket-%d0%b2-kotlin">#</a></h2>
+<ul>
+<li><a href="https://docs.spring.io/spring-framework/reference/web/webflux-websocket.html?__readwiseLocation=">Spring Framework</a></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Static Site Generator Hugo</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="flex align-center">
+        <span>Путь Dev Ops</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#cоздание-websocket">Cоздание Websocket</a>
+      <ul>
+        <li><a href="#расширенные-заголовки">Расширенные заголовки</a></li>
+      </ul>
+    </li>
+    <li><a href="#передача-данных">Передача данных</a></li>
+    <li><a href="#внутренняя-структура-фреймов">Внутренняя структура фреймов</a></li>
+    <li><a href="#инструменты-разработчика">Инструменты разработчика</a></li>
+    <li><a href="#websocket-в-kotlin">WebSocket в Kotlin</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

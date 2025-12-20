@@ -1,0 +1,38 @@
+components:
+   schemas:
+     UpdatedOrderResponse:
+       type: object
+       description: Модель для обновлённых полей заказа после выполнения действия над ним.
+       properties:
+         status:
+           $ref: "#/components/schemas/ExtendedOrderStatus"
+         actions:
+           type: array
+           description: |
+             Список действий, доступных над заказом.
+             Список пуст, если нет доступных действий.
+           items:
+              $ref: "#/components/schemas/OrderAction"
+       required:
+         - status
+         - actions
+     ReceiverType: # модель, которая содержит ограничения возможных значений по типу плательщика
+       type: string
+       enum: [individual, entity]
+       description: |
+         Тип плательщика:
+         - individual — физическое лицо
+         - entity — юридическое лицо
+ 
+   parameters: # параметры, которые можно переиспользовать в параметрах запроса
+     filter_type: 
+       name: filter_type 
+       in: query
+       description: | 
+         Тип фильтра заказов пользователя: 
+         - all — все заказы
+         - current — текущие
+         - done — выполненные
+       schema:
+         enum: ["all", "current", "done"] 
+          type: string

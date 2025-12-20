@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Общие темы# SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
+Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Запуск команд Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Состояния (States)# Стейты (state files) — аналог playbooks в Ansible. В них с помощью state.modules, описывается, к какому состоянию нужно привести миньона. Кроме того в SaltStack существует понятие top-файла. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить. Порядок исполнения элементов state/Requisites Исполнение состояний SLS Namespaces ![[IMG_0520.jpeg]] STATE SYSTEM REFERENCE High Data Расширенные темы# Pillar - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны. Mine. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the salt.modules.mine module. Salt Returners — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output Документация, Можно все события передавать внешнему потербителю Добавление returner Reactor. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу. Расписание - запускает каждую команду в своем процессе Jinja (Рендереры)# Общая документация для Salt Документация на шаблонизатор
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/">
+  <meta property="og:site_name" content="Я.Практикум">
+  <meta property="og:title" content="Я.Практикум">
+  <meta property="og:description" content="Общие темы# SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
+Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Запуск команд Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Состояния (States)# Стейты (state files) — аналог playbooks в Ansible. В них с помощью state.modules, описывается, к какому состоянию нужно привести миньона. Кроме того в SaltStack существует понятие top-файла. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить. Порядок исполнения элементов state/Requisites Исполнение состояний SLS Namespaces ![[IMG_0520.jpeg]] STATE SYSTEM REFERENCE High Data Расширенные темы# Pillar - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны. Mine. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the salt.modules.mine module. Salt Returners — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output Документация, Можно все события передавать внешнему потербителю Добавление returner Reactor. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу. Расписание - запускает каждую команду в своем процессе Jinja (Рендереры)# Общая документация для Salt Документация на шаблонизатор">
+  <meta property="og:locale" content="ru">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="технологии">
+
+
+  <meta itemprop="name" content="Я.Практикум">
+  <meta itemprop="description" content="Общие темы# SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
+Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Запуск команд Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Состояния (States)# Стейты (state files) — аналог playbooks в Ansible. В них с помощью state.modules, описывается, к какому состоянию нужно привести миньона. Кроме того в SaltStack существует понятие top-файла. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить. Порядок исполнения элементов state/Requisites Исполнение состояний SLS Namespaces ![[IMG_0520.jpeg]] STATE SYSTEM REFERENCE High Data Расширенные темы# Pillar - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны. Mine. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the salt.modules.mine module. Salt Returners — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output Документация, Можно все события передавать внешнему потербителю Добавление returner Reactor. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу. Расписание - запускает каждую команду в своем процессе Jinja (Рендереры)# Общая документация для Salt Документация на шаблонизатор">
+  <meta itemprop="wordCount" content="1209">
+
+<title>Salt Stack | Я.Практикум</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-технологии">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Я.Практикум</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle" checked />
+    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+      <a role="button" class="">
+        Технологии</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B0%D0%B2%D1%82%D0%BE%D0%B4%D0%BE%D0%BF%D0%BE%D0%BB%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-bash/" class="">
+      Автодополнение В Bash</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
+      Интервью По System Design.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BE%D1%82%D0%BB%D0%B0%D0%B4%D0%BA%D0%B0/" class="">
+      Отладка</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-agile-scrum-kanban/" class="">
+      Процессы. Agile, Scrum, Kanban</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B.-managment/" class="">
+      Процессы. Managment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5-%D0%B2-java-flux-webflux/" class="">
+      Реактивное Программирование В Java ( Flux, Web Flux)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-go/" class="">
+      Технологии. Язык Go</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-redis/" class="">
+      Технологии. Redis</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/giga-ide-intellij/" class="">
+      Giga ID E ( Intelli J)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jooq/" class="">
+      JOOQ</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/jq/" class="">
+      Jq</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/kerberos/" class="">
+      Kerberos</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/klogging/" class="">
+      KLogging</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/ldap/" class="">
+      Ldap</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/maven/" class="">
+      Maven</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/" class="">
+      OSquery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="">
+      Quarkus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/" class="active">
+      Salt Stack</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="">
+      Spring Framework</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/static-site-generator-hugo/" class="">
+      Static Site Generator Hugo</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/websocket/" class="">
+      WebSocket</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle"  />
+    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+      <a role="button" class="">
+        Dev Ops</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
+    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+      <a role="button" class="">
+        00. Теория</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BF%D1%83%D1%82%D1%8C-devops/" class="">
+      Путь Dev Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/" class="">
+      Безопасность</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B5%D1%80%D0%B5%D0%B6%D0%BB%D0%B8%D0%B2%D0%BE%D0%B5-%D0%BF%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-lean/" class="">
+      Бережливое Производство ( Lean)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BB%D0%BE%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Логирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B8/" class="">
+      Метрики</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/continuous-delivery--continuous-deployment/" class="">
+      Continuous Delivery &amp; Continuous Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/gitops/" class="">
+      Git Ops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/infrastructure-as-code/" class="">
+      Infrastructure as Code</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/twelve-factor-app/" class="">
+      Twelve Factor App</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/value-stream-map/" class="">
+      Value Stream Map</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/00.-%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/%D0%B1%D0%B0%D0%BB%D0%B0%D0%BD%D1%81%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0.-%D0%BA%D0%BB%D0%B0%D1%81%D1%82%D0%B5%D1%80%D0%B0/" class="">
+      Балансировка. Кластера</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle"  />
+    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+      <a role="button" class="">
+        01. Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%B2%D0%B8%D1%80%D1%82%D1%83%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F/" class="">
+      Виртуализация</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BD%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B/" class="">
+      Нагрузка системы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ansible/" class="">
+      Ansible</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/" class="">
+      Dbops</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/docker/" class="">
+      Docker</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/fluent-bit/" class="">
+      Fluent Bit</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/git/" class="">
+      Git</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gitlab/" class="">
+      Git Lab</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/grafana/" class="">
+      Grafana</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/java.-certificates/" class="">
+      Java. Certificates</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nexus/" class="">
+      Nexus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/nginx/" class="">
+      NGinx</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/prometheus/" class="">
+      Prometheus</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/s3/" class="">
+      S3</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/ssh/" class="">
+      SSH</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/terraform/" class="">
+      Terraform</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
+    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+      <a role="button" class="">
+        02. Linux</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B1%D1%8D%D0%BA%D0%B0%D0%BF%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Linux. Бэкапирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Дисковая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D0%B0%D1%8F-%D1%81%D1%82%D1%80%D0%BE%D0%BA%D0%B0.-%D0%BC%D0%B5%D0%BD%D0%B5%D0%B4%D0%B6%D0%B5%D1%80%D1%8B-%D0%BF%D0%B0%D0%BA%D0%B5%D1%82%D0%BE%D0%B2/" class="">
+      Linux. Командная Строка. Менеджеры Пакетов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BB%D0%BE%D0%B3%D0%B8/" class="">
+      Linux. Логи</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%B0%D0%B2%D0%B0-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B5%D0%B9/" class="">
+      Linux. Права Пользователей</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Linux. Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F%D0%BC%D0%B8/" class="">
+      Linux. Работа с пользователями</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B5%D1%82%D0%B5%D0%B2%D0%B0%D1%8F-%D0%BF%D0%BE%D0%B4%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0/" class="">
+      Linux. Сетевая Подсистема</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/02.-linux/linux.-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B8%D0%BD%D0%B8%D1%86%D0%B8%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8-systemd/" class="">
+      Linux. Система Инициализации Systemd</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
+    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+      <a role="button" class="">
+        03. Kubernetes</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
+      Оркестрация Контейнеров.</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubectl/" class="">
+      Kubectl</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0/" class="">
+      Kubernetes. Архитектура</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-argocd/" class="">
+      Kubernetes. Argo Cd</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kubernetes.-helm/" class="">
+      Kubernetes. Helm</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D0%B1%D0%B0%D0%B7%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Базовые Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%80%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%81%D1%83%D1%89%D0%BD%D0%BE%D1%81%D1%82%D0%B8/" class="">
+      Kuberntes. Расширенные Сущности</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/03.-kubernetes/kuberntes.-%D1%81%D0%B5%D1%82%D1%8C/" class="">
+      Kuberntes. Сеть</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D0%B4%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC/" class="">
+      Диплом</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/devops/%D1%8F.%D0%BF%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC.-devops/" class="">
+      Я. Практикум. Dev Ops</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
+    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+      <a role="button" class="">
+        Otus. Kotlin</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
+    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+      <a role="button" class="">
+        Инструменты</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/spring-&#43;-kotlin/" class="">
+      Spring &#43; Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/gradle/" class="">
+      Gradle</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/jackson.-kotlin/" class="">
+      Jackson. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/openapi/" class="">
+      Open API</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/security.-kotlin/" class="">
+      Security. Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B0/" class="">
+      Мультиплатформа</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%BF%D0%B0%D1%82%D1%82%D0%B5%D1%80%D0%BD%D1%8B-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F/" class="">
+      Паттерны Проектирования</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
+    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+      <a role="button" class="">
+        Язык</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/coroutines/" class="">
+      Coroutines</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/dsl/" class="">
+      DSL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
+      Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D0%BE%D0%BF-%D0%B2-kotlin/" class="">
+      Ооп В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%BE%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8-%D1%82%D0%B8%D0%BF%D0%BE%D0%B2-%D0%B2-kotlin/" class="">
+      Особенности Типов В Kotlin</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8.-%D1%8F%D0%B7%D1%8B%D0%BA-kotlin/" class="">
+      Технологии. Язык Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/otus.-kotlin/" class="">
+      Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Salt Stack</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#состояния-states">Состояния (States)</a></li>
+    <li><a href="#расширенные-темы">Расширенные темы</a></li>
+    <li><a href="#jinja-рендереры">Jinja (Рендереры)</a>
+      <ul>
+        <li><a href="#операторы">Операторы</a></li>
+      </ul>
+    </li>
+    <li><a href="#формулы">Формулы</a></li>
+    <li><a href="#лекции">Лекции</a>
+      <ul>
+        <li><a href="#лекция-1-основы">Лекция 1. Основы</a></li>
+        <li><a href="#лекция-2-jinja--формула--returners">Лекция 2. Jinja + Формула + Returners</a></li>
+      </ul>
+    </li>
+    <li><a href="#утилитные-команды">Утилитные команды</a>
+      <ul>
+        <li><a href="#команды-работы-с-состояниями">Команды работы с состояниями</a></li>
+        <li><a href="#команды-работы-с-grains">Команды работы с grains</a></li>
+        <li><a href="#команды-работы-с-pillar">Команды работы с pillar</a></li>
+        <li><a href="#команды-работы-с--scheduler">Команды работы с  scheduler</a></li>
+        <li><a href="#отладочные-команды">Отладочные команды</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="общие-темы">Общие темы<a class="anchor" href="#%d0%be%d0%b1%d1%89%d0%b8%d0%b5-%d1%82%d0%b5%d0%bc%d1%8b">#</a></h1>
+<p><strong>SaltStack</strong> — cистема управления конфигурациями и удалённого выполнения операций.</p>
+<ul>
+<li>Salt работает по топологии Master(сервер) / Minion(клиент)</li>
+<li>SaltStack использует для транспорта - <a href="https://en.wikipedia.org/wiki/ZeroMQ">ZeroMQ</a>. Позже инженеры из Linkedin добавили возможность работы через <a href="https://docs.saltproject.io/en/latest/topics/transports/tcp.html">raw tcp.</a> Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">publish/subscribe</a> модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют.
+<img src="/_images/PI-20240408142204.png" alt="PI-20240408142204.png"></li>
+<li>Миньоны подключаются к мастеру на порты <strong>TCP 4505,4506</strong>.
+<img src="/_images/PI-20240408141039.png" alt="PI-20240408141039.png"></li>
+<li>Аутентификация миньонов по ключам в Мастере
+<ul>
+<li><code>sudo salt-key -L</code> - просмотреть список ключей на мастере</li>
+<li><code>sudo salt-key -A</code> - принять ключи полученные с миньона
+<img src="/_images/PI-20240408140348.png" alt="PI-20240408140348.png"></li>
+</ul>
+</li>
+<li>Два формата работы
+<ul>
+<li>Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд.</li>
+<li>State modules - декларативны и идемпотентны. Они приводят систему в определенное&hellip; состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп.</li>
+</ul>
+</li>
+<li>Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]]
+<ul>
+<li>
+<ul>
+<li>есть возможность отлаживать код с помощью <code>-l debug</code> в комадах</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Запуск команд
+<img src="/_images/S_20251115-092810.png" alt=""></li>
+<li><strong>Зерна (GRAINS).</strong> Salt ипользует систему, называемую <a href="https://docs.saltstack.com/en/latest/topics/targeting/grains.html">Grains</a> для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое</li>
+</ul>
+<h2 id="состояния-states">Состояния (States)<a class="anchor" href="#%d1%81%d0%be%d1%81%d1%82%d0%be%d1%8f%d0%bd%d0%b8%d1%8f-states">#</a></h2>
+<ul>
+<li><strong>Стейты (state files)</strong> — аналог playbooks в Ansible. В них с помощью <a href="https://docs.saltstack.com/en/latest/ref/states/all/index.html">state.modules</a>, описывается, к какому состоянию нужно привести миньона.
+<img src="/_images/PI-20240408141538.png" alt="PI-20240408141538.png"></li>
+<li>Кроме того в SaltStack существует понятие <a href="https://docs.saltstack.com/en/latest/ref/states/top.html">top-файла</a>. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить.
+<img src="/_images/PI-20240408141546.png" alt="PI-20240408141546.png"></li>
+<li><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/requisites.html#requisites">Порядок исполнения элементов state/Requisites</a></li>
+<li><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/state-system.html">Исполнение состояний</a></li>
+<li>SLS Namespaces
+![[IMG_0520.jpeg]]</li>
+<li><a href="https://docs.saltproject.io/en/latest/ref/states/index.html">STATE SYSTEM REFERENCE</a></li>
+<li>High Data
+<img src="/_images/PI-20240514125512.png" alt="PI-20240514125512.png"></li>
+</ul>
+<h2 id="расширенные-темы">Расширенные темы<a class="anchor" href="#%d1%80%d0%b0%d1%81%d1%88%d0%b8%d1%80%d0%b5%d0%bd%d0%bd%d1%8b%d0%b5-%d1%82%d0%b5%d0%bc%d1%8b">#</a></h2>
+<ul>
+<li><strong>Pillar</strong> - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны.</li>
+<li><strong>Mine</strong>. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the <a href="https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.mine.html#module-salt.modules.mine" title="salt.modules.mine"><code>salt.modules.mine</code></a> module.</li>
+<li><strong>Salt Returners</strong> — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output
+<img src="/_images/PI-20240409113734.png" alt="PI-20240409113734.png">
+<ul>
+<li><a href="https://docs.saltproject.io/en/latest/ref/returners/index.html#testing-the-returner">Документация</a>,</li>
+<li>Можно все события передавать внешнему потербителю
+<img src="/_images/PI-20240503174245.png" alt="PI-20240503174245.png"></li>
+<li>Добавление returner
+<img src="/_images/returner-salt.png" alt="returner-salt.PNG"></li>
+</ul>
+</li>
+<li><a href="https://docs.saltstack.com/en/latest/topics/reactor/">Reactor</a>. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу.
+<img src="/_images/PI-20240409113851.png" alt="PI-20240409113851.png"></li>
+<li>Расписание - запускает каждую команду в своем процессе
+<img src="/_images/schedule-salt.png" alt="schedule-salt.PNG"></li>
+</ul>
+<h2 id="jinja-рендереры">Jinja (Рендереры)<a class="anchor" href="#jinja-%d1%80%d0%b5%d0%bd%d0%b4%d0%b5%d1%80%d0%b5%d1%80%d1%8b">#</a></h2>
+<p><a href="https://docs.saltproject.io/en/latest/topics/jinja/index.html">Общая документация для Salt</a>
+<a href="https://jinja.palletsprojects.com/en/3.0.x/templates/">Документация на шаблонизатор</a></p>
+<ul>
+<li><code>{% … %}</code> - Define a Jinja statement.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span> <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> zone_path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named/zones&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> users <span style="color:#f92672">=</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;fred&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;bob&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;frank&#39;</span><span style="color:#f92672">]</span><span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> items <span style="color:#f92672">=</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>	   <span style="color:#e6db74">&#39;one&#39;</span><span style="color:#f92672">:</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;uid&#39;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9001</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;shell&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/bin/zsh&#39;</span><span style="color:#f92672">},</span>
+</span></span><span style="display:flex;"><span>	   <span style="color:#e6db74">&#39;two&#39;</span><span style="color:#f92672">:</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;uid&#39;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9002</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;shell&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/bin/sh&#39;</span><span style="color:#f92672">}}</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> settings <span style="color:#f92672">=</span> pillar.get<span style="color:#f92672">(</span>
+</span></span><span style="display:flex;"><span>	   <span style="color:#e6db74">&#39;power_settings&#39;</span><span style="color:#f92672">,</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;standby&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;hibernate&#39;</span><span style="color:#f92672">])</span> <span style="color:#75715e">%}</span></span></span></code></pre></div></li>
+<li><code>{{ … }}</code> - Print a Jinja expression or call a Salt execution directly at the desired location of the file</li>
+<li><code>{# … #}</code> - Jinja comments - not included in output after being rendered
+Чтение данных</li>
+<li><code>grains</code>: all grains for the minion (<code>grains.os_family</code>, <code>grains['os_family']</code>)</li>
+<li><code>pillar</code>: all pillar data available to the minion</li>
+<li><code>salt</code>: all available execution modules and functions (<code>salt['network.interface_ip']('eth0')</code>)</li>
+</ul>
+<h3 id="операторы">Операторы<a class="anchor" href="#%d0%be%d0%bf%d0%b5%d1%80%d0%b0%d1%82%d0%be%d1%80%d1%8b">#</a></h3>
+<ul>
+<li>
+<p>if</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">if</span> grains.os_family <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;RedHat&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> dns_cfg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named.conf&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">else</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> dns_cfg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named.conf&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">endif</span> <span style="color:#75715e">%}</span></span></span></code></pre></div></li>
+<li>
+<p>for
+<code>{% for user in users%}</code>
+<code>create_{{ user }}:</code>
+<code>user.present:</code>
+<code>- name: {{ user }}</code>
+<code>{% endfor %}</code></p>
+</li>
+<li>
+<p>Фильтры и конвейеры</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span><span style="color:#75715e">{{</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;one&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;two&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">|</span>  <span style="color:#a6e22e">join</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;, &#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">capitalize</span> <span style="color:#75715e">}}</span>` = `&#34;One, two&#34;</span></span></code></pre></div></li>
+<li>
+<p>Проверка на то, что переменная определена</p>
+<p><img src="/_images/PI-20240503173855.png" alt="PI-20240503173855.png"></p>
+</li>
+<li>
+<p>Также может быть использован render прямо на языке Python
+<img src="/_images/PI-20240408142917.png" alt="PI-20240408142917.png"></p>
+</li>
+<li>
+<p><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/jinja.html">Полное описание синтаксиса</a></p>
+</li>
+</ul>
+<h2 id="формулы">Формулы<a class="anchor" href="#%d1%84%d0%be%d1%80%d0%bc%d1%83%d0%bb%d1%8b">#</a></h2>
+<p>Последовательность шагов</p>
+<ol>
+<li>Выложить формулу в /srv/formulas/xxxx</li>
+<li>Прописать формулу в конфиг
+<img src="/_images/PI-20240427111745.png" alt="PI-20240427111745.png"></li>
+<li>Рестартовать master</li>
+<li>Отредактировать pillar.examle</li>
+<li>Изучить состояния в формуле</li>
+<li>Запустить через <code>state.apply</code>
+<a href="https://github.com/saltstack-formulas">Репозиторий</a>
+<a href="https://docs.saltproject.io/en/latest/topics/development/conventions/formulas.html">Документация</a></li>
+</ol>
+<h2 id="лекции">Лекции<a class="anchor" href="#%d0%bb%d0%b5%d0%ba%d1%86%d0%b8%d0%b8">#</a></h2>
+<h3 id="лекция-1-основы">Лекция 1. Основы<a class="anchor" href="#%d0%bb%d0%b5%d0%ba%d1%86%d0%b8%d1%8f-1-%d0%be%d1%81%d0%bd%d0%be%d0%b2%d1%8b">#</a></h3>
+<ul>
+<li>диаграмма продукта</li>
+<li>краткий рассказ о системе</li>
+<li>просмотр интерфейса (видео от Даши)</li>
+<li>Salt
+<ul>
+<li>общие понятия по PDF</li>
+<li>просмотр мануалов</li>
+<li>2 ВМ. Диаграмма</li>
+<li>установка с сайта</li>
+<li>конфигурирование. Показать конфиги</li>
+<li>Приемка ключей</li>
+<li>отправка простых команд + grains + targeting</li>
+<li>файл состояний</li>
+<li>файл pillar</li>
+</ul>
+</li>
+</ul>
+<h3 id="лекция-2-jinja--формула--returners">Лекция 2. Jinja + Формула + Returners<a class="anchor" href="#%d0%bb%d0%b5%d0%ba%d1%86%d0%b8%d1%8f-2-jinja--%d1%84%d0%be%d1%80%d0%bc%d1%83%d0%bb%d0%b0--returners">#</a></h3>
+<ul>
+<li>Jinja
+<ul>
+<li>Теория
+<ul>
+<li>подстановка</li>
+<li>блок кода оператор (set, if, for, фильтр и конвейеры)</li>
+<li>комментарий</li>
+<li>чтение grains, pillar, salt</li>
+</ul>
+</li>
+<li>Практика.
+<ul>
+<li>Просмотр jinja_state.sls</li>
+<li>Запуск jinja_state.sls</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Формулы
+<ul>
+<li>Из T1. Пример <a href="https://docs.inno.tech/ru/linux-configuration-manager/latest/maintenance-guide/salt-formulas/finalized-formulas/ark-formula/">ark-формула</a></li>
+<li>Из репозитория (<a href="https://github.com/saltstack-formulas/java-formula">java-formula</a>)
+<ul>
+<li>Показать конфиг</li>
+<li>Выполнить Формулу</li>
+</ul>
+</li>
+<li>Состояние kafka.sls
+<ul>
+<li>Показать состояние установки</li>
+<li>Запустить установку</li>
+<li>проверить producer/concumer - через скрипты</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Returner (Kafka).
+<ul>
+<li>Открыть сайт T1</li>
+<li>Открыть returner</li>
+<li>Проверка с помощью python</li>
+<li>Внести returner</li>
+<li>Запустить инсталляцию</li>
+<li>Запустить команду</li>
+</ul>
+</li>
+</ul>
+<h4 id="ссылки">Ссылки<a class="anchor" href="#%d1%81%d1%81%d1%8b%d0%bb%d0%ba%d0%b8">#</a></h4>
+<ul>
+<li><a href="https://github.com/saltstack/salt/blob/3007.x/salt/returners/kafka_return.py">Kafka returner Git</a></li>
+<li><a href="https://docs.saltproject.io/en/latest/ref/returners/all/salt.returners.kafka_return.html">Kafka returner</a></li>
+<li><a href="https://kafka.apache.org/quickstart">Инструкция по запуску Kafka</a></li>
+<li><a href="https://www.dmosk.ru/miniinstruktions.php?mini=kafka-linux">Инструкция на русском</a></li>
+<li><a href="https://github.com/confluentinc/confluent-kafka-python">Confluent-kafka</a></li>
+<li>Настройка необходимого топика по инструкции Т1 (<a href="https://docs.inno.tech/ru/linux-configuration-manager/latest/maintenance-guide/integrations/kafka-integration/kafka-integration/">ссылка</a>, <a href="https://docs.inno.tech/ru/linux-configuration-manager/latest/install-guide/installation/install-salt/04-configure-master/">returner.conf</a>) для Kafka module</li>
+<li><a href="https://docs.saltproject.io/en/latest/ref/states/all/salt.states.pip_state.html">Модуль states.pip - инсталяция пакетов Python</a></li>
+<li><a href="https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.managed">Модуль states.file - работа с файловой системой</a></li>
+<li><a href="https://gitlab.com/bergentroll-docs/saltstack-tutorial/-/pipelines">Карманов. Пособие по SaltStack</a></li>
+</ul>
+<h4 id="команды">Команды<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h4>
+<ul>
+<li>sudo salt * state.sls jinja_states</li>
+<li>sudo salt sccm-kafka state.sls java</li>
+<li>sudo salt sccm-kafka state.sls install-kafka</li>
+<li>sudo salt sccm-kafka state.sls start-kafka</li>
+<li>$KAFKA_HOME/bin/kafka-console-consumer.sh &ndash;topic salt-topic &ndash;from-beginning &ndash;bootstrap-server 10.0.0.12:9092</li>
+<li>sudo salt sccm-kafka cmd.run &lsquo;bash -c &ldquo;/home/vagrant/ssend.sh &quot;Kafka is good&quot;&rdquo;&rsquo;</li>
+<li>/usr/bin/python3.10</li>
+<li>sudo salt sccm-kafka state.sls install_confluent</li>
+<li>sudo salt * test.ping &ndash;return kafka</li>
+</ul>
+<h2 id="утилитные-команды">Утилитные команды<a class="anchor" href="#%d1%83%d1%82%d0%b8%d0%bb%d0%b8%d1%82%d0%bd%d1%8b%d0%b5-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h2>
+<ul>
+<li><code>sudo systemctl restart salt-master.service</code>  - запуск мастера</li>
+<li><code>salt '*' test.ping</code> - выполнение команды</li>
+<li><code>salt --async '*' test.ping</code> - выполнение команды в асинхронном режиме</li>
+<li><code>salt '*' --batch-size 25% --out-file=/tmp/ping.out test.ping</code> - выполнение команды частями с выводом результата в файл</li>
+<li><code>salt '*' disk.usage</code> - использование диска</li>
+<li><code>salt '*' sys.doc</code> - отображение документации</li>
+<li><code>salt '*' cmd.run 'ls -l /etc'</code> - запуск команды bash</li>
+<li><code>salt '*' pkg.install vim</code> - установить пакет с помощью команды</li>
+<li><code>salt '*' cmd.run 'ls - /etc/salt'</code> - запуск команды Linux на Minion</li>
+<li><code>sudo salt sccm-kafka cmd.run 'bash -c &quot;/home/vagrant/ssend.sh \&quot;Kafka is good\&quot;&quot;'</code>	 - запуск серверной команды с экранирование кавычек</li>
+</ul>
+<h3 id="команды-работы-с-состояниями">Команды работы с состояниями<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-%d1%80%d0%b0%d0%b1%d0%be%d1%82%d1%8b-%d1%81-%d1%81%d0%be%d1%81%d1%82%d0%be%d1%8f%d0%bd%d0%b8%d1%8f%d0%bc%d0%b8">#</a></h3>
+<ul>
+<li><code>sudo salt sccm-1 state.sls MODULE_NAME</code> - установка состояние из sls файла</li>
+<li><code>salt \* state.highstate</code> - use to execute the <code>state.highstate</code> function</li>
+<li><code>salt '*' state.show_sls &lt;SLS_FILE_NAME&gt;</code> - проверить sls файл</li>
+<li><code>salt '*' state.apply test</code> - To validate the Salt Formula, run in the test-only (dry-run) mode</li>
+<li><code>salt '*' state.apply salt://jinja_pillar](salt://jinja_pillar_sample.sls pillar='{&quot;power_modes&quot;: [&quot;croco&quot;, &quot;dile&quot;]}'</code> - запуск конкретной формулы и задание pillar</li>
+<li><code>salt '*' state.show_lowstate</code> - to see what the low state looks like for a highstate</li>
+</ul>
+<h3 id="команды-работы-с-grains">Команды работы с grains<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-%d1%80%d0%b0%d0%b1%d0%be%d1%82%d1%8b-%d1%81-grains">#</a></h3>
+<ul>
+<li><code>salt '*' grains.ls</code> - список доступных grains</li>
+<li><code>salt '*' grains.items</code> - получить grains</li>
+<li><code>salt -G 'os: CentOS' test.version</code> - проверить выборку по grains</li>
+<li><code>salt -G 'puarch: ×86_64' grains. item num_cus</code> - получить конкретный элемент grains</li>
+</ul>
+<h3 id="команды-работы-с-pillar">Команды работы с pillar<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-%d1%80%d0%b0%d0%b1%d0%be%d1%82%d1%8b-%d1%81-pillar">#</a></h3>
+<ul>
+<li><code>salt '*' state.apply pillar='{&quot;key&quot;: &quot;value&quot;}'</code> - pillar data can be set at the command line. <strong>Не смог заставить работать</strong></li>
+<li><code>sudo salt \* saltutil.refresh_pillar</code> - обновить pillar</li>
+<li><code>sudo salt-call saltutil.refresh_pillar</code> - синхронизация pillar</li>
+</ul>
+<h3 id="команды-работы-с--scheduler">Команды работы с  scheduler<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b-%d1%80%d0%b0%d0%b1%d0%be%d1%82%d1%8b-%d1%81--scheduler">#</a></h3>
+<ul>
+<li><code>sudo salt 'r846695-mi-1.r846695.terra.inno.tech' schedule.show_next_fire_time &quot;xxxx&quot;</code> - как узнать время след.запуска расписания некоторой задачи на миньоне</li>
+<li><code>sudo salt 'r846695-mi-1.r846695.terra.inno.tech' schedule.list</code> - список задач для выполнения</li>
+<li><code>sudo salt 'r881721-mi-1*' schedule.job_status &quot;highstate&quot;</code> - показать статус запусков по highstate</li>
+</ul>
+<h3 id="отладочные-команды">Отладочные команды<a class="anchor" href="#%d0%be%d1%82%d0%bb%d0%b0%d0%b4%d0%be%d1%87%d0%bd%d1%8b%d0%b5-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h3>
+<ul>
+<li><code>sudo salt-run state.event pretty=True</code> - вывод очереди</li>
+<li><code>sudo journalctl -f -u salt-master</code> - просмотр лога мастера</li>
+<li><code>salt-run fileserver.dir_list</code> - просмотр директорий модулей</li>
+<li><code>salt-run fileserver.file_list</code> - просмотр файлов модулей</li>
+<li><code>sudo tail -f /var/log/salt/master</code> - просмотр файла логов</li>
+<li><code>sudo salt-call state.apply -l debug</code> - отладка состояния на minion</li>
+<li><code>sudo salt-run saltutil.sync_returners</code> - обновить информацию о returners на миньонах</li>
+<li><code>salt \* state.show_highstate --out yaml</code> - отобразить highstate</li>
+<li><code>salt '*' state.show_sls edit.vim --out</code> - отобразить rendered sls</li>
+<li><code>salt-call saltutil.running</code> - что сейчас исполняется на миньоне</li>
+<li><code>salt-call  --log-level=all schedule.list</code> - запуск задачи (в данном случае schedule.list) с логированием</li>
+<li><code>salt '*' status.time</code> - текущее время на миньоне</li>
+<li><code>ss -tn src :4505</code>  - просмотр открытых сокетов на мастере и миньоне</li>
+<li><code>salt --config-dump</code> - вывести конфиг мастера/миньона</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+  
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/quarkus/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Quarkus</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/spring-framework/" class="flex align-center">
+        <span>Spring Framework</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#состояния-states">Состояния (States)</a></li>
+    <li><a href="#расширенные-темы">Расширенные темы</a></li>
+    <li><a href="#jinja-рендереры">Jinja (Рендереры)</a>
+      <ul>
+        <li><a href="#операторы">Операторы</a></li>
+      </ul>
+    </li>
+    <li><a href="#формулы">Формулы</a></li>
+    <li><a href="#лекции">Лекции</a>
+      <ul>
+        <li><a href="#лекция-1-основы">Лекция 1. Основы</a></li>
+        <li><a href="#лекция-2-jinja--формула--returners">Лекция 2. Jinja + Формула + Returners</a></li>
+      </ul>
+    </li>
+    <li><a href="#утилитные-команды">Утилитные команды</a>
+      <ul>
+        <li><a href="#команды-работы-с-состояниями">Команды работы с состояниями</a></li>
+        <li><a href="#команды-работы-с-grains">Команды работы с grains</a></li>
+        <li><a href="#команды-работы-с-pillar">Команды работы с pillar</a></li>
+        <li><a href="#команды-работы-с--scheduler">Команды работы с  scheduler</a></li>
+        <li><a href="#отладочные-команды">Отладочные команды</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
