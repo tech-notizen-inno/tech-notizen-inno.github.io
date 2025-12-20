@@ -9,3 +9,6 @@ ignoreFiles = [
 ]
 
 sectionPagesMenu = 'main'
+
+[params]
+  BookSection = '*'
