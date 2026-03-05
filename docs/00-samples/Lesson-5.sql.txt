@@ -1,0 +1,199 @@
+-- Динамические команды =========
+do $$ -- создать таблицу
+declare
+	cmd constant text := 'create table city_msk(
+							name text,
+							architect text,
+							founded integer)';
+begin
+	execute cmd;
+end;
+$$;
+
+do $$ -- внести данные 
+declare
+	rec record;
+	cnt bigint;
+begin
+	execute 'insert into city_msk(name, architect, founded) values
+				(''Пашков дом'', ''Василий Баженов'', 1784),
+				(''Музей Пушкина'', ''Роман Клейн'', 1898),
+				(''ЦУМ'', ''Роман Клейн'', 1908)
+				returning name, architect, founded
+			'
+	into rec; 
+
+	raise notice '%', rec;
+	get diagnostics cnt = ROW_COUNT;
+	raise notice 'Добавлено строк: %', cnt;
+end;
+$$;
+
+do $$ -- вывести содержимое через курсор (FOR)
+declare
+	rec record;
+begin
+	for rec in execute 'select * from city_msk order by founded'
+	loop
+		raise notice '%', rec;
+	end loop;
+end;
+$$;
+
+do $$ -- вывести содержимое через курсор (OPEN)
+declare
+	cur refcursor;
+	rec record;
+begin
+
+	OPEN cur FOR execute 'select * from city_msk order by founded';
+	LOOP
+		FETCH cur INTO rec;
+		EXIT WHEN NOT FOUND;
+		raise notice '%', rec;
+	END LOOP;
+	CLOSE cur;	
+
+end;
+$$;
+
+-- использование динамической команды в функции
+create or replace function sel_city(city_code text, architect text, founded integer default null) 
+returns setof text as $$
+declare
+	cmd text := 'select name from city_' || city_code || ' where architect = $1 and ($2 is null or founded = $2)';
+begin
+	raise notice '%', cmd;
+	return query execute cmd using architect, founded;
+
+end;
+$$ language plpgsql;
+
+select * from sel_city('msk', 'Василий Баженов');
+
+-- SQL иньекция
+select * from sel_city('msk where false 
+					union all select usename from pg_user 
+					union all select name from city_msk'
+
+, '')
+
+-- Массивы ========================
+
+create table sel_emp (
+	name text,
+	pay_by_q integer[],
+	schedule text[][]
+);
+
+insert into sel_emp values (
+	'Ivan',
+	'{1, 2, 1, 2}',
+	'{{"breakfast", "lanch"}, {"meeting", "consulting"} }'
+);
+
+insert into sel_emp values (
+	'Angelika',
+	array[2,3,3,2],
+	array[['lanch', 'dinner'],['consulting', 'meeting']]
+);
+
+select * from sel_emp;
+
+select name from sel_emp where pay_by_q[1] != pay_by_q[3];
+select schedule[1:2] from sel_emp;
+
+update sel_emp set schedule = '{5,4,5,4}' where name = 'Ivan';
+
+do $$
+declare
+	a integer[];
+	item integer;
+	num integer;
+begin
+	a := ARRAY(select pay_by_q from sel_emp limit 1);
+	num := 0;
+	foreach item  in array a loop
+		raise notice 'num[%] = %', num, item;
+		num := num + 1;
+	end loop;
+end;
+$$;
+
+-- обработка ошибок ===========
+-- https://www.postgresql.org/docs/current/plpgsql-errors-and-messages.html
+-- реализация try - catch - finally
+create or replace function finally_func(cause integer) returns void
+as $$
+declare
+begin
+	begin
+		begin
+			raise notice 'TRY ---> ';
+			if cause <> 0 then
+				raise 'cause is %', cause using errcode = 'raise_exception';
+			end if;
+			raise notice 'Alles in Ordnung';
+		exception
+			when raise_exception then 
+				raise notice 'CATCH ---> errcode %, msg: %', sqlstate, sqlerrm; --  = %', raise_exception;
+		end;
+		raise sqlstate 'ALLOK';
+	exception
+		when others then
+			raise notice 'FINALLY -->';
+			if sqlstate != 'ALLOK' then
+				-- raise;
+			end if;
+	end;		
+end;
+$$ language plpgsql;
+
+-- Тригеры ====================
+-- 1. таблица для отслеживания и таблица с историей
+create table trigger_watch (
+	id integer primary key generated always as identity,
+	str text
+);
+
+create table history (
+	if serial,
+	table_name varchar(255),
+	id_in_object bigint,
+	operation varchar(255),
+	params text,
+	who varchar(255),
+	ldts timestamp default NOW()
+);
+
+-- 2. тригерная функция
+create or replace function process_watcher() returns trigger
+as $$
+begin
+	if TG_OP = 'INSERT' OR TG_OP = 'UPDATE' then
+		insert into history(table_name, id_in_object, operation, params, who) values
+			(TG_TABLE_NAME, new.id, TG_OP, '{' || old.str || '}' , current_user);
+		return new;
+	elseif TG_OP = 'DELETE' then
+		insert into history(table_name, id_in_object, operation, params, who) values
+			(TG_TABLE_NAME, old.id, TG_OP, '{' || old.str || '}' , current_user);
+		return old;
+	end if;
+end;
+$$ language plpgsql;
+
+
+-- 3. добавляем триггер
+create trigger trigger_watcher
+after insert or update or delete on trigger_watch
+for each row execute function process_watcher();
+
+-- 4. проверяем
+insert into trigger_watch(str) values ('Вставка 1') returning id;
+update trigger_watch set str = 'Обновление 2' where id = 2;
+delete from trigger_watch where id = 1;
+
+select * from trigger_watch;
+select * from history;
+
+

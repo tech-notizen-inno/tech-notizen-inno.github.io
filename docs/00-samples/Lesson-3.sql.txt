@@ -1,0 +1,208 @@
+select abalance, count(*) from pgbench_accounts pa  group by abalance;
+
+-- 1. Секционирование по диапазону ===
+
+create table partition_by_range (
+	city_id 	int not null,
+	logdate 	date not null 
+) partition by range (logdate);
+
+create table partition_by_range_y2006m02 partition of partition_by_range
+	for values from ('2006-02-01') to ('2006-03-01');
+
+create table partition_by_range_y2006m03 partition of partition_by_range
+	for values from ('2006-03-01') to ('2006-04-01');
+
+
+create index on partition_by_range (logdate);
+
+explain
+select * from partition_by_range where logdate > '2006-02-01'
+
+-- 2. Секционирование по значениям ===
+
+create table partition_by_list (
+	customer_id bigint generated always as identity,
+	name text not null,
+	country text not null
+) partition by list (country);
+
+create table partition_by_list_usa partition of  partition_by_list
+	for values in ('USA');
+
+create table partition_by_list_uk partition of partition_by_list
+	for values in ('UK');
+
+
+insert into partition_by_list (name, country) values
+	('Ernest Miller Hemingway', 'USA' ),
+	('William Gerald Golding', 'UK');
+
+
+
+insert into partition_by_list (name, country) values ('Heinrich Theodor Böll', 'BDR');
+
+-- 3. Секционирование по хеш
+
+create table partition_by_hash (
+	id bigint generated always as identity,
+	sensor_id int not null,
+	vl varchar (100) not null
+) partition by hash(sensor_id);
+
+create table partition_by_hash_0 partition of partition_by_hash
+	for values with (modulus 2, remainder 0);
+
+create table partition_by_hash_1 partition of partition_by_hash
+	for values with (modulus 2, remainder 1);
+
+
+insert into partition_by_hash (sensor_id, vl) values
+	(1, 'values for 1/2'),
+	(2, 'values for 2/2'),
+	(3, 'values for 3/2'),
+	(4, 'values for 4/2');
+
+
+insert into partition_by_hash (sensor_id, vl) select floor(random()* (1001))::int, 'values ___' from generate_series(1,1000000);
+
+
+select count(*) from partition_by_hash;
+select count(*) from partition_by_hash_0;
+select count(*) from partition_by_hash_1;
+
+-- 5. Сценарий 1 перелива в партиционированную таблицу
+
+create table abc(id serial, t text);
+insert into abc(t) select random()::text from generate_series(1, 1000000);
+select min(id), max(id) from abc;
+
+-- создаем секционированную таблицу и добавляем constraint
+create table abc_2_0 (like abc) partition by range(id);
+
+alter table abc add check (id>=1 and id <999999) not valid;
+update pg_constraint set convalidated=true where conname='abc_id_check';
+select conname, convalidated from pg_constraint where conname like 'abc_%';
+delete from pg_constraint where conname='abc_id_check1';
+
+
+-- переименовываем таблицы
+alter table abc rename to abc_1_999999;
+alter table abc_2_0 rename to abc;
+
+select * from abc;
+
+-- добавляем старую таблицу как партицию
+-- delete from abc_1_999999 where id > 999000;
+alter table abc attach partition abc_1_999999 for values from (1) to (999999);
+alter table abc_1_999999 drop constraint abc_id_check;
+
+
+-- 6. online операции с партициями 
+-- исходная таблица
+create table original_table (id int, t text);
+insert into original_table (id, t) select floor(random() * (11))::int, random()::text from generate_series(1,30000000);
+
+select min(id), max(id) from original_table;
+
+-- секционированная таблица
+create table part_table (id int, t text) partition by list(id);
+
+create table part_table_123 partition of part_table for values in (1,2,3);
+create table part_table_456 partition of part_table for values in (4,5,6);
+create table part_table_789 partition of part_table for values in (7,8,9);
+create table part_table_10000 partition of part_table for values in (10000);
+create table part_table_default partition of part_table default;
+
+-- триггер для обновления обоих таблиц в момент "перелива" данных
+create or replace function part_update() returns trigger
+as $$
+begin
+	if TG_OP = 'INSERT' or TG_OP = 'UPDATE' then
+		insert into part_table (id, t) values (new.id, new.t);
+		return new;
+	elsif TG_OP = 'UPDATE' then
+		update part_table set t = new.t where id=old.id;
+		return new;
+	elsif TG_OP 'DELETE' then
+		delete from part_table where id = old.id;
+		return old;
+	end if;
+end;
+$$ language plpgsql;
+
+
+create trigger trigger_part_table_upd
+after insert or update or delete on original_table
+for each row execute function part_update();
+
+-- процедура для "перелива данных"
+
+create or replace procedure pump_date()
+as $$
+declare 
+	rec record;
+begin
+	for rec in
+		select * from original_table
+	loop
+		insert into part_table (id, t) values (rec.id, rec.t);
+	end loop;
+
+	commit;
+end;
+$$ language plpgsql;
+
+call pump_date();
+
+-- встравить в psql
+-- insert into original_table(id, t) values (10000, 'pam');
+select * from original_table where id = 10000;
+
+-- очистить БД
+drop table original_table;
+drop table part_table;
+
+-- ДОМАШКА ==
+
+-- 1. дорабатываем исходную табилцу 
+create table pgbench_accounts_to_div (
+	aid int4 NOT NULL,
+	bid int4 NULL,
+	abalance int4 NULL,
+	filler bpchar(84) NULL,
+	new_rnd_key int not null,   -- произвольный индекс от 0 до 99
+	region text                 -- будущий ключ для разделения на партиции, указывает на регион экономики
+);
+
+
+
+-- 2. заполняем данными, проверяем, вставляем регион
+insert into pgbench_accounts_to_div select pa.*, floor(random() * 100)::int as new_rnd_key from pgbench_accounts pa;
+select min(new_rnd_key), max(new_rnd_key) from pgbench_accounts_to_div;
+select new_rnd_key, count(*) from pgbench_accounts_to_div group by new_rnd_key order by new_rnd_key;
+
+update pgbench_accounts_to_div set region='China' where new_rnd_key >=0 and new_rnd_key < 21; 
+update pgbench_accounts_to_div set region='US' where new_rnd_key >=21 and new_rnd_key < 35; 
+update pgbench_accounts_to_div set region='India' where new_rnd_key >=35 and new_rnd_key < 43; 
+update pgbench_accounts_to_div set region='RU' where new_rnd_key >=43 and new_rnd_key < 47; 
+update pgbench_accounts_to_div set region='Japan' where new_rnd_key >=47 and new_rnd_key < 50; 
+update pgbench_accounts_to_div set region='Germany' where new_rnd_key >=50 and new_rnd_key < 53; 
+
+select region, count(*) as cnt from pgbench_accounts_to_div group by region order by cnt desc;
+
+
+-- 4. 
+
+
+-- Очистка БД
+
+drop table pgbench_accounts_to_div;
+
+
+
+
+
+
+
+

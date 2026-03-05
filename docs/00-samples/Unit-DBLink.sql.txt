@@ -1,0 +1,51 @@
+-- 1. создать расширение
+create extension dblink;
+
+-- 2. примеры вызова команд через dblink
+select * from dblink_exec(
+	'host=localhost port=5432 dbname=postgres user=postgres password=postgres',
+	$$ vacuum; $$
+);
+
+select * from dblink(
+	'host=localhost port=5432 dbname=postgres user=postgres password=postgres',
+	$$ select * from generate_series(1,3); $$
+) as (result integer);
+
+-- 3. таблица для тестирования
+create table auto_log( msg text);
+
+insert into auto_log values ('no transaction');
+
+-- 4. транзакция
+
+start transaction;
+insert into auto_log values ('inside transation');
+
+select * from dblink_exec(
+	'host=localhost port=5432 dbname=postgres user=postgres password=postgres',
+	$$ insert into auto_log values ('dblink message'); $$
+);
+
+rollback;
+
+-- 5. верификация
+select * from auto_log;
+
+-- 6. очистка БД
+drop table auto_log;
+
+
+-- 7. расширенный пример команд dblink
+
+SELECT * FROM dblink_connect( 'remote', 'host=localhost port=5432 dbname=postgres user=postgres password=postgres' ); 
+SELECT * FROM dblink_get_connections();
+SELECT * FROM dblink_exec( 'remote', $$ BEGIN; $$ ); 
+SELECT * FROM dblink( 'remote', $$ SELECT pg_backend_pid(); $$ ) AS t(pid integer); 
+SELECT * FROM dblink_exec( 'remote', $$ COMMIT; $$ );
+SELECT * FROM dblink_send_query( 'remote', $$ SELECT 'done' FROM pg_sleep(10); $$ ); 
+SELECT * FROM dblink_send_query( 'remote', $$ SELECT 'done' FROM pg_sleep(10); $$ );  
+SELECT CASE dblink_is_busy('remote') WHEN 1 THEN 'еще выполняется' ELSE 'уже выполнился' END; 
+SELECT * FROM dblink_send_query( 'remote', $$ SELECT 'done' FROM pg_sleep(10); $$ ); 
+SELECT CASE dblink_is_busy('remote') WHEN 1 THEN 'еще выполняется' ELSE 'уже выполнился' END;  
+SELECT * FROM dblink_get_result( 'remote' ) AS t(result text); 

@@ -1,0 +1,220 @@
+
+-- изменить объем памяти
+select * from pg_catalog.pg_settings where name='maintenance_work_mem'
+alter system set maintenance_work_mem = '128MB'
+-- перечитывание конфигурации
+select * from pg_reload_conf() 
+
+-- изменить количество подключений
+select * from pg_catalog.pg_settings where name='max_connections'
+alter system set max_connections = 200
+
+-- посмотреть расположение конфигфайлов
+show config_file;
+show hba_file;
+show shared_buffers;
+show max_connections;
+
+-- посмотреть пользователей
+select * from pg_shadow;
+
+select name from pg_settings where context='postmaster';
+
+-- ТРАНЗАКЦИИ =========================
+
+create table trans_test (
+	id serial,
+	title varchar,
+	body text
+)
+
+truncate table trans_test
+
+-- сессия 1 --------------------------
+start transaction isolation level read committed;
+
+insert into trans_test (title, body) values ('Заголовок 4', 'Текс 1; Текст 1; Текст 1');
+update trans_test set title = 'Заголовок 2-1' where id = 3;
+select * from trans_test; 
+commit;
+
+-- сессия 2 --------------------------
+
+start transaction isolation level read committed;
+select * from trans_test;
+commit
+
+start transaction isolation level repeatable read;
+select * from trans_test;
+commit
+
+-- Оптимизация. Планы запросов =======================
+select schemaname, tablename from pg_tables where tableowner='postgres' order by tablename;
+
+-- создать / просмотреть / удалить  подготовленное выражение 
+prepare pg_info(text) as select * from pg_tables where  tableowner=$1;
+select name, statement, parameter_types from pg_prepared_statements;
+select name, generic_plans, custom_plans from pg_prepared_statements;
+deallocate prepare pg_info; 
+-- выполнить
+execute pg_info('postgres');
+execute pg_info('ivan');
+-- посмотреть план
+explain execute pg_info('ivan');
+
+-- Страницы ==========================================
+
+-- расширение для работы со страницами
+create extension pageinspect;
+
+-- путь к странице
+select pg_relation_filepath('trans_test');
+-- страница с данными
+select get_raw_page('trans_test', 0);
+-- заголовок страницы
+select * from page_header(get_raw_page('trans_test', 0));
+-- информация о строках
+select lp, lp_off, lp_flags, lp_len, t_ctid, to_hex(t_infomask2) from heap_page_items(get_raw_page('trans_test', 0));
+select * from heap_page_items(get_raw_page('trans_test', 0));
+
+
+select * from trans_test;
+update trans_test set title='Заголовок для просмотра' where id = 3;
+vacuum trans_test;
+
+-- Многоверсионность (MVCC) ===============================================
+
+-- функция для просмотра состояния страницы по таблице и номеру страницы
+create or REPLACE FUNCTION heap_page(relname text, pageno integer)
+RETURNS TABLE(ctid tid, state text, xmin text, xmax text, t_ctid tid)
+AS $$
+SELECT (pageno, lp)::text::tid AS ctid,
+	CASE lp_flags
+		WHEN 0 THEN 'unused'
+		WHEN 1 THEN 'normal'
+		WHEN 2 THEN 'redirect to '||lp_off
+		WHEN 3 THEN 'dead'
+	END AS state,
+	t_xmin || CASE
+		WHEN (t_infomask & 256) > 0 THEN ' (c)'
+		WHEN (t_infomask & 512) > 0 THEN ' (a)'
+		ELSE ' '
+	END AS xmin,
+	t_xmax || CASE
+		WHEN (t_infomask & 1024) > 0 THEN ' (c)'
+		WHEN (t_infomask & 2048) > 0 THEN ' (a)'
+		ELSE ' '
+	END AS xmax,
+	t_ctid
+FROM heap_page_items(get_raw_page(relname, pageno))
+ORDER BY lp;
+$$ LANGUAGE SQL;
+
+-- 1. тестовая таблица
+create table pages_mvcc_test (
+	id serial
+	,title varchar
+	,body text
+)
+	
+drop table pages_mvcc_test;
+
+-- просмотр страницы 0 из тестовой таблицы
+SELECT * FROM heap_page('pages_mvcc_test', 0);
+
+-- 2. заполняем таблицу данными, изменяем данные и удаляем данные. смотрим как меняются записи на странице
+insert into pages_mvcc_test (title, body) values ('Title', 'Body');
+
+update pages_mvcc_test set title = 'Title - 1' where id = 1;
+update pages_mvcc_test set title = 'Title - 2' where id = 1;
+update pages_mvcc_test set title = 'Title - 3' where id = 1;
+update pages_mvcc_test set title = 'Title - 4' where id = 1;
+
+delete from pages_mvcc_test where id = 1;
+
+-- 3. аналогично в транзакции
+start transaction;
+insert into pages_mvcc_test (title, body) values ('Title-Transact', 'Body-Transact');
+select * from pages_mvcc_test;
+rollback;
+commit;
+
+-- 4. вставляем тестовую строчку (чтобы в странице была хоть одна записмь + вызов очистки
+insert into pages_mvcc_test (title, body) values ('Title-Holder', 'Body-Holder');
+vacuum pages_mvcc_test;
+
+-- Очистка (VACUUM) =============================================
+
+create or REPLACE FUNCTION index_page(relname text, pageno integer)
+RETURNS TABLE(itemsoffset smallint, ctid tid)
+AS $$
+SELECT itemoffset, ctid from bt_page_items(relname, pageno);
+$$ LANGUAGE SQL;
+
+-- 1. создаем тестовую таблицу и индекс
+
+create table vacuum_test (
+	id serial,
+	s varchar
+)
+
+create index vacuum_test_s on vacuum_test(s)
+
+-- информация по страницам
+SELECT * FROM heap_page('vacuum_test', 0);
+-- информация по страницам индекса
+SELECT * FROM index_page('vacuum_test_s', 1);
+
+-- 2. вставляем и меням строку (чтобы иметь несколько версий). фиксируем состояние страниц
+insert into vacuum_test (s) values ('A')
+update vacuum_test set s = 'B';
+update vacuum_test set s = 'C';
+
+-- 3. вызываем вакуум c . фиксируем состояние страниц
+vacuum verbose vacuum_test;
+
+-- 4. меняем объем памяти на управление очисткой 
+select * from pg_catalog.pg_settings where name = 'maintenance_work_mem';
+ALTER SYSTEM SET maintenance_work_mem = '1MB';
+SELECT pg_reload_conf();
+
+-- 5. вставляем в таблицу большой обьем данны и вызываем vacuum
+truncate vacuum_test;
+insert into vacuum_test(s) select 'a' from generate_series(1,500000);
+update vacuum_test set s = 'b';
+vacuum verbose vacuum_test;
+
+-- 6. снова вставим
+TRUNCATE vacuum_test;
+INSERT INTO vacuum_test(s) SELECT 'A' FROM generate_series(1,500000);
+
+-- 7. устанавливаем расширение
+create extension pgstattuple;
+
+-- 8. просмотреть плотность заполнения данными
+select * from pgstattuple( 'vacuum_test'); -- tuple_percent
+select * from pgstatindex('vacuum_test_s'); -- avg_leaf_density
+select vac.tuple_percent, vac_s.avg_leaf_density from pgstattuple('vacuum_test') vac, pgstatindex('vacuum_test_s') vac_s;
+
+
+-- 9. выведем размер таблицы и индекса
+select pg_size_pretty(pg_table_size('vacuum_test')) table_size, pg_size_pretty(pg_indexes_size('vacuum_test')) index_size
+
+-- 10. удалим 90% данных 
+delete from vacuum_test where random() < 0.9;
+
+-- 11. вызываем vacuum 
+--     проверяем размер таблицы и индекса - они НЕ изменились
+--     проверяем плотность - она уменьшилась в 10 раз
+vacuum verbose vacuum_test;
+
+
+-- 12. посмотреть на файлы данные и индекса на диске
+select pg_relation_filepath('vacuum_test'), pg_relation_filepath('vacuum_test_s');
+
+-- 13. вызываем vacuum full
+--     посмотреть файлы заново (шаг. 12) - файлы были заменены
+--     посмотреть размер таблицы и индекса (шаг. 9)
+--     посмотреть плотность (шаг. 8) - плотность опять высокая
+
+vacuum full vacuum_test;

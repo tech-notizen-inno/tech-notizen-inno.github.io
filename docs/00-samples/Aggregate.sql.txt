@@ -1,0 +1,80 @@
+CREATE TYPE average_state AS (
+    accum float,
+    qty float
+);
+
+
+postgres=# CREATE OR REPLACE FUNCTION average_transition(
+    state average_state,
+    val float
+)
+RETURNS average_state AS $$
+BEGIN
+    RAISE NOTICE '%(%) + %', state.accum, state.qty, val;
+    RETURN ROW(state.accum+val, state.qty+1)::average_state;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+
+CREATE OR REPLACE FUNCTION average_final(
+    state average_state
+)
+RETURNS float AS $$
+BEGIN
+    RAISE NOTICE '= %(%)', state.accum, state.qty;
+    RETURN CASE
+        WHEN state.qty > 0 THEN state.accum/state.qty
+    END;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+CREATE AGGREGATE average(float) (
+    stype     = average_state,
+    initcond  = '(0,0)',
+    sfunc     = average_transition,
+    finalfunc = average_final
+);
+
+— проверка
+SELECT average(n) FROM test;
+SELECT grp, average(n) FROM test GROUP BY grp;
+SELECT n, average(n) OVER() FROM test;
+SELECT n, grp, average(n) OVER(PARTITION BY grp) FROM test;
+SELECT n, average(n) OVER(ORDER BY n) FROM test;
+
+SELECT n, average(n) OVER(
+    ORDER BY n                       -- сортировка
+    ROWS BETWEEN UNBOUNDED PRECEDING -- от самого начала
+             AND CURRENT ROW         -- до текущей строки
+)
+FROM test;
+
+
+— создание агрегата со скользящей рамкой
+DROP AGGREGATE average(float);
+
+CREATE OR REPLACE FUNCTION average_inverse(
+    state average_state,
+    val float
+) RETURNS average_state AS $$
+BEGIN
+    RAISE NOTICE '%(%) - %', state.accum, state.qty, val;
+    RETURN ROW(state.accum-val, state.qty-1)::average_state;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+CREATE AGGREGATE average(float) (
+    -- обычный агрегат
+    stype      = average_state,
+    initcond   = '(0,0)',
+    sfunc      = average_transition,
+    finalfunc  = average_final,
+    -- вариант с обратной функцией
+    mstype     = average_state,
+    minitcond  = '(0,0)',
+    msfunc     = average_transition,
+    minvfunc   = average_inverse,
+    mfinalfunc = average_final
+);
+
+SELECT n, average(n) OVER(ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) FROM test;

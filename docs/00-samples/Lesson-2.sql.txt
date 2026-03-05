@@ -1,0 +1,180 @@
+--  Оптимизация запросов =============================
+
+-- 1. установить demo-big отсюда - https://postgrespro.ru/education/demodb
+
+-- 2. установить https://postgrespro.ru/docs/postgrespro/9.5/pgstatstatements
+show shared_preload_libraries;
+select * from pg_catalog.pg_settings where name = 'shared_preload_libraries';
+alter system set shared_preload_libraries = 'pg_stat_statements';
+-- перегрузить кластер
+-- создаем extension
+create extension pg_stat_statements;
+-- сброс статистики
+select pg_stat_statements_reset();
+alter system set compute_query_id='on'
+
+-- 3. Запросы
+
+select 
+	a.airplane_code,
+	a.model,
+	s.seat_no ,
+	s.fare_conditions 
+from airplanes a 
+	join seats s on a.airplane_code = s.airplane_code
+where a.model = 'Boeing 777-300ER'
+order by s.seat_no;
+
+select distinct  a.model from airplanes a;
+
+select s2.airplane_code, 
+		string_agg(s2.fare_conditions || '(' || s2.num::text || ')',
+			', ') 
+			as fare_conditions
+from ( select s.airplane_code, s.fare_conditions, count(*) as num from seats s 
+		group by s.airplane_code, s.fare_conditions 
+		order by s.airplane_code, s.fare_conditions 
+		) s2
+group by s2.airplane_code 
+order by s2.airplane_code;
+
+select * from seats s limit 1;
+
+select * 
+from airports a 
+where a.city in (
+				select a2.city from airports a2 group by a2.city having count(*) > 1
+				)
+order by a.country, a.city;
+
+-- 4. получение статистики запросов
+select -- substring(query, 1, 50) as short_query,
+		queryid,
+		query,
+		round (total_exec_time::numeric, 2) as total_time,
+		calls,
+		round (mean_exec_time::numeric, 2) as mean,
+		round ((100 * total_exec_time / sum(total_exec_time::numeric) over())::numeric, 2) as percentage_cpu
+from pg_stat_statements
+order by total_time desc 
+limit 10
+
+-- 5. Ctrl+Shift+F = форматировать строку запроса
+-- 6. Home - перейти к началу строки 
+-- 7. Shift+End - выделить строку целиком
+-- 8. Alt + стрелки - выделять выражение вверх или вниз
+
+
+-- Планы запросов ===================================
+-- 1. seq scan 
+explain 
+select count(*) from seats;
+
+explain
+select * from seats where fare_conditions = 'Business'
+
+-- 2. parallel seq
+explain
+select count(*) from bookings;
+
+-- установка/сброс количество параллельных обработчиков
+alter table bookings set (parallel_workers = 4);
+alter table bookings reset (parallel_workers);
+
+-- 3. index scan
+explain
+select * from bookings where book_ref = '00002D'
+
+-- index only scan
+explain
+select book_ref from bookings where book_ref = '00002D'
+
+
+explain
+select * from bookings where book_ref > '00002D' and book_ref < '00003D'
+
+-- 4. parallel index
+explain
+select sum(total_amount) from bookings where book_ref < '5000'
+
+-- 5. nested loop
+explain
+select t.*, s.* from tickets t
+join segments s on s.ticket_no =  t.ticket_no
+where t.ticket_no in ('00000000', '11111111', '2222222')
+
+-- 6. parallel nested loop
+explain
+select t.*, s.* from tickets t
+join segments s on s.ticket_no =  t.ticket_no
+join flights f on f.flight_id = s.flight_id
+where f.flight_id= '1111'
+
+-- 7. hash (parallel)
+explain
+select t.*, s.* from tickets t
+join segments s on s.ticket_no =  t.ticket_no
+
+-- 8. merge (parallel)
+explain
+select t.* from tickets t
+join segments s on s.ticket_no =  t.ticket_no
+order by t.ticket_no;
+
+-- Оценка, кардинальность, селективность ==================
+-- 1. все параметры запросов
+select round(total_exec_time::numeric, 2) as total_time, *
+from pg_stat_statements
+order by total_time desc
+limit 10
+
+-- 2. пример запроса
+explain
+select * from bookings where book_ref = '00002D'
+
+
+-- 3. настройка планирования (подробно - https://www.postgresql.org/docs/current/runtime-config-query.html)
+set enable_indexscan=on -- off
+set enable_bitmapscan=on -- off
+set enable_seqscan=on -- off
+
+-- СТАТИСТИКА (https://postgrespro.ru/docs/postgrespro/15/sql-createstatistics?lang=en) ==========
+analyze bookings; -- собрать статистику
+select * from pg_stats; -- просмотр статистики
+ 
+-- 1. использование расширенной статистики (зависимости)
+drop statistics fldep;
+create statistics fldep (dependencies) on route_no, departure_airport from routes;
+create statistics airdep (mcv) on route_no, departure_airport from routes;
+create statistics deparr (ndistinct) on departure_airport, arrival_airport from routes;
+
+
+-- 2. анализ объекта
+analyze routes;
+
+-- 3. просмотр расширенной статистики dependencies
+
+select dependencies from pg_catalog.pg_stats_ext psee where psee.statistics_name = 'fldep'
+
+
+select count(r.departure_airport || r.arrival_airport)   from routes r 
+join airports_data d on r.departure_airport  = d.airport_code
+join airports_data t on r.arrival_airport = t.airport_code
+
+-- 4. посмотреть расширенную статистику mvc
+
+select m.*
+from pg_catalog.pg_statistic_ext
+join pg_catalog.pg_statistic_ext_data psed on oid = stxoid, pg_mcv_list_items(stxdmcv) m
+where stxname = 'airdep'
+limit 10;
+
+-- 5. посмотреть расширенную статистику ndistinct
+select n_distinct from pg_catalog.pg_stats_ext where statistics_name = 'deparr' ;
+
+-- Очистика и оптимизация запросов ===================================
+
+
+
+
+
