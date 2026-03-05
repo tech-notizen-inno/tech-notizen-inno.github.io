@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -8,37 +8,38 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="PostgreSQL# psql &#34;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&#34; - подключение к БД локальным клиентом
-Основные командыp
-\dt - показать таблицы \d product - просмотреть структуру таблицы product \timing - запуск тайминга запросов Чистка коннектов к БД# Подключениия храняться в таблице pg_stat_activity. Посмотреть подключения SELECT * from pg_stat_activity WHERE datname=&#39;std-028-50&#39; Комманда DISCONNECT SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = ‘std-028-50’ AND state = ‘idle’ AND pid &lt;&gt; pg_backend_pid(); Создание dump# создание backup - pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir восстановление backup - pg_restore -d &#34;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&#34; --format=d /tmp/dump.dir/ DML# INSERT INTO product (id, name, picture_url, price) values (1, &#39;Сливочная&#39;, &#39;https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg&#39;, 320.00); - внести данные SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product); - использование функций JOIN &#43; функции-агрегаторы &#43; работа с датами DDL# DROP TABLE product; - удалить таблицу CREATE SCHEMA dw; - создание схемы CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) ); - создание таблицы CREATE INDEX idx_order_product_order_id ON order_product (order_id) - создание индекса Транзакции# ">
+<meta name="description" content="PostgreSQL#Миграции#Инструменты миграции - Flyway или Liquibase.
+Flyway#migrate — старт миграции, запустятся все скрипты миграции которые находятся в папке migration clean — запустятся скрипты очистки базы (которые надо самостоятельно прописать) info — даст информацию о статусе об уже прошедших миграциях и тех, что можно провести сейчас базируясь на таблице flyway_schema_history validate — запустится встроенная проверка на корректность синтаксиса SQL-скриптов Миграционные скрипты подразделяются на типы:
+Versioned Migrations — основные скрипты миграции, в которых создаются таблицы, схемы, пользователи, вносятся тестовые данные. Начинаются с V001__. Undo Migrations — скрипты, предназначенные для отмены миграции. Начинаются с U01__. Repeatable Migrations — скрипты, предназначенные для повтора и выполняемые каждый раз при запуске приложения. Используются для выдачи прав пользователям, создание VIEW-шек, функций и много другого. Запускаются последними, после того как отработали скрипты миграции. Начинаются с R__. Адрес подключения к базе данных и расположение скриптов миграции указываются в конфигурационном файле flyway.conf.
+">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://tech-notizen-inno.github.io/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
-  <meta property="og:description" content="PostgreSQL# psql &#34;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&#34; - подключение к БД локальным клиентом
-Основные командыp
-\dt - показать таблицы \d product - просмотреть структуру таблицы product \timing - запуск тайминга запросов Чистка коннектов к БД# Подключениия храняться в таблице pg_stat_activity. Посмотреть подключения SELECT * from pg_stat_activity WHERE datname=&#39;std-028-50&#39; Комманда DISCONNECT SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = ‘std-028-50’ AND state = ‘idle’ AND pid &lt;&gt; pg_backend_pid(); Создание dump# создание backup - pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir восстановление backup - pg_restore -d &#34;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&#34; --format=d /tmp/dump.dir/ DML# INSERT INTO product (id, name, picture_url, price) values (1, &#39;Сливочная&#39;, &#39;https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg&#39;, 320.00); - внести данные SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product); - использование функций JOIN &#43; функции-агрегаторы &#43; работа с датами DDL# DROP TABLE product; - удалить таблицу CREATE SCHEMA dw; - создание схемы CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) ); - создание таблицы CREATE INDEX idx_order_product_order_id ON order_product (order_id) - создание индекса Транзакции#">
+  <meta property="og:description" content="PostgreSQL#Миграции#Инструменты миграции - Flyway или Liquibase.
+Flyway#migrate — старт миграции, запустятся все скрипты миграции которые находятся в папке migration clean — запустятся скрипты очистки базы (которые надо самостоятельно прописать) info — даст информацию о статусе об уже прошедших миграциях и тех, что можно провести сейчас базируясь на таблице flyway_schema_history validate — запустится встроенная проверка на корректность синтаксиса SQL-скриптов Миграционные скрипты подразделяются на типы:
+Versioned Migrations — основные скрипты миграции, в которых создаются таблицы, схемы, пользователи, вносятся тестовые данные. Начинаются с V001__. Undo Migrations — скрипты, предназначенные для отмены миграции. Начинаются с U01__. Repeatable Migrations — скрипты, предназначенные для повтора и выполняемые каждый раз при запуске приложения. Используются для выдачи прав пользователям, создание VIEW-шек, функций и много другого. Запускаются последними, после того как отработали скрипты миграции. Начинаются с R__. Адрес подключения к базе данных и расположение скриптов миграции указываются в конфигурационном файле flyway.conf.">
   <meta property="og:locale" content="ru">
   <meta property="og:type" content="article">
     <meta property="article:section" content="devops">
 
 
   <meta itemprop="name" content="Я.Практикум">
-  <meta itemprop="description" content="PostgreSQL# psql &#34;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&#34; - подключение к БД локальным клиентом
-Основные командыp
-\dt - показать таблицы \d product - просмотреть структуру таблицы product \timing - запуск тайминга запросов Чистка коннектов к БД# Подключениия храняться в таблице pg_stat_activity. Посмотреть подключения SELECT * from pg_stat_activity WHERE datname=&#39;std-028-50&#39; Комманда DISCONNECT SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = ‘std-028-50’ AND state = ‘idle’ AND pid &lt;&gt; pg_backend_pid(); Создание dump# создание backup - pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir восстановление backup - pg_restore -d &#34;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&#34; --format=d /tmp/dump.dir/ DML# INSERT INTO product (id, name, picture_url, price) values (1, &#39;Сливочная&#39;, &#39;https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg&#39;, 320.00); - внести данные SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product); - использование функций JOIN &#43; функции-агрегаторы &#43; работа с датами DDL# DROP TABLE product; - удалить таблицу CREATE SCHEMA dw; - создание схемы CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) ); - создание таблицы CREATE INDEX idx_order_product_order_id ON order_product (order_id) - создание индекса Транзакции#">
-  <meta itemprop="wordCount" content="476">
+  <meta itemprop="description" content="PostgreSQL#Миграции#Инструменты миграции - Flyway или Liquibase.
+Flyway#migrate — старт миграции, запустятся все скрипты миграции которые находятся в папке migration clean — запустятся скрипты очистки базы (которые надо самостоятельно прописать) info — даст информацию о статусе об уже прошедших миграциях и тех, что можно провести сейчас базируясь на таблице flyway_schema_history validate — запустится встроенная проверка на корректность синтаксиса SQL-скриптов Миграционные скрипты подразделяются на типы:
+Versioned Migrations — основные скрипты миграции, в которых создаются таблицы, схемы, пользователи, вносятся тестовые данные. Начинаются с V001__. Undo Migrations — скрипты, предназначенные для отмены миграции. Начинаются с U01__. Repeatable Migrations — скрипты, предназначенные для повтора и выполняемые каждый раз при запуске приложения. Используются для выдачи прав пользователям, создание VIEW-шек, функций и много другого. Запускаются последними, после того как отработали скрипты миграции. Начинаются с R__. Адрес подключения к базе данных и расположение скриптов миграции указываются в конфигурационном файле flyway.conf.">
+  <meta itemprop="wordCount" content="317">
 
 <title>Dbops | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://tech-notizen-inno.github.io/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/">
+<link rel="canonical" href="http://localhost:1313/devops/01.-%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/dbops/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.439a26dbd5dc94e5878054ebd11ffa41de6c530228dd84e0f639932df9950250.js" integrity="sha256-Q5om29XclOWHgFTr0R/6Qd5sUwIo3YTg9jmTLfmVAlA=" crossorigin="anonymous"></script>
 
 
 
@@ -93,8 +94,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle"  />
-    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+    <input type="checkbox" id="section-b5b63fc40275b58bcadbb72312c0642d" class="toggle"  />
+    <label for="section-b5b63fc40275b58bcadbb72312c0642d" class="flex">
       <a role="button" class="">
         Технологии</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -125,8 +126,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
-      Интервью По System Design.</a>
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design/" class="">
+      Интервью По System Design</a>
   
 
         </li>
@@ -410,8 +411,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle" checked />
-    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+    <input type="checkbox" id="section-6e2a948ffefc32b701a3f0e4022ae108" class="toggle" checked />
+    <label for="section-6e2a948ffefc32b701a3f0e4022ae108" class="flex">
       <a role="button" class="">
         Dev Ops</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -428,8 +429,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
-    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+    <input type="checkbox" id="section-19e2fbcb796748b4f1185a25c0614d1b" class="toggle"  />
+    <label for="section-19e2fbcb796748b4f1185a25c0614d1b" class="flex">
       <a role="button" class="">
         00. Теория</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -619,8 +620,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle" checked />
-    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+    <input type="checkbox" id="section-6850aa5460b8bdf054fdbdc966223dd9" class="toggle" checked />
+    <label for="section-6850aa5460b8bdf054fdbdc966223dd9" class="flex">
       <a role="button" class="">
         01. Инструменты</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -866,8 +867,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
-    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+    <input type="checkbox" id="section-49bfb7b844451ed3fbcad625600d53ab" class="toggle"  />
+    <label for="section-49bfb7b844451ed3fbcad625600d53ab" class="flex">
       <a role="button" class="">
         02. Linux</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1015,8 +1016,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
-    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+    <input type="checkbox" id="section-aee2974feff898fcaafaaaa2343faaef" class="toggle"  />
+    <label for="section-aee2974feff898fcaafaaaa2343faaef" class="flex">
       <a role="button" class="">
         03. Kubernetes</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1033,8 +1034,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
-      Оркестрация Контейнеров.</a>
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2/" class="">
+      Оркестрация Контейнеров</a>
   
 
         </li>
@@ -1183,8 +1184,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
-    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+    <input type="checkbox" id="section-9f4378f33e1d8eec9c4c79d9bb968048" class="toggle"  />
+    <label for="section-9f4378f33e1d8eec9c4c79d9bb968048" class="flex">
       <a role="button" class="">
         Otus. Kotlin</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1201,8 +1202,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
-    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+    <input type="checkbox" id="section-262e8f96b73b03948d8f582b71ac625a" class="toggle"  />
+    <label for="section-262e8f96b73b03948d8f582b71ac625a" class="flex">
       <a role="button" class="">
         Инструменты</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1322,8 +1323,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
-    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+    <input type="checkbox" id="section-893336710c6ff4463b66030086c1538f" class="toggle"  />
+    <label for="section-893336710c6ff4463b66030086c1538f" class="flex">
       <a role="button" class="">
         Язык</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1370,6 +1371,20 @@ https://github.com/alex-shpak/hugo-book
   
     <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
       Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%B4%D0%B5%D0%BB%D0%B5%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Делегирование</a>
   
 
         </li>
@@ -1441,6 +1456,197 @@ https://github.com/alex-shpak/hugo-book
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3f6a09986fe3d9652297986487ac3e7a" class="toggle"  />
+    <label for="section-3f6a09986fe3d9652297986487ac3e7a" class="flex">
+      <a role="button" class="">
+        Postgre SQL</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/postgresql/" class="">
+      Postgre SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%8F%D0%B7%D1%8B%D0%BA-sql/" class="">
+      Язык SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/" class="">
+      Инструменты</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D1%81%D1%83%D0%B1%D0%B4-postgres/" class="">
+      Архитектура Субд Postgres</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BE%D0%BF%D1%82%D0%B8%D0%BC%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B2/" class="">
+      Оптимизация Запросов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/plpgsql/" class="">
+      Plpg SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B0%D0%B3%D1%80%D0%B5%D0%B3%D0%B0%D1%82%D1%8B-%D0%B8-%D0%BE%D0%BA%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8/" class="">
+      Агрегаты И Оконные Функции</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BF%D0%B0%D1%80%D1%82%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Партиционирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BF%D0%BE%D0%BB%D0%BD%D0%BE%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B9-%D0%BF%D0%BE%D0%B8%D1%81%D0%BA/" class="">
+      Полнотекстовый Поиск</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%81%D0%BB%D0%B0%D0%B1%D0%BE%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-jsonb/" class="">
+      Слабоструктурированные Данные ( JSON B)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%84%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Фоновые Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%85%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B8%D1%85-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85/" class="">
+      Хранение Больших Данных</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
   </ul>
 
 
@@ -1492,15 +1698,6 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#чистка-коннектов-к-бд">Чистка коннектов к БД</a></li>
-      </ul>
-    </li>
-    <li><a href="#создание-dump">Создание dump</a></li>
-    <li><a href="#dml">DML</a></li>
-    <li><a href="#ddl">DDL</a></li>
-    <li><a href="#транзакции">Транзакции</a></li>
     <li><a href="#миграции">Миграции</a>
       <ul>
         <li><a href="#flyway">Flyway</a></li>
@@ -1519,43 +1716,6 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown book-article"><h1 id="postgresql">PostgreSQL<a class="anchor" href="#postgresql">#</a></h1>
-<p><code>psql &quot;host=&lt;db host&gt; port=6432 sslmode=verify-full dbname=&lt;db name&gt; user=devops target_session_attrs=read-write&quot;</code> - подключение к БД локальным клиентом</p>
-<p>Основные командыp</p>
-<ul>
-<li><code>\dt</code> - показать таблицы</li>
-<li><code>\d product</code> - просмотреть структуру таблицы product</li>
-<li><code>\timing</code> - запуск тайминга запросов</li>
-</ul>
-<h3 id="чистка-коннектов-к-бд">Чистка коннектов к БД<a class="anchor" href="#%d1%87%d0%b8%d1%81%d1%82%d0%ba%d0%b0-%d0%ba%d0%be%d0%bd%d0%bd%d0%b5%d0%ba%d1%82%d0%be%d0%b2-%d0%ba-%d0%b1%d0%b4">#</a></h3>
-<ul>
-<li>Подключениия храняться в таблице <code>pg_stat_activity</code>. Посмотреть подключения <code>SELECT * from pg_stat_activity WHERE datname='std-028-50'</code></li>
-<li>Комманда <a href="https://www.postgresql.org/docs/current/ecpg-sql-disconnect.html">DISCONNECT</a></li>
-<li>SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = &lsquo;std-028-50&rsquo; AND state = &lsquo;idle&rsquo; AND pid &lt;&gt; pg_backend_pid();</li>
-</ul>
-<h2 id="создание-dump">Создание dump<a class="anchor" href="#%d1%81%d0%be%d0%b7%d0%b4%d0%b0%d0%bd%d0%b8%d0%b5-dump">#</a></h2>
-<ul>
-<li>создание backup - <code>pg_dump postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME -j 8 -Fd -f /tmp/dump.dir</code></li>
-<li>восстановление backup - <code>pg_restore -d &quot;postgresql://$PSQL_USER:$PSQL_PASSWORD@$PSQL_HOST:$PSQL_PORT/$PSQL_DBNAME&quot; --format=d /tmp/dump.dir/</code></li>
-</ul>
-<h2 id="dml">DML<a class="anchor" href="#dml">#</a></h2>
-<ul>
-<li><code>INSERT INTO product (id, name, picture_url, price) values (1, 'Сливочная', 'https://res.cloudinary.com/sugrobov/image/upload/v1623323635/repos/sausages/6.jpg', 320.00);</code> - внести данные</li>
-<li><code>SELECT * FROM product WHERE price &gt; (SELECT AVG(price) FROM product);</code> - использование функций</li>
-<li>JOIN + функции-агрегаторы + работа с датами
-<img src="/00-images/S-2024-10-06_10.55.47.png" alt=""></li>
-<li></li>
-</ul>
-<h2 id="ddl">DDL<a class="anchor" href="#ddl">#</a></h2>
-<ul>
-<li><code>DROP TABLE product;</code> - удалить таблицу</li>
-<li><code>CREATE SCHEMA dw;</code> - создание схемы</li>
-<li><code>CREATE TABLE dw.user ( id int PRIMARY KEY, name VARCHAR(100) );</code> - создание таблицы</li>
-<li><code>CREATE INDEX idx_order_product_order_id ON order_product (order_id)</code> - создание индекса
-<img src="/00-images/PI-20241001210414.png" alt=""></li>
-</ul>
-<h2 id="транзакции">Транзакции<a class="anchor" href="#%d1%82%d1%80%d0%b0%d0%bd%d0%b7%d0%b0%d0%ba%d1%86%d0%b8%d0%b8">#</a></h2>
-<p><img src="/00-images/PI-20241006110213.png" alt="">
-<img src="/00-images/S-2024-09-30_21.04.52.png" alt=""></p>
 <h2 id="миграции">Миграции<a class="anchor" href="#%d0%bc%d0%b8%d0%b3%d1%80%d0%b0%d1%86%d0%b8%d0%b8">#</a></h2>
 <p>Инструменты миграции - Flyway или Liquibase.</p>
 <h3 id="flyway">Flyway<a class="anchor" href="#flyway">#</a></h3>
@@ -1578,16 +1738,19 @@ https://github.com/alex-shpak/hugo-book
 <ul>
 <li>Независимая утилита. Пример запуска flyway <code>flyway -user=my_sql -password=23e2f345f3 -locations='filesystem:db/migration' -url=&quot;jdbc:sqlserver://192.168.1.30;database=test&quot; -target=4  migrate</code></li>
 <li>Встраивается через pom.xml.  <a href="/00-samples/flyway.pom.xml.example.txt">пример</a></li>
-<li>Запуск из Java приложения
-<code>import org.flywaydb.core.Flyway;</code></li>
+<li>Запуск из Java приложения</li>
 </ul>
-<p><code>public class App {</code>
-<code>public static void main(String[] args) {</code>
-<code>Flyway flyway = Flyway.configure().dataSource(&quot;jdbc:h2:file:./target/foobar&quot;, &quot;sa&quot;, null).load();</code>
-<code>flyway.migrate(); // Здесь запускается миграция</code>
-<code>}</code>
-<code>}</code></p>
-<ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> org.flywaydb.core.Flyway;<span style="color:#960050;background-color:#1e0010">`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">App</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        Flyway flyway <span style="color:#f92672">=</span> Flyway.<span style="color:#a6e22e">configure</span>()
+</span></span><span style="display:flex;"><span>				        .<span style="color:#a6e22e">dataSource</span>(
+</span></span><span style="display:flex;"><span>					        <span style="color:#e6db74">&#34;jdbc:h2:file:./target/foobar&#34;</span>, <span style="color:#e6db74">&#34;sa&#34;</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span>					        .<span style="color:#a6e22e">load</span>();
+</span></span><span style="display:flex;"><span>        flyway.<span style="color:#a6e22e">migrate</span>(); <span style="color:#75715e">// Здесь запускается миграция</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div><ul>
 <li>Отключение миграции через переменную среды в Spring приложениии <code>SPRING_FLYWAY_ENABLED=false</code></li>
 </ul>
 <h1 id="mongo">Mongo<a class="anchor" href="#mongo">#</a></h1>
@@ -1689,15 +1852,6 @@ https://github.com/alex-shpak/hugo-book
   
 <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li><a href="#чистка-коннектов-к-бд">Чистка коннектов к БД</a></li>
-      </ul>
-    </li>
-    <li><a href="#создание-dump">Создание dump</a></li>
-    <li><a href="#dml">DML</a></li>
-    <li><a href="#ddl">DDL</a></li>
-    <li><a href="#транзакции">Транзакции</a></li>
     <li><a href="#миграции">Миграции</a>
       <ul>
         <li><a href="#flyway">Flyway</a></li>

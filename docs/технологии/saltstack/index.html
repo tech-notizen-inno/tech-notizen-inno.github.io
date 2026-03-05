@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -8,35 +8,34 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Общие темы# SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
-Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Запуск команд Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Состояния (States)# Стейты (state files) — аналог playbooks в Ansible. В них с помощью state.modules, описывается, к какому состоянию нужно привести миньона. Кроме того в SaltStack существует понятие top-файла. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить. Порядок исполнения элементов state/Requisites Исполнение состояний SLS Namespaces ![[IMG_0520.jpeg]] STATE SYSTEM REFERENCE High Data Расширенные темы# Pillar - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны. Mine. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the salt.modules.mine module. Salt Returners — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output Документация, Можно все события передавать внешнему потербителю Добавление returner Reactor. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу. Расписание - запускает каждую команду в своем процессе Jinja (Рендереры)# Общая документация для Salt Документация на шаблонизатор
-">
+<meta name="description" content="Общие темы#SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
+Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Salt execution (запуск команд)#">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://tech-notizen-inno.github.io/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="Я.Практикум">
-  <meta property="og:description" content="Общие темы# SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
-Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Запуск команд Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Состояния (States)# Стейты (state files) — аналог playbooks в Ansible. В них с помощью state.modules, описывается, к какому состоянию нужно привести миньона. Кроме того в SaltStack существует понятие top-файла. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить. Порядок исполнения элементов state/Requisites Исполнение состояний SLS Namespaces ![[IMG_0520.jpeg]] STATE SYSTEM REFERENCE High Data Расширенные темы# Pillar - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны. Mine. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the salt.modules.mine module. Salt Returners — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output Документация, Можно все события передавать внешнему потербителю Добавление returner Reactor. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу. Расписание - запускает каждую команду в своем процессе Jinja (Рендереры)# Общая документация для Salt Документация на шаблонизатор">
+  <meta property="og:description" content="Общие темы#SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
+Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Salt execution (запуск команд)#">
   <meta property="og:locale" content="ru">
   <meta property="og:type" content="article">
     <meta property="article:section" content="технологии">
 
 
   <meta itemprop="name" content="Я.Практикум">
-  <meta itemprop="description" content="Общие темы# SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
-Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Запуск команд Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Состояния (States)# Стейты (state files) — аналог playbooks в Ansible. В них с помощью state.modules, описывается, к какому состоянию нужно привести миньона. Кроме того в SaltStack существует понятие top-файла. Это, по сути, словарь, который помогает удобно группировать миньонов по некоторым атрибутам и указать, какие стейты или роли (если вы пользуетесь ролевой моделью) исполнить. Порядок исполнения элементов state/Requisites Исполнение состояний SLS Namespaces ![[IMG_0520.jpeg]] STATE SYSTEM REFERENCE High Data Расширенные темы# Pillar - Pillar is an interface for Salt designed to offer global values that can be distributed to minions. Могут хранить чувствительную информацию, распространяются с мастера на миньоны. Mine. The Salt Mine is used to collect arbitrary data from Minions and store it on the Master. This data is then made available to all Minions via the salt.modules.mine module. Salt Returners — по-умолчанию результат исполнения на миньонах возвращается к «мастеру». Returner позволяют переопределить этот output Документация, Можно все события передавать внешнему потербителю Добавление returner Reactor. - модуль выступает в качестве «слушателя», который фильтрует тегированные сообщения и инициализирует какие-то действия по этому поводу. Расписание - запускает каждую команду в своем процессе Jinja (Рендереры)# Общая документация для Salt Документация на шаблонизатор">
-  <meta itemprop="wordCount" content="1209">
+  <meta itemprop="description" content="Общие темы#SaltStack — cистема управления конфигурациями и удалённого выполнения операций.
+Salt работает по топологии Master(сервер) / Minion(клиент) SaltStack использует для транспорта - ZeroMQ. Позже инженеры из Linkedin добавили возможность работы через raw tcp. Идея заключается в том что Salt Master общается с Salt Minions(далее Мастер и Миньены) через publish/subscribe модель, где мастер публикует задачу, а миньены принимают ее и асинхронно выполняют. Миньоны подключаются к мастеру на порты TCP 4505,4506. Аутентификация миньонов по ключам в Мастере sudo salt-key -L - просмотреть список ключей на мастере sudo salt-key -A - принять ключи полученные с миньона Два формата работы Execution modules - императивны и не идемпотентны. Они написаны как глаголы - скачай архив, удали файл и тд. State modules - декларативны и идемпотентны. Они приводят систему в определенное… состояние описывая финальный результат, а не как к нему прийти - убедись что пакет nginx установлен и он версии 1.21.3 и тп. Исполняемые модули исполняются через команды [[SaltStack#Утилитные команды|Полезные команды]] есть возможность отлаживать код с помощью -l debug в комадах Зерна (GRAINS). Salt ипользует систему, называемую Grains для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое Salt execution (запуск команд)#">
+  <meta itemprop="wordCount" content="1524">
 
 <title>Salt Stack | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://tech-notizen-inno.github.io/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/">
+<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/saltstack/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.439a26dbd5dc94e5878054ebd11ffa41de6c530228dd84e0f639932df9950250.js" integrity="sha256-Q5om29XclOWHgFTr0R/6Qd5sUwIo3YTg9jmTLfmVAlA=" crossorigin="anonymous"></script>
 
 
 
@@ -91,8 +90,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle" checked />
-    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+    <input type="checkbox" id="section-b5b63fc40275b58bcadbb72312c0642d" class="toggle" checked />
+    <label for="section-b5b63fc40275b58bcadbb72312c0642d" class="flex">
       <a role="button" class="">
         Технологии</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -123,8 +122,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
-      Интервью По System Design.</a>
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design/" class="">
+      Интервью По System Design</a>
   
 
         </li>
@@ -408,8 +407,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle"  />
-    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+    <input type="checkbox" id="section-6e2a948ffefc32b701a3f0e4022ae108" class="toggle"  />
+    <label for="section-6e2a948ffefc32b701a3f0e4022ae108" class="flex">
       <a role="button" class="">
         Dev Ops</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -426,8 +425,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
-    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+    <input type="checkbox" id="section-19e2fbcb796748b4f1185a25c0614d1b" class="toggle"  />
+    <label for="section-19e2fbcb796748b4f1185a25c0614d1b" class="flex">
       <a role="button" class="">
         00. Теория</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -617,8 +616,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle"  />
-    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+    <input type="checkbox" id="section-6850aa5460b8bdf054fdbdc966223dd9" class="toggle"  />
+    <label for="section-6850aa5460b8bdf054fdbdc966223dd9" class="flex">
       <a role="button" class="">
         01. Инструменты</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -864,8 +863,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
-    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+    <input type="checkbox" id="section-49bfb7b844451ed3fbcad625600d53ab" class="toggle"  />
+    <label for="section-49bfb7b844451ed3fbcad625600d53ab" class="flex">
       <a role="button" class="">
         02. Linux</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1013,8 +1012,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
-    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+    <input type="checkbox" id="section-aee2974feff898fcaafaaaa2343faaef" class="toggle"  />
+    <label for="section-aee2974feff898fcaafaaaa2343faaef" class="flex">
       <a role="button" class="">
         03. Kubernetes</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1031,8 +1030,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
-      Оркестрация Контейнеров.</a>
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2/" class="">
+      Оркестрация Контейнеров</a>
   
 
         </li>
@@ -1181,8 +1180,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
-    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+    <input type="checkbox" id="section-9f4378f33e1d8eec9c4c79d9bb968048" class="toggle"  />
+    <label for="section-9f4378f33e1d8eec9c4c79d9bb968048" class="flex">
       <a role="button" class="">
         Otus. Kotlin</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1199,8 +1198,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
-    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+    <input type="checkbox" id="section-262e8f96b73b03948d8f582b71ac625a" class="toggle"  />
+    <label for="section-262e8f96b73b03948d8f582b71ac625a" class="flex">
       <a role="button" class="">
         Инструменты</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1320,8 +1319,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 
   
-    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
-    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+    <input type="checkbox" id="section-893336710c6ff4463b66030086c1538f" class="toggle"  />
+    <label for="section-893336710c6ff4463b66030086c1538f" class="flex">
       <a role="button" class="">
         Язык</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1368,6 +1367,20 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
     <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
       Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%B4%D0%B5%D0%BB%D0%B5%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Делегирование</a>
   
 
         </li>
@@ -1439,6 +1452,197 @@ Salt работает по топологии Master(сервер) / Minion(кл
         </li>
       
     
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3f6a09986fe3d9652297986487ac3e7a" class="toggle"  />
+    <label for="section-3f6a09986fe3d9652297986487ac3e7a" class="flex">
+      <a role="button" class="">
+        Postgre SQL</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/postgresql/" class="">
+      Postgre SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%8F%D0%B7%D1%8B%D0%BA-sql/" class="">
+      Язык SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/" class="">
+      Инструменты</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D1%81%D1%83%D0%B1%D0%B4-postgres/" class="">
+      Архитектура Субд Postgres</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BE%D0%BF%D1%82%D0%B8%D0%BC%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B2/" class="">
+      Оптимизация Запросов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/plpgsql/" class="">
+      Plpg SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B0%D0%B3%D1%80%D0%B5%D0%B3%D0%B0%D1%82%D1%8B-%D0%B8-%D0%BE%D0%BA%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8/" class="">
+      Агрегаты И Оконные Функции</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BF%D0%B0%D1%80%D1%82%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Партиционирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BF%D0%BE%D0%BB%D0%BD%D0%BE%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B9-%D0%BF%D0%BE%D0%B8%D1%81%D0%BA/" class="">
+      Полнотекстовый Поиск</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%81%D0%BB%D0%B0%D0%B1%D0%BE%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-jsonb/" class="">
+      Слабоструктурированные Данные ( JSON B)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%84%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Фоновые Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%85%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B8%D1%85-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85/" class="">
+      Хранение Больших Данных</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
   </ul>
 
 
@@ -1490,10 +1694,18 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#состояния-states">Состояния (States)</a></li>
-    <li><a href="#расширенные-темы">Расширенные темы</a></li>
-    <li><a href="#jinja-рендереры">Jinja (Рендереры)</a>
+    <li>
       <ul>
+        <li><a href="#salt-execution-запуск-команд">Salt execution (запуск команд)</a></li>
+      </ul>
+    </li>
+    <li><a href="#состояния-states">Состояния (States)</a></li>
+    <li><a href="#расширенные-темы">Расширенные темы</a>
+      <ul>
+        <li><a href="#targeting-назначение-на-миньоны">Targeting (назначение на миньоны)</a></li>
+        <li><a href="#salt-job-management">Salt job management</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#jinja-рендереры">Jinja (Рендереры)</a></li>
         <li><a href="#операторы">Операторы</a></li>
       </ul>
     </li>
@@ -1504,6 +1716,7 @@ Salt работает по топологии Master(сервер) / Minion(кл
         <li><a href="#лекция-2-jinja--формула--returners">Лекция 2. Jinja + Формула + Returners</a></li>
       </ul>
     </li>
+    <li><a href="#команды">Команды</a></li>
     <li><a href="#утилитные-команды">Утилитные команды</a>
       <ul>
         <li><a href="#команды-работы-с-состояниями">Команды работы с состояниями</a></li>
@@ -1555,10 +1768,10 @@ Salt работает по топологии Master(сервер) / Minion(кл
 </li>
 </ul>
 </li>
-<li>Запуск команд
-<img src="/00-images/S_20251115-092810.png" alt=""></li>
 <li><strong>Зерна (GRAINS).</strong> Salt ипользует систему, называемую <a href="https://docs.saltstack.com/en/latest/topics/targeting/grains.html">Grains</a> для построения статических данных о Миньонах. Эти данные включают в себя информацию о ОС, CPU архитектуре и много другое</li>
 </ul>
+<h3 id="salt-execution-запуск-команд">Salt execution (запуск команд)<a class="anchor" href="#salt-execution-%d0%b7%d0%b0%d0%bf%d1%83%d1%81%d0%ba-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4">#</a></h3>
+<p><img src="/00-images/S_20251115-092810.png" alt=""></p>
 <h2 id="состояния-states">Состояния (States)<a class="anchor" href="#%d1%81%d0%be%d1%81%d1%82%d0%be%d1%8f%d0%bd%d0%b8%d1%8f-states">#</a></h2>
 <ul>
 <li><strong>Стейты (state files)</strong> — аналог playbooks в Ansible. В них с помощью <a href="https://docs.saltstack.com/en/latest/ref/states/all/index.html">state.modules</a>, описывается, к какому состоянию нужно привести миньона.
@@ -1592,7 +1805,48 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <li>Расписание - запускает каждую команду в своем процессе
 <img src="/00-images/schedule-salt.png" alt="schedule-salt.PNG"></li>
 </ul>
-<h2 id="jinja-рендереры">Jinja (Рендереры)<a class="anchor" href="#jinja-%d1%80%d0%b5%d0%bd%d0%b4%d0%b5%d1%80%d0%b5%d1%80%d1%8b">#</a></h2>
+<h3 id="targeting-назначение-на-миньоны">Targeting (назначение на миньоны)<a class="anchor" href="#targeting-%d0%bd%d0%b0%d0%b7%d0%bd%d0%b0%d1%87%d0%b5%d0%bd%d0%b8%d0%b5-%d0%bd%d0%b0-%d0%bc%d0%b8%d0%bd%d1%8c%d0%be%d0%bd%d1%8b">#</a></h3>
+<ul>
+<li><em>Targeting with Grains</em>. Пример - <code>salt -G 'os:Fedora' test.version</code></li>
+<li><em>Назначение на список</em>. Пример - <code>salt -L 'minion1/minion2/minion3' test.ping</code></li>
+<li><em>Matchers</em>
+<img src="/00-images/Pasted%20image%2020260121095607.png" alt="">
+<ul>
+<li>Matchers can be grouped together with parentheses to explicitly declare precedence amongst groups. Пример - <code>salt -C &quot;( ms-1 or G@id:ms-3 ) and G@id:ms-3&quot; test.version</code></li>
+<li>Аlternative Delimiters. This is done by specifying an alternate delimiter character between the leading matcher character and the <code>@</code> pattern separator character. Пример - <code>salt -C &quot;J|@foo|bar|^foo:bar$ or J!@gitrepo!https://github.com:example/project.git&quot; test.ping</code></li>
+</ul>
+</li>
+<li><em>Compound Targeting</em> (-C)*. Multiple target interfaces can be used in conjunction to determine the command targets. These targets can then be combined using <em>and</em> or <em>or</em> statements. Пример - <code>salt -C &quot;G@os:Debian and webser# or E@db .* &quot; test.version</code></li>
+<li><em>Node Group Targeting</em>. cases, It can be convenient to have a predefined group of minions on which to execute commands. This can be accomplished using what are called nodegroups. Nodegroups задаются в конфигурации мастера
+<img src="/00-images/Pasted%20image%2020260121094305.png" alt=""></li>
+</ul>
+<h3 id="salt-job-management">Salt job management<a class="anchor" href="#salt-job-management">#</a></h3>
+<ul>
+<li><strong>Job IDs</strong>. Job IDs are represented as a <strong>jid</strong>. Представляет собой время запуска задания</li>
+<li><strong>Job Cache</strong>. The job cache is located in the cachedir under the directory named jobs (<code>/var/cache/salt/master/jobs</code>), хранится <code>Keep_jobs: 24</code>
+<img src="/00-images/image_2026-01-21_12-16-48.png" alt=""></li>
+<li>основные команды <code>jobs.list_jobs</code>, <code>jobs.active</code>, <code>jobs.lookup_jid</code> (см список команд)</li>
+</ul>
+<h3 id="events">Events<a class="anchor" href="#events">#</a></h3>
+<ol>
+<li>The event system sends two pieces of information. The <strong>tag</strong> and the <strong>data</strong> items.</li>
+</ol>
+<ul>
+<li>The <strong>tag</strong> is a “/” separated string representing a simple data structure</li>
+<li>The <strong>data</strong> will be serialized by Salt into a MessagePack string.
+<img src="/00-images/Pasted%20image%2020260121121830.png" alt=""></li>
+</ul>
+<ol start="2">
+<li>События генерируются через <code>event.send</code> и <code>event.fire_master</code>
+<ul>
+<li><code>salt-call event.send 'mycustom/app/tag' '{&quot;app&quot;: &quot;osmax&quot;}' with_grains=True</code>
+<img src="/00-images/Pasted%20image%2020260121122100.png" alt=""></li>
+<li><code>salt-call event.fire_master '{&quot;app&quot;: &quot;console&quot; }' 'mycustom/appFM/tag'</code>
+<img src="/00-images/Pasted%20image%2020260121122110.png" alt=""></li>
+</ul>
+</li>
+</ol>
+<h3 id="jinja-рендереры">Jinja (Рендереры)<a class="anchor" href="#jinja-%d1%80%d0%b5%d0%bd%d0%b4%d0%b5%d1%80%d0%b5%d1%80%d1%8b">#</a></h3>
 <p><a href="https://docs.saltproject.io/en/latest/topics/jinja/index.html">Общая документация для Salt</a>
 <a href="https://jinja.palletsprojects.com/en/3.0.x/templates/">Документация на шаблонизатор</a></p>
 <ul>
@@ -1612,36 +1866,24 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <li><code>salt</code>: all available execution modules and functions (<code>salt['network.interface_ip']('eth0')</code>)</li>
 </ul>
 <h3 id="операторы">Операторы<a class="anchor" href="#%d0%be%d0%bf%d0%b5%d1%80%d0%b0%d1%82%d0%be%d1%80%d1%8b">#</a></h3>
+<h4 id="if">if<a class="anchor" href="#if">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span>	 <span style="color:#75715e">{%</span> <span style="color:#66d9ef">if</span> grains.os_family <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;RedHat&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> dns_cfg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named.conf&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">{%</span> <span style="color:#66d9ef">else</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>	    <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> dns_cfg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named.conf&#39;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#75715e">{%</span> <span style="color:#66d9ef">endif</span> <span style="color:#75715e">%}</span></span></span></code></pre></div><h4 id="for">for<a class="anchor" href="#for">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span>	<span style="color:#75715e">{%</span> <span style="color:#66d9ef">for</span> user <span style="color:#66d9ef">in</span> users<span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>	create_<span style="color:#75715e">{{</span> user <span style="color:#75715e">}}</span>:
+</span></span><span style="display:flex;"><span>	  user.present:
+</span></span><span style="display:flex;"><span>	    - name: <span style="color:#75715e">{{</span> user <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">{%</span> <span style="color:#66d9ef">endfor</span> <span style="color:#75715e">%}</span></span></span></code></pre></div><h4 id="фильтры-и-конвейеры">Фильтры и конвейеры<a class="anchor" href="#%d1%84%d0%b8%d0%bb%d1%8c%d1%82%d1%80%d1%8b-%d0%b8-%d0%ba%d0%be%d0%bd%d0%b2%d0%b5%d0%b9%d0%b5%d1%80%d1%8b">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span>	<span style="color:#75715e">{{</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;one&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;two&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">|</span>  <span style="color:#a6e22e">join</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;, &#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">capitalize</span> <span style="color:#75715e">}}</span>` = `&#34;One, two&#34;</span></span></code></pre></div><h4 id="особенности">Особенности<a class="anchor" href="#%d0%be%d1%81%d0%be%d0%b1%d0%b5%d0%bd%d0%bd%d0%be%d1%81%d1%82%d0%b8">#</a></h4>
 <ul>
-<li>
-<p>if</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">if</span> grains.os_family <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;RedHat&#39;</span> <span style="color:#75715e">%}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> dns_cfg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named.conf&#39;</span> <span style="color:#75715e">%}</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">else</span> <span style="color:#75715e">%}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">{%</span> <span style="color:#66d9ef">set</span> dns_cfg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/etc/named.conf&#39;</span> <span style="color:#75715e">%}</span>
-</span></span><span style="display:flex;"><span>   <span style="color:#75715e">{%</span> <span style="color:#66d9ef">endif</span> <span style="color:#75715e">%}</span></span></span></code></pre></div></li>
-<li>
-<p>for
-<code>{% for user in users%}</code>
-<code>create_{{ user }}:</code>
-<code>user.present:</code>
-<code>- name: {{ user }}</code>
-<code>{% endfor %}</code></p>
-</li>
-<li>
-<p>Фильтры и конвейеры</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-jinja" data-lang="jinja"><span style="display:flex;"><span><span style="color:#75715e">{{</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#39;one&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;two&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">|</span>  <span style="color:#a6e22e">join</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;, &#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">capitalize</span> <span style="color:#75715e">}}</span>` = `&#34;One, two&#34;</span></span></code></pre></div></li>
-<li>
-<p>Проверка на то, что переменная определена</p>
-<p><img src="/00-images/PI-20240503173855.png" alt="PI-20240503173855.png"></p>
-</li>
-<li>
-<p>Также может быть использован render прямо на языке Python
-<img src="/00-images/PI-20240408142917.png" alt="PI-20240408142917.png"></p>
-</li>
-<li>
-<p><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/jinja.html">Полное описание синтаксиса</a></p>
-</li>
+<li>Проверка на то, что переменная определена
+<img src="/00-images/PI-20240503173855.png" alt="PI-20240503173855.png"></li>
+<li>Также может быть использован render прямо на языке Python
+<img src="/00-images/PI-20240408142917.png" alt="PI-20240408142917.png"></li>
+<li><a href="https://docs.saltproject.io/salt/user-guide/en/latest/topics/jinja.html">Полное описание синтаксиса</a></li>
 </ul>
 <h2 id="формулы">Формулы<a class="anchor" href="#%d1%84%d0%be%d1%80%d0%bc%d1%83%d0%bb%d1%8b">#</a></h2>
 <p>Последовательность шагов</p>
@@ -1654,7 +1896,7 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <li>Изучить состояния в формуле</li>
 <li>Запустить через <code>state.apply</code>
 <a href="https://github.com/saltstack-formulas">Репозиторий</a>
-<a href="https://docs.saltproject.io/en/latest/topics/development/conventions/formulas.html">Документация</a></li>
+<a href="https://docs.saltproject.io/en/latest/topics/development/conventions/formulas.htm">Документация</a></li>
 </ol>
 <h2 id="лекции">Лекции<a class="anchor" href="#%d0%bb%d0%b5%d0%ba%d1%86%d0%b8%d0%b8">#</a></h2>
 <h3 id="лекция-1-основы">Лекция 1. Основы<a class="anchor" href="#%d0%bb%d0%b5%d0%ba%d1%86%d0%b8%d1%8f-1-%d0%be%d1%81%d0%bd%d0%be%d0%b2%d1%8b">#</a></h3>
@@ -1737,7 +1979,7 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <li><a href="https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.managed">Модуль states.file - работа с файловой системой</a></li>
 <li><a href="https://gitlab.com/bergentroll-docs/saltstack-tutorial/-/pipelines">Карманов. Пособие по SaltStack</a></li>
 </ul>
-<h4 id="команды">Команды<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h4>
+<h2 id="команды">Команды<a class="anchor" href="#%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h2>
 <ul>
 <li>sudo salt * state.sls jinja_states</li>
 <li>sudo salt sccm-kafka state.sls java</li>
@@ -1746,8 +1988,8 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <li>$KAFKA_HOME/bin/kafka-console-consumer.sh &ndash;topic salt-topic &ndash;from-beginning &ndash;bootstrap-server 10.0.0.12:9092</li>
 <li>sudo salt sccm-kafka cmd.run &lsquo;bash -c &ldquo;/home/vagrant/ssend.sh &quot;Kafka is good&quot;&rdquo;&rsquo;</li>
 <li>/usr/bin/python3.10</li>
-<li>sudo salt sccm-kafka state.sls install_confluent</li>
-<li>sudo salt * test.ping &ndash;return kafka</li>
+<li><code>sudo salt sccm-kafka state.sls install_confluent</code></li>
+<li><code>sudo salt \* test.ping --return kafka</code></li>
 </ul>
 <h2 id="утилитные-команды">Утилитные команды<a class="anchor" href="#%d1%83%d1%82%d0%b8%d0%bb%d0%b8%d1%82%d0%bd%d1%8b%d0%b5-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h2>
 <ul>
@@ -1789,10 +2031,17 @@ Salt работает по топологии Master(сервер) / Minion(кл
 <li><code>sudo salt 'r846695-mi-1.r846695.terra.inno.tech' schedule.show_next_fire_time &quot;xxxx&quot;</code> - как узнать время след.запуска расписания некоторой задачи на миньоне</li>
 <li><code>sudo salt 'r846695-mi-1.r846695.terra.inno.tech' schedule.list</code> - список задач для выполнения</li>
 <li><code>sudo salt 'r881721-mi-1*' schedule.job_status &quot;highstate&quot;</code> - показать статус запусков по highstate</li>
+<li><code>salt-run jobs.active</code> - просмотреть активные задачи</li>
+<li><code>⁠⁠salt-run jobs.list_jobs⁠⁠</code> - просмотреть ранее выполненные задачи (<strong>!! долго исполняется</strong>)</li>
+<li><code>salt-run jobs.lookup_jid 20190220150112550868 display_progress=True</code> - просмотреть конкретный job даже если он исполняется</li>
+<li><code>salt minion-name saltutil.term_job 20190220150112550868</code> - терминировать job (SIGTERM=15)</li>
+<li><code>salt minion-name saltutil.kill_job 20190220150112550868</code> - удалить job (SIGKILL=9)</li>
 </ul>
 <h3 id="отладочные-команды">Отладочные команды<a class="anchor" href="#%d0%be%d1%82%d0%bb%d0%b0%d0%b4%d0%be%d1%87%d0%bd%d1%8b%d0%b5-%d0%ba%d0%be%d0%bc%d0%b0%d0%bd%d0%b4%d1%8b">#</a></h3>
 <ul>
 <li><code>sudo salt-run state.event pretty=True</code> - вывод очереди</li>
+<li>&lsquo;sudo salt-run state.event pretty=True tagmatch=&lsquo;myc*&rsquo; - вывод очереди + фильтра</li>
+<li>salt -l debug *ubuntu status.meminfo - запуск команды с отладкой</li>
 <li><code>sudo journalctl -f -u salt-master</code> - просмотр лога мастера</li>
 <li><code>salt-run fileserver.dir_list</code> - просмотр директорий модулей</li>
 <li><code>salt-run fileserver.file_list</code> - просмотр файлов модулей</li>
@@ -1886,10 +2135,18 @@ Salt работает по топологии Master(сервер) / Minion(кл
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#состояния-states">Состояния (States)</a></li>
-    <li><a href="#расширенные-темы">Расширенные темы</a></li>
-    <li><a href="#jinja-рендереры">Jinja (Рендереры)</a>
+    <li>
       <ul>
+        <li><a href="#salt-execution-запуск-команд">Salt execution (запуск команд)</a></li>
+      </ul>
+    </li>
+    <li><a href="#состояния-states">Состояния (States)</a></li>
+    <li><a href="#расширенные-темы">Расширенные темы</a>
+      <ul>
+        <li><a href="#targeting-назначение-на-миньоны">Targeting (назначение на миньоны)</a></li>
+        <li><a href="#salt-job-management">Salt job management</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#jinja-рендереры">Jinja (Рендереры)</a></li>
         <li><a href="#операторы">Операторы</a></li>
       </ul>
     </li>
@@ -1900,6 +2157,7 @@ Salt работает по топологии Master(сервер) / Minion(кл
         <li><a href="#лекция-2-jinja--формула--returners">Лекция 2. Jinja + Формула + Returners</a></li>
       </ul>
     </li>
+    <li><a href="#команды">Команды</a></li>
     <li><a href="#утилитные-команды">Утилитные команды</a>
       <ul>
         <li><a href="#команды-работы-с-состояниями">Команды работы с состояниями</a></li>

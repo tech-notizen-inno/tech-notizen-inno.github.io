@@ -10,9 +10,13 @@
       export HUGO_PATH=../../../HUGO/hugo_0.150.0_darwin-universal/
       export VAULT_PATH=~/Yandex.Disk.localized/Sync.\ Projects/Obsidian.Notes/Я.Практикум/
    Windows:
-      export VAULT_PATH=~/YandexDisk/Sync.\ Projects/Obsidian.Notes/Я.Практикум/
+      export VAULT_PATH=../../../YandexDisk/Sync.\ Projects/Obsidian.Notes/Я.Практикум/
 2. Проверить сайт с помощью команды server с ключами `--contentDir`, `--cleanDestinationDir` и `--destination ../docs`
-   $HUGO_PATH/hugo server  --contentDir $VAULT_PATH --cleanDestinationDir --destination ../docs
+   MacOS:
+      $HUGO_PATH/hugo server  --contentDir $VAULT_PATH --cleanDestinationDir --destination ../docs
+   Windows:
+      hugo server  --contentDir ../../../YandexDisk/Sync.\ Projects/Obsidian.Notes/Я.Практикум/ --cleanDestinationDir --destination ../docs
+      
 3. Собрать сайт с помощью команды build
    $HUGO_PATH/hugo build  --contentDir $VAULT_PATH --cleanDestinationDir --destination ../docs
 4. Закоммитить изменения (Commit message: "Update Site (202X-XX-XX-X)", вместо XX - подставить дату и номер коммита)

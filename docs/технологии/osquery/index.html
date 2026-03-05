@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -8,14 +8,14 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Общие данные# Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов# SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды# to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер# Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).
+<meta name="description" content="Общие данные#Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов#SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды#to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер#Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
-<meta name="color-scheme" content="light dark"><meta property="og:url" content="https://tech-notizen-inno.github.io/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/">
   <meta property="og:site_name" content="Я.Практикум">
   <meta property="og:title" content="OSquery">
-  <meta property="og:description" content="Общие данные# Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов# SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды# to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер# Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).">
+  <meta property="og:description" content="Общие данные#Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов#SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды#to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер#Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).">
   <meta property="og:locale" content="ru">
   <meta property="og:type" content="article">
     <meta property="article:section" content="технологии">
@@ -24,7 +24,7 @@ https://github.com/alex-shpak/hugo-book
 
 
   <meta itemprop="name" content="OSquery">
-  <meta itemprop="description" content="Общие данные# Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов# SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды# to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер# Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).">
+  <meta itemprop="description" content="Общие данные#Состоит из 2-х частей osqueryd is the host monitoring daemon that allows you to schedule queries and record OS state changes. The daemon aggregates query results over time and generates logs, which indicate state change according to each query. The daemon also uses OS eventing APIs to record monitored file and directory changes, hardware events, network events, and more. The primary daemon feature is executing a query schedule. This schedule is defined in an osquery configuration osqueryi lets you run meta-commands and query osquery tables. The shell accepts a single positional argument and one of the several output modes. You may also pipe a query as stdin. Примеры запросов#SELECT vendor, model FROM usb_devices; - получение USB устройств SELECT DISTINCT process.name, listening.port, process.pid FROM processes AS process JOIN listening_ports AS listening ON process.pid = listening.pid WHERE listening.address = &#39;0.0.0.0&#39;; - получение сокетов в привязке к процессам SELECT * FROM routes WHERE destination = &#39;::1&#39; - получить рауты SELECT pid, name, path FROM processes WHERE pid &gt; 0 LIMIT 1 - получить процессы SELECT * FROM osquery_info; - look at a “meta” table that provides details to osquery about itself. These tables are prefixed with osquery_ SELECT p.pid, name, p.path AS process_path, pf.path AS open_path FROM osquery_info i JOIN processes p ON p.pid = i.pid JOIN process_open_files pf ON pf.pid = p.pid WHERE pf.path LIKE &#39;/dev/%&#39; - открытые файлы процессом osquery SELECT * FROM file;, SELECT * FROM file WHERE path = &#39;/dev/zero&#39; - работа с файлами SELECT path, mtime, sha256 FROM file JOIN hash USING (path) WHERE file.directory = &#39;/etc&#39; ORDER BY mtime DESC LIMIT 1; - получить хэш для файла Дополнительные команды#to list all tables: .tables to list the schema (columns, types) of a specific table: .schema table_name or pragma table_info(table_name); for more details to list all available commands: .help to exit the console: .exit or ^D select all from a table: .all [TABLE] stop after hitting an error: .bail ON|OFF connect to an osquery extension socket: .connect PATH disconnect from a connected extension socket: .disconnect turn command echo on or off: .echo ON|OFF построчная выдача результата: .mode line Передача данных на сервер#Настройка osquery для безопасной потоковой доставки логов и конфигурации по TLS (TLS logger &#43; TLS config).">
   <meta itemprop="datePublished" content="2025-10-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-10-12T00:00:00+00:00">
   <meta itemprop="wordCount" content="502">
@@ -32,12 +32,12 @@ https://github.com/alex-shpak/hugo-book
 <title>OSquery | Я.Практикум</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
-<link rel="canonical" href="https://tech-notizen-inno.github.io/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/">
+<link rel="canonical" href="http://localhost:1313/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/osquery/">
 <link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.a277a8607f6b2bfba8344959439a558e6f633d356e9a64eae33d519b6d4c8e50.js" integrity="sha256-oneoYH9rK/uoNElZQ5pVjm9jPTVummTq4z1Rm21MjlA=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.439a26dbd5dc94e5878054ebd11ffa41de6c530228dd84e0f639932df9950250.js" integrity="sha256-Q5om29XclOWHgFTr0R/6Qd5sUwIo3YTg9jmTLfmVAlA=" crossorigin="anonymous"></script>
 
 
 
@@ -92,8 +92,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-1b1fec502692be2dfac711a16e822417" class="toggle" checked />
-    <label for="section-1b1fec502692be2dfac711a16e822417" class="flex">
+    <input type="checkbox" id="section-b5b63fc40275b58bcadbb72312c0642d" class="toggle" checked />
+    <label for="section-b5b63fc40275b58bcadbb72312c0642d" class="flex">
       <a role="button" class="">
         Технологии</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -124,8 +124,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design./" class="">
-      Интервью По System Design.</a>
+    <a href="/%D1%82%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8/%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B2%D1%8C%D1%8E-%D0%BF%D0%BE-system-design/" class="">
+      Интервью По System Design</a>
   
 
         </li>
@@ -409,8 +409,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-896e4f25f83bde558fc67864905a37ea" class="toggle"  />
-    <label for="section-896e4f25f83bde558fc67864905a37ea" class="flex">
+    <input type="checkbox" id="section-6e2a948ffefc32b701a3f0e4022ae108" class="toggle"  />
+    <label for="section-6e2a948ffefc32b701a3f0e4022ae108" class="flex">
       <a role="button" class="">
         Dev Ops</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -427,8 +427,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-f3b903850e9bb5b4e1f11137f67256e1" class="toggle"  />
-    <label for="section-f3b903850e9bb5b4e1f11137f67256e1" class="flex">
+    <input type="checkbox" id="section-19e2fbcb796748b4f1185a25c0614d1b" class="toggle"  />
+    <label for="section-19e2fbcb796748b4f1185a25c0614d1b" class="flex">
       <a role="button" class="">
         00. Теория</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -618,8 +618,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="toggle"  />
-    <label for="section-7d4eb67aea1d784c4a3677fd8e9a0f05" class="flex">
+    <input type="checkbox" id="section-6850aa5460b8bdf054fdbdc966223dd9" class="toggle"  />
+    <label for="section-6850aa5460b8bdf054fdbdc966223dd9" class="flex">
       <a role="button" class="">
         01. Инструменты</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -865,8 +865,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-9f4725e8ed53bf2774515379ca18e0f0" class="toggle"  />
-    <label for="section-9f4725e8ed53bf2774515379ca18e0f0" class="flex">
+    <input type="checkbox" id="section-49bfb7b844451ed3fbcad625600d53ab" class="toggle"  />
+    <label for="section-49bfb7b844451ed3fbcad625600d53ab" class="flex">
       <a role="button" class="">
         02. Linux</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1014,8 +1014,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-0985163ed8e6f86a1ff0a44e02f05048" class="toggle"  />
-    <label for="section-0985163ed8e6f86a1ff0a44e02f05048" class="flex">
+    <input type="checkbox" id="section-aee2974feff898fcaafaaaa2343faaef" class="toggle"  />
+    <label for="section-aee2974feff898fcaafaaaa2343faaef" class="flex">
       <a role="button" class="">
         03. Kubernetes</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1032,8 +1032,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2./" class="">
-      Оркестрация Контейнеров.</a>
+    <a href="/devops/03.-kubernetes/%D0%BE%D1%80%D0%BA%D0%B5%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%B9%D0%BD%D0%B5%D1%80%D0%BE%D0%B2/" class="">
+      Оркестрация Контейнеров</a>
   
 
         </li>
@@ -1182,8 +1182,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-441d2d4a9e26325f62d3ec0e66358325" class="toggle"  />
-    <label for="section-441d2d4a9e26325f62d3ec0e66358325" class="flex">
+    <input type="checkbox" id="section-9f4378f33e1d8eec9c4c79d9bb968048" class="toggle"  />
+    <label for="section-9f4378f33e1d8eec9c4c79d9bb968048" class="flex">
       <a role="button" class="">
         Otus. Kotlin</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1200,8 +1200,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-74c961a580f3228d4ca9314e8c51762d" class="toggle"  />
-    <label for="section-74c961a580f3228d4ca9314e8c51762d" class="flex">
+    <input type="checkbox" id="section-262e8f96b73b03948d8f582b71ac625a" class="toggle"  />
+    <label for="section-262e8f96b73b03948d8f582b71ac625a" class="flex">
       <a role="button" class="">
         Инструменты</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1321,8 +1321,8 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <input type="checkbox" id="section-8c041653b278b59c640a33e4d25f4ef6" class="toggle"  />
-    <label for="section-8c041653b278b59c640a33e4d25f4ef6" class="flex">
+    <input type="checkbox" id="section-893336710c6ff4463b66030086c1538f" class="toggle"  />
+    <label for="section-893336710c6ff4463b66030086c1538f" class="flex">
       <a role="button" class="">
         Язык</a>
       <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
@@ -1369,6 +1369,20 @@ https://github.com/alex-shpak/hugo-book
   
     <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/sequence--flow/" class="">
       Sequence &amp; Flow</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/otus.-kotlin/%D1%8F%D0%B7%D1%8B%D0%BA/%D0%B4%D0%B5%D0%BB%D0%B5%D0%B3%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Делегирование</a>
   
 
         </li>
@@ -1430,6 +1444,197 @@ https://github.com/alex-shpak/hugo-book
   
     <a href="/otus.-kotlin/otus.-kotlin/" class="">
       Otus. Kotlin</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-3f6a09986fe3d9652297986487ac3e7a" class="toggle"  />
+    <label for="section-3f6a09986fe3d9652297986487ac3e7a" class="flex">
+      <a role="button" class="">
+        Postgre SQL</a>
+      <img src="/icons/chevron-right.svg" class="book-icon" alt="Expand" />
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/postgresql/" class="">
+      Postgre SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%8F%D0%B7%D1%8B%D0%BA-sql/" class="">
+      Язык SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/" class="">
+      Инструменты</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D1%81%D1%83%D0%B1%D0%B4-postgres/" class="">
+      Архитектура Субд Postgres</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BE%D0%BF%D1%82%D0%B8%D0%BC%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B2/" class="">
+      Оптимизация Запросов</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/plpgsql/" class="">
+      Plpg SQL</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%B0%D0%B3%D1%80%D0%B5%D0%B3%D0%B0%D1%82%D1%8B-%D0%B8-%D0%BE%D0%BA%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B8/" class="">
+      Агрегаты И Оконные Функции</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BF%D0%B0%D1%80%D1%82%D0%B8%D1%86%D0%B8%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/" class="">
+      Партиционирование</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D0%BF%D0%BE%D0%BB%D0%BD%D0%BE%D1%82%D0%B5%D0%BA%D1%81%D1%82%D0%BE%D0%B2%D1%8B%D0%B9-%D0%BF%D0%BE%D0%B8%D1%81%D0%BA/" class="">
+      Полнотекстовый Поиск</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%81%D0%BB%D0%B0%D0%B1%D0%BE%D1%81%D1%82%D1%80%D1%83%D0%BA%D1%82%D1%83%D1%80%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-jsonb/" class="">
+      Слабоструктурированные Данные ( JSON B)</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%84%D0%BE%D0%BD%D0%BE%D0%B2%D1%8B%D0%B5-%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B/" class="">
+      Фоновые Процессы</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/postgresql/%D1%85%D1%80%D0%B0%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B8%D1%85-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85/" class="">
+      Хранение Больших Данных</a>
   
 
         </li>
